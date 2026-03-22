@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Textvas - User Guide</title>
+<title>Textvas</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Orbitron:wght@600;700;900&display=swap" rel="stylesheet">
 <style>
@@ -29,18 +29,18 @@ a:hover{text-decoration:underline}
 .main{margin-left:220px}
 
 /* Hero */
-.hero{padding:48px 60px 40px;max-width:1200px}
-.hero h1{font-family:var(--font-en);font-size:28px;font-weight:900;letter-spacing:0.08em;margin-bottom:8px}
+.hero{padding:40px 60px 28px;max-width:1200px}
+.hero h1{font-family:var(--font-en);font-size:28px;font-weight:900;letter-spacing:0.08em;margin-bottom:8px;display:inline-block;padding-bottom:4px;border-bottom:2px solid var(--accent)}
 .hero h1 span{color:var(--accent)}
 .hero p{color:var(--text1);font-size:13px}
 
 /* Container */
-.container{max-width:1200px;padding:0 60px 80px}
+.container{max-width:1200px;padding:0 60px 56px}
 
 /* Section */
-.section{margin-bottom:48px}
-.section-title{font-family:var(--font-en);font-size:20px;font-weight:900;margin-bottom:6px;display:flex;align-items:center;gap:10px}
-.section-title::before{content:'';display:inline-block;width:3px;height:20px;background:var(--accent);border-radius:2px}
+.section{margin-bottom:0;padding-top:28px;padding-bottom:28px}
+.section-title{font-family:var(--font-en);font-size:20px;font-weight:900;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--accent)}
+.section-title::before{content:none}
 .section-desc{color:var(--text1);font-size:13px;margin-bottom:20px;line-height:2.0}
 
 /* Shortcut table */
@@ -60,7 +60,8 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
 
 /* Simple content */
 .simple-content{display:flex;flex-direction:column;gap:4px}
-.simple-content h4{font-size:14px;font-weight:700;margin-top:20px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.simple-content h4{font-size:14px;font-weight:700;margin-top:20px;padding-bottom:0;border-bottom:none;display:flex;align-items:center;gap:6px}
+.simple-content h4::before{content:'┃';color:var(--accent);font-weight:900;line-height:1}
 .simple-content p{font-size:13px;color:var(--text1);line-height:2.0;margin-top:4px;max-width:800px}
 
 /* Steps */
@@ -83,9 +84,23 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
 /* Help image */
 .help-img{width:100%;max-width:820px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);margin:16px 0}
 .help-img-sm{max-width:380px}
+body.img-size-mode .help-img{cursor:ew-resize}
+body.img-size-mode .help-img:hover{outline:2px dashed rgba(188,236,21,0.4);outline-offset:2px}
+.help-img.size-selected{outline:2px solid var(--accent);outline-offset:2px}
+.img-size-toggle{position:fixed;right:16px;bottom:16px;z-index:210;border:1px solid rgba(188,236,21,0.7);background:var(--bg2);color:var(--accent);font-family:var(--font-en);font-size:11px;font-weight:900;letter-spacing:0.08em;padding:8px 10px;border-radius:8px;cursor:pointer}
+.img-size-toggle:hover{background:rgba(188,236,21,0.1)}
+.img-size-editor{position:fixed;right:16px;bottom:56px;z-index:220;width:320px;background:var(--bg2);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.img-size-editor strong{font-size:12px}
+.img-size-meta{font-size:11px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.img-size-editor input[type="range"]{width:100%}
+.img-size-row{display:flex;gap:8px}
+.img-size-row input{flex:1;background:var(--bg1);color:var(--text1);border:1px solid rgba(255,255,255,0.14);border-radius:6px;padding:6px 8px;font-size:12px}
+.img-size-row button,.img-size-editor button{border:1px solid rgba(255,255,255,0.18);background:var(--bg1);color:var(--text1);font-size:11px;font-weight:700;padding:6px 8px;border-radius:6px;cursor:pointer}
+.img-size-row button:hover,.img-size-editor button:hover{border-color:var(--accent);color:var(--accent)}
+.img-size-css{width:100%;height:88px;background:var(--bg1);color:var(--text1);border:1px solid rgba(255,255,255,0.12);border-radius:6px;padding:8px;font-size:11px;resize:vertical}
 
 /* Footer */
-.footer{text-align:center;padding:32px 40px;border-top:1px solid rgba(255,255,255,0.06);color:var(--text2);font-size:11px}
+.footer{text-align:center;padding:32px 40px;border-top:1px solid rgba(255,255,255,0.06);color:var(--text2);font-size:11px;scroll-snap-align:start}
 
 /* Language toggle */
 .lang-toggle{display:flex;gap:2px}
@@ -99,6 +114,8 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
   .main{margin-left:0}
   .feat-grid{grid-template-columns:1fr}
   .hero h1{font-size:22px}
+  .img-size-toggle{right:10px;bottom:10px}
+  .img-size-editor{left:10px;right:10px;bottom:52px;width:auto}
 }
 </style>
 </head>
@@ -107,7 +124,7 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
 <div class="sidebar">
   <div class="sidebar-logo"><span>T</span>extvas</div>
   <div style="display:flex;align-items:center;justify-content:space-between;padding:0 20px 16px">
-    <div class="sidebar-sub i18n" style="padding:0" data-ja="ユーザーガイド" data-en="User Guide"></div>
+    <div class="sidebar-sub i18n" style="padding:0" data-ja="Textvas" data-en="Textvas"></div>
     <div class="lang-toggle">
       <button class="lang-btn active" onclick="setLang('ja')">JP</button>
       <button class="lang-btn" onclick="setLang('en')">EN</button>
@@ -119,9 +136,8 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
     <a href="#canvas" class="i18n nav-link" data-ja="ボード操作" data-en="Board Controls"></a>
     <a href="#boards" class="i18n nav-link" data-ja="ボードタブ管理" data-en="Board Tabs"></a>
     <a href="#features" class="i18n nav-link" data-ja="便利な機能" data-en="Features"></a>
-    <a href="#save" class="i18n nav-link" data-ja="保存" data-en="Save"></a>
     <a href="#settings" class="i18n nav-link" data-ja="設定" data-en="Settings"></a>
-    <a href="#file" class="i18n nav-link" data-ja="ファイル操作" data-en="Files"></a>
+    <a href="#save" class="i18n nav-link" data-ja="保存について" data-en="About Saving"></a>
     <a href="#shortcuts" class="i18n nav-link" data-ja="ショートカット" data-en="Shortcuts"></a>
     <a href="#faq" class="i18n nav-link" data-ja="よくある質問" data-en="FAQ"></a>
     <a href="#contact" class="i18n nav-link" data-ja="お問い合わせ" data-en="Contact"></a>
@@ -131,7 +147,7 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
 <div class="main">
 
 <div class="hero">
-  <h1><span>Textvas</span> User Guide</h1>
+  <h1><span>Textvas</span></h1>
   <p class="i18n" data-ja="テキストと画像を自由に配置・整理できるノートアプリ" data-en="A note app for freely arranging and organizing text and images"></p>
   <img src="images/hero_ja.jpg" alt="Textvas" class="help-img" id="hero-img" data-img-ja="images/hero_ja.jpg" data-img-en="images/hero_en.jpg">
 </div>
@@ -146,9 +162,9 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
     <h4 class="i18n" data-ja="インストーラーを実行" data-en="Run the Installer"></h4>
     <p class="i18n" data-ja="インストーラーを実行します。言語選択後、利用規約に同意してインストールを進めてください。デフォルトでは C:\Program Files\Textvas にインストールされます。" data-en="Run the installer. Select your language, accept the terms, and proceed. By default, Textvas is installed to C:\Program Files\Textvas."></p>
     <h4 class="i18n" data-ja="起動" data-en="Launch"></h4>
-    <p class="i18n" data-ja="デスクトップのショートカット、またはスタートメニューから起動します。初回起動時から7日間、すべての機能を無料でお試しいただけます。" data-en="Launch from the desktop shortcut or Start menu. All features are available free for 7 days from the first launch."></p>
+    <p class="i18n" data-ja="デスクトップのショートカット、またはスタートメニューから起動します。このアプリは初回起動から7日間、すべての機能を無料でお試しいただけます。継続利用にはライセンスキーが必要です。" data-en="Launch from the desktop shortcut or Start menu. This app offers a free 7-day trial from the first launch. A license key is required for continued use."></p>
     <h4 class="i18n" data-ja="ライセンス認証" data-en="License Activation"></h4>
-    <p class="i18n" data-ja="継続利用にはライセンスキーが必要です。設定 → ライセンスタブ、または試用期限画面からシリアルキーを入力してください。" data-en="A license key is required for continued use. Enter your serial key from Settings → License tab, or from the trial expiration screen."></p>
+    <p class="i18n" data-ja="設定 → ライセンスタブ、または試用期限画面からシリアルキーを入力してください。" data-en="Enter your serial key from Settings → License tab, or from the trial expiration screen."></p>
   </div>
 </div>
 
@@ -164,11 +180,11 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
     <h4 class="i18n" data-ja="テキストを編集する" data-en="Edit Text"></h4>
     <p class="i18n" data-ja="ダブルクリックで編集モードに入ります。ボードの空白部分をクリックすると編集を終了します。" data-en="Double-click to enter edit mode. Click on an empty area of the board to finish editing."></p>
     <h4 class="i18n" data-ja="リッチテキスト" data-en="Rich Text"></h4>
-    <p class="i18n" data-ja="編集モード中にテキストを選択すると、色・下線・フォント個別指定が可能です。" data-en="Select text in edit mode to apply color, underline, and individual font."></p>
+    <p class="i18n" data-ja="編集モード中にテキストを選択すると、色・下線・フォントを個別に指定できます。" data-en="Select text in edit mode to apply color, underline, and individual font."></p>
     <h4 class="i18n" data-ja="移動・リサイズ・回転" data-en="Move, Resize & Rotate"></h4>
-    <p class="i18n" data-ja="ドラッグで移動。端をドラッグでリサイズ。回転ハンドルで回転できます。複数選択してCtrl+矢印キーで整列も可能。" data-en="Drag to move. Drag edges to resize. Use the rotation handle to rotate. Select multiple and Ctrl+Arrow to align."></p>
+    <p class="i18n" data-ja="ドラッグで移動できます。端をドラッグでリサイズできます。回転ハンドルで回転できます。複数選択してCtrl+矢印キーで整列もできます。" data-en="Drag to move. Drag edges to resize. Use the rotation handle to rotate. Select multiple and Ctrl+Arrow to align."></p>
     <h4 class="i18n" data-ja="テキストサイズ" data-en="Text Sizes"></h4>
-    <p class="i18n" data-ja="XS / S / M / L / XL の5段階。選択中にツールバーから変更できます。デフォルトはMです。" data-en="5 levels: XS / S / M / L / XL. Change from the toolbar while selected. Default is M."></p>
+    <p class="i18n" data-ja="XS / S / M / L / XL の5段階から選べます。選択中にツールバーから変更できます。デフォルトはMです。" data-en="5 levels: XS / S / M / L / XL. Change from the toolbar while selected. Default is M."></p>
   </div>
 </div>
 
@@ -187,20 +203,6 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
     <tr><td class="i18n" data-ja="右クリックメニュー" data-en="Context Menu"></td><td class="i18n" data-ja="ボード上で右クリック" data-en="Right-click on board"></td></tr>
   </table>
 
-  <h3 style="font-size:13px;color:var(--text1);margin:24px 0 8px" class="i18n" data-ja="テキスト・画像" data-en="Text & Images"></h3>
-  <div class="simple-content">
-    <h4 class="i18n" data-ja="テキスト" data-en="Text"></h4>
-    <p class="i18n" data-ja="ダブルクリックまたはTキーで作成。5段階のサイズ（XS/S/M/L/XL）、テキスト色・枠線・下線・背景色をカスタマイズ可能。" data-en="Create with double-click or T key. 5 sizes (XS/S/M/L/XL), customizable text color, border, underline, and background."></p>
-
-    <h4 class="i18n" data-ja="画像" data-en="Image"></h4>
-    <p class="i18n" data-ja="画像ファイルをドラッグ&ドロップ、またはCtrl+Vでクリップボードから貼り付け。自由リサイズ・回転が可能。" data-en="Drag & drop image files or paste from clipboard with Ctrl+V. Free resize and rotation."></p>
-
-    <h4 class="i18n" data-ja="接続線" data-en="Connections"></h4>
-    <p class="i18n" data-ja="Lキーで接続モード開始。テキスト同士を線でつないで関係性を可視化。ラベル追加も可能。" data-en="Press L to start connection mode. Link elements with lines to visualize relationships. Labels can be added."></p>
-
-    <h4 class="i18n" data-ja="複数選択" data-en="Multi-Select"></h4>
-    <p class="i18n" data-ja="範囲ドラッグまたはCtrl+Aで全選択。サイズ・色・装飾を一括変更可能。" data-en="Lasso drag or Ctrl+A to select all. Batch change size, color, and decorations."></p>
-  </div>
 
 </div>
 
@@ -211,13 +213,13 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
 
   <div class="simple-content">
     <h4 class="i18n" data-ja="タブの追加・複製" data-en="Add & Duplicate Tabs"></h4>
-    <p class="i18n" data-ja="サイドバーの＋ボタンまたはタブを右クリックで追加。既存タブの複製も可能。" data-en="Use the + button in sidebar or right-click a tab to add. Existing tabs can be duplicated."></p>
+    <p class="i18n" data-ja="サイドバーの＋ボタンまたはタブを右クリックで追加できます。既存タブの複製もできます。" data-en="Use the + button in sidebar or right-click a tab to add. Existing tabs can be duplicated."></p>
 
     <h4 class="i18n" data-ja="タブの整理" data-en="Organize Tabs"></h4>
-    <p class="i18n" data-ja="タブを右クリックで連番追加・除去、見出し追加、区切り線追加が可能。" data-en="Right-click a tab for numbering, headings, and separator lines."></p>
+    <p class="i18n" data-ja="タブを右クリックで連番追加・除去、見出し追加、区切り線追加ができます。" data-en="Right-click a tab for numbering, headings, and separator lines."></p>
 
     <h4 class="i18n" data-ja="タブの色変更" data-en="Tab Colors"></h4>
-    <p class="i18n" data-ja="タブを右クリック→「色を変更」でタブごとに色を設定可能。" data-en="Right-click a tab and select 'Change color' to customize its color."></p>
+    <p class="i18n" data-ja="タブを右クリック→「色を変更」でタブごとに色を設定できます。" data-en="Right-click a tab and select 'Change color' to customize its color."></p>
 
     <h4 class="i18n" data-ja="完了チェック" data-en="Completion Check"></h4>
     <p class="i18n" data-ja="タブのチェックボタンで完了マークを付けられます。" data-en="Mark tabs as complete using the check button."></p>
@@ -230,7 +232,7 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
     <p class="i18n" data-ja="タブを右クリック →「テキストの書き出し」で、ボード内のテキストを.txtファイルとして保存できます。複数タブを選択している場合はひとつのファイルに結合されます。" data-en="Right-click a tab → 'Export Text' to save the board's text as a .txt file. When multiple tabs are selected, they are merged into one file."></p>
 
     <h4 class="i18n" data-ja="名前の変更" data-en="Rename"></h4>
-    <p class="i18n" data-ja="サイドバーでタブを右クリック →「名前を変更」、またはダブルクリックで編集。" data-en="Right-click a tab → 'Rename' in sidebar, or double-click to edit."></p>
+    <p class="i18n" data-ja="サイドバーでタブを右クリック →「名前を変更」、またはダブルクリックで編集できます。" data-en="Right-click a tab → 'Rename' in sidebar, or double-click to edit."></p>
   </div>
 </div>
 
@@ -240,30 +242,12 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
   <img src="images/features_ja.jpg" alt="Features" class="help-img" data-img-ja="images/features_ja.jpg" data-img-en="images/features_en.jpg">
 
   <div class="simple-content">
-    <h4 class="i18n" data-ja="接続線" data-en="Connection Lines"></h4>
-    <p class="i18n" data-ja="Lキーで接続モードを開始し、テキスト同士を線でつなげます。関係性やフローを可視化できます。線にラベルを追加することも可能です。" data-en="Press L to start connection mode and link elements with lines. Visualize relationships and flows. Labels can be added to lines."></p>
-
     <h4 class="i18n" data-ja="メモウィンドウ" data-en="Memo Window"></h4>
-    <p class="i18n" data-ja="Mキーで作成。ボード上にドラッグ可能な浮遊メモ。最小化・リサイズ対応。" data-en="Press M to create. Floating draggable memo on board. Supports minimize and resize."></p>
+    <p class="i18n" data-ja="Mキーで作成できます。ボード上にドラッグ可能な浮遊メモです。最小化・リサイズに対応しています。" data-en="Press M to create. Floating draggable memo on board. Supports minimize and resize."></p>
 
     <h4 class="i18n" data-ja="アイコンパレット" data-en="Icon Palette"></h4>
-    <p class="i18n" data-ja="Iキーで表示。評価・矢印・タスク・構造・記号などのアイコンをボードに追加。" data-en="Press I to show. Add icons for ratings, arrows, tasks, structure, and symbols to the board."></p>
+    <p class="i18n" data-ja="Iキーで表示できます。評価・矢印・タスク・構造・記号などのアイコンをボードに追加できます。" data-en="Press I to show. Add icons for ratings, arrows, tasks, structure, and symbols to the board."></p>
 
-  </div>
-</div>
-
-<!-- Save -->
-<div class="section" id="save">
-  <h2 class="section-title i18n" data-ja="保存" data-en="Save"></h2>
-  <div class="simple-content">
-    <h4 class="i18n" data-ja="自動保存" data-en="Auto Save"></h4>
-    <p class="i18n" data-ja="設定で間隔を指定すると自動で上書き保存。10秒〜60分まで選択可能。" data-en="Set an interval in settings for automatic saving. Choose from 10 seconds to 60 minutes."></p>
-
-    <h4 class="i18n" data-ja="タイムスタンプバックアップ" data-en="Timestamp Backup"></h4>
-    <p class="i18n" data-ja="保存時に日時付きバックアップを自動作成。保持数を設定可能（5〜30個）。" data-en="Automatically create timestamped backups on save. Set retention count (5-30)."></p>
-
-    <h4 class="i18n" data-ja="元に戻す / やり直す" data-en="Undo / Redo"></h4>
-    <p class="i18n" data-ja="最大50回まで操作を元に戻せます。Ctrl+Z / Ctrl+Y で操作。" data-en="Undo up to 50 operations. Use Ctrl+Z / Ctrl+Y."></p>
   </div>
 </div>
 
@@ -274,44 +258,45 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
 
   <div class="simple-content">
     <h4 class="i18n" data-ja="カラー" data-en="Colors"></h4>
-    <p class="i18n" data-ja="8種類のカラープリセットから選択、またはカスタムカラーを作成。テーマカラー・テキストカラー・背景パターンを個別に設定。" data-en="Choose from 8 color presets or create custom. Independently set theme, text, and background pattern colors."></p>
+    <p class="i18n" data-ja="8種類のカラープリセットから選択、またはカスタムカラーを作成できます。テーマカラー・テキストカラー・背景パターンを個別に設定できます。" data-en="Choose from 8 color presets or create custom. Independently set theme, text, and background pattern colors."></p>
 
     <h4 class="i18n" data-ja="フォント" data-en="Fonts"></h4>
-    <p class="i18n" data-ja="日本語・英文フォントの選択。テキストサイズ（XS〜XL）、行間、文字間隔を調整可能。" data-en="Select Japanese and English fonts. Adjust text sizes (XS-XL), line height, and letter spacing."></p>
+    <p class="i18n" data-ja="日本語・英文フォントを選択できます。テキストサイズ（XS〜XL）、行間、文字間隔を調整できます。" data-en="Select Japanese and English fonts. Adjust text sizes (XS-XL), line height, and letter spacing."></p>
 
     <h4 class="i18n" data-ja="ショートカット" data-en="Shortcuts"></h4>
-    <p class="i18n" data-ja="キーボードショートカットを自由にカスタマイズ。キーの組み合わせを録画して設定。" data-en="Customize keyboard shortcuts freely. Record key combinations to set."></p>
+    <p class="i18n" data-ja="キーボードショートカットを自由にカスタマイズできます。キーの組み合わせを録画して設定できます。" data-en="Customize keyboard shortcuts freely. Record key combinations to set."></p>
 
     <h4 class="i18n" data-ja="その他" data-en="Miscellaneous"></h4>
-    <p class="i18n" data-ja="プロジェクト名・ボード名の表示切替、自動保存間隔、タイムスタンプバックアップの設定。" data-en="Toggle project/board name display, auto-save interval, and timestamp backup settings."></p>
+    <p class="i18n" data-ja="プロジェクト名・ボード名の表示切替、自動保存間隔、タイムスタンプバックアップを設定できます。" data-en="Toggle project/board name display, auto-save interval, and timestamp backup settings."></p>
 
     <h4 class="i18n" data-ja="言語" data-en="Language"></h4>
-    <p class="i18n" data-ja="日本語 / English の切り替え。UIのすべてのテキストが切り替わります。" data-en="Switch between Japanese and English. All UI text will update."></p>
+    <p class="i18n" data-ja="日本語 / English を切り替えられます。UIのすべてのテキストが切り替わります。" data-en="Switch between Japanese and English. All UI text will update."></p>
 
     <h4 class="i18n" data-ja="ライセンス" data-en="License"></h4>
-    <p class="i18n" data-ja="ライセンス状態の確認、シリアルキーの入力、購入ページへのリンク。1ライセンスにつき1台のPCでご利用いただけます。" data-en="Check license status, enter serial key, and link to purchase page. One license is valid for one PC."></p>
+    <p class="i18n" data-ja="ライセンス状態の確認、シリアルキーの入力、購入ページへのリンクがあります。1ライセンスにつき1台のPCでご利用いただけます。" data-en="Check license status, enter serial key, and link to purchase page. One license is valid for one PC."></p>
   </div>
 
 </div>
 
-<!-- 8. File -->
-<div class="section" id="file">
-  <h2 class="section-title i18n" data-ja="ファイル操作" data-en="File Operations"></h2>
-
+<!-- Save -->
+<div class="section" id="save">
+  <h2 class="section-title i18n" data-ja="保存について" data-en="About Saving"></h2>
   <div class="simple-content">
-    <h4 class="i18n" data-ja="保存" data-en="Save"></h4>
+    <h4 class="i18n" data-ja="手動保存" data-en="Manual Save"></h4>
     <p class="i18n" data-ja="Ctrl+Sで上書き保存、Ctrl+Shift+Sで別名保存。.txv形式で保存されます。タイトルバーの「*」マークは未保存の変更があることを示します。" data-en="Ctrl+S to save, Ctrl+Shift+S to save as. Saved in .txv format. The '*' in the title bar indicates unsaved changes."></p>
-    <h4 class="i18n" data-ja="自動保存" data-en="Auto Save"></h4>
-    <p class="i18n" data-ja="設定のその他タブで自動保存の間隔を指定できます（10秒〜60分）。タイムスタンプバックアップと併用すると、保存時に日時付きバックアップが自動作成されます（保持数5〜30個）。" data-en="Set auto-save interval in Settings → Misc tab (10 sec to 60 min). Combined with timestamp backup, dated backups are created automatically on save (retention: 5-30)."></p>
-    <h4 class="i18n" data-ja="ファイルを開く" data-en="Open Files"></h4>
-    <p class="i18n" data-ja="Ctrl+Oでファイルダイアログから開く、.txvファイルをウィンドウにドラッグ&ドロップ、または.txvファイルをダブルクリックして開けます。インストール時に.txvファイルの関連付けを設定すると、ダブルクリックで直接Textvasが起動します。" data-en="Open via Ctrl+O file dialog, drag & drop a .txv file onto the window, or double-click a .txv file. If you set up .txv file association during installation, double-clicking will launch Textvas directly."></p>
-    <h4 class="i18n" data-ja="画像書き出し" data-en="Export Image"></h4>
-    <p class="i18n" data-ja="Ctrl+Eで現在のボードをPNG/JPG画像として書き出し。" data-en="Ctrl+E to export the current board as PNG/JPG image."></p>
-    <h4 class="i18n" data-ja="画像貼り付け" data-en="Paste Image"></h4>
-    <p class="i18n" data-ja="Ctrl+Vでクリップボードの画像を直接ボードに貼り付け。" data-en="Ctrl+V to paste clipboard images directly onto the board."></p>
-  </div>
 
+    <h4 class="i18n" data-ja="自動保存" data-en="Auto Save"></h4>
+    <p class="i18n" data-ja="設定で間隔を指定すると自動で上書き保存されます。10秒〜60分まで選択できます。" data-en="Set an interval in settings for automatic saving. Choose from 10 seconds to 60 minutes."></p>
+
+    <h4 class="i18n" data-ja="タイムスタンプバックアップ" data-en="Timestamp Backup"></h4>
+    <p class="i18n" data-ja="保存時に日時付きバックアップを自動作成します。保持数を設定できます（5〜30個）。" data-en="Automatically create timestamped backups on save. Set retention count (5-30)."></p>
+
+    <h4 class="i18n" data-ja="元に戻す / やり直す" data-en="Undo / Redo"></h4>
+    <p class="i18n" data-ja="最大50回まで操作を元に戻せます。Ctrl+Z / Ctrl+Y で操作できます。" data-en="Undo up to 50 operations. Use Ctrl+Z / Ctrl+Y."></p>
+
+  </div>
 </div>
+
 
 <!-- Shortcuts -->
 <div class="section" id="shortcuts">
@@ -425,6 +410,20 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
 
 </div><!-- /main -->
 
+<button type="button" class="img-size-toggle" id="img-size-toggle">IMG SIZE</button>
+<div class="img-size-editor" id="img-size-editor" hidden>
+  <strong>Image Size Editor</strong>
+  <div class="img-size-meta" id="img-size-meta">Click an image to select</div>
+  <input type="range" id="img-size-range" min="180" max="1400" step="10" value="820">
+  <div class="img-size-row">
+    <input type="number" id="img-size-number" min="180" max="1400" step="10" value="820">
+    <button type="button" id="img-size-reset">Reset</button>
+    <button type="button" id="img-size-clear">Clear All</button>
+  </div>
+  <textarea class="img-size-css" id="img-size-css" readonly></textarea>
+  <button type="button" id="img-size-copy">Copy CSS</button>
+</div>
+
 <script>
 function setLang(lang) {
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
@@ -470,7 +469,220 @@ function updateNav() {
     }
   });
 }
+
+function initImageSizeEditor() {
+  var toggle = document.getElementById('img-size-toggle');
+  var panel = document.getElementById('img-size-editor');
+  var meta = document.getElementById('img-size-meta');
+  var range = document.getElementById('img-size-range');
+  var number = document.getElementById('img-size-number');
+  var reset = document.getElementById('img-size-reset');
+  var clear = document.getElementById('img-size-clear');
+  var cssBox = document.getElementById('img-size-css');
+  var copy = document.getElementById('img-size-copy');
+  var images = Array.prototype.slice.call(document.querySelectorAll('.help-img'));
+  var storageKey = 'textvas_help_img_sizes_v1';
+
+  if (!toggle || !panel || !images.length) return;
+
+  var sizes = {};
+  var defaults = {};
+  var selected = null;
+  var isMode = false;
+  var drag = null;
+
+  function readStore() {
+    try {
+      var raw = localStorage.getItem(storageKey);
+      sizes = raw ? JSON.parse(raw) : {};
+    } catch (_err) {
+      sizes = {};
+    }
+  }
+
+  function saveStore() {
+    localStorage.setItem(storageKey, JSON.stringify(sizes));
+  }
+
+  function clamp(v) {
+    var n = Number(v);
+    if (!isFinite(n)) n = 820;
+    n = Math.round(n / 10) * 10;
+    if (n < 180) n = 180;
+    if (n > 1400) n = 1400;
+    return n;
+  }
+
+  function selectorFor(img, index) {
+    var ja = img.getAttribute('data-img-ja');
+    if (ja) return '.help-img[data-img-ja="' + ja.replace(/"/g, '\\"') + '"]';
+    var en = img.getAttribute('data-img-en');
+    if (en) return '.help-img[data-img-en="' + en.replace(/"/g, '\\"') + '"]';
+    if (img.id) return '#' + img.id;
+    return '.help-img[data-size-index="' + index + '"]';
+  }
+
+  function keyFor(img, index) {
+    return img.getAttribute('data-img-ja') || img.getAttribute('data-img-en') || img.getAttribute('src') || ('img-' + (index + 1));
+  }
+
+  function getCurrentMax(img) {
+    var inline = parseFloat(img.style.maxWidth);
+    if (isFinite(inline)) return inline;
+    var computed = parseFloat(window.getComputedStyle(img).maxWidth);
+    if (isFinite(computed)) return computed;
+    return 820;
+  }
+
+  function refreshCssOutput() {
+    var lines = [];
+    images.forEach(function(img, index) {
+      var key = keyFor(img, index);
+      var val = sizes[key];
+      if (!val) return;
+      lines.push(selectorFor(img, index) + '{max-width:' + val + 'px !important;}');
+    });
+    cssBox.value = lines.join('\n');
+  }
+
+  function applySize(img, value) {
+    img.style.maxWidth = value + 'px';
+  }
+
+  function setSelected(img) {
+    if (selected) selected.classList.remove('size-selected');
+    selected = img;
+    if (!selected) {
+      meta.textContent = 'Click an image to select';
+      return;
+    }
+    selected.classList.add('size-selected');
+    var key = selected.dataset.sizeKey;
+    var value = clamp(sizes[key] || defaults[key] || getCurrentMax(selected));
+    range.value = value;
+    number.value = value;
+    meta.textContent = key;
+  }
+
+  function setSizeForSelected(value, persist) {
+    if (!selected) return;
+    var next = clamp(value);
+    var key = selected.dataset.sizeKey;
+    sizes[key] = next;
+    applySize(selected, next);
+    range.value = next;
+    number.value = next;
+    if (persist !== false) {
+      saveStore();
+      refreshCssOutput();
+    }
+  }
+
+  function setMode(next) {
+    isMode = !!next;
+    document.body.classList.toggle('img-size-mode', isMode);
+    panel.hidden = !isMode;
+    toggle.textContent = isMode ? 'IMG SIZE: ON' : 'IMG SIZE';
+    if (isMode && !selected) setSelected(images[0]);
+  }
+
+  readStore();
+
+  images.forEach(function(img, index) {
+    var key = keyFor(img, index);
+    img.dataset.sizeKey = key;
+    img.dataset.sizeIndex = index;
+    defaults[key] = clamp(getCurrentMax(img));
+    if (sizes[key]) applySize(img, clamp(sizes[key]));
+    img.addEventListener('click', function() {
+      if (!isMode) return;
+      setSelected(img);
+    });
+  });
+
+  refreshCssOutput();
+  setMode(false);
+
+  toggle.addEventListener('click', function() {
+    setMode(!isMode);
+  });
+
+  range.addEventListener('input', function() {
+    setSizeForSelected(range.value);
+  });
+
+  number.addEventListener('change', function() {
+    setSizeForSelected(number.value);
+  });
+
+  reset.addEventListener('click', function() {
+    if (!selected) return;
+    var key = selected.dataset.sizeKey;
+    delete sizes[key];
+    applySize(selected, defaults[key] || 820);
+    saveStore();
+    setSelected(selected);
+    refreshCssOutput();
+  });
+
+  clear.addEventListener('click', function() {
+    sizes = {};
+    localStorage.removeItem(storageKey);
+    images.forEach(function(img, index) {
+      var key = keyFor(img, index);
+      applySize(img, defaults[key] || 820);
+    });
+    setSelected(selected);
+    refreshCssOutput();
+  });
+
+  copy.addEventListener('click', function() {
+    var text = cssBox.value.trim();
+    if (!text) {
+      meta.textContent = 'No custom size yet';
+      return;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function() {
+        meta.textContent = 'CSS copied';
+      });
+      return;
+    }
+    cssBox.focus();
+    cssBox.select();
+    try {
+      document.execCommand('copy');
+      meta.textContent = 'CSS copied';
+    } catch (_err) {
+      meta.textContent = 'Copy failed';
+    }
+  });
+
+  document.addEventListener('mousedown', function(e) {
+    if (!isMode) return;
+    var img = e.target.closest('.help-img');
+    if (!img) return;
+    setSelected(img);
+    drag = { startX: e.clientX, startSize: Number(range.value) || defaults[img.dataset.sizeKey] || 820 };
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    if (!drag || !isMode || !selected) return;
+    var delta = e.clientX - drag.startX;
+    setSizeForSelected(drag.startSize + delta, false);
+  });
+
+  document.addEventListener('mouseup', function() {
+    if (!drag || !selected) return;
+    drag = null;
+    saveStore();
+    refreshCssOutput();
+  });
+}
+
 setLang(navigator.language.startsWith('ja') ? 'ja' : 'en');
+initImageSizeEditor();
 </script>
 </body>
 </html>
