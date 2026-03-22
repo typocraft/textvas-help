@@ -84,20 +84,6 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
 /* Help image */
 .help-img{width:100%;max-width:820px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);margin:16px 0}
 .help-img-sm{max-width:380px}
-body.img-size-mode .help-img{cursor:ew-resize}
-body.img-size-mode .help-img:hover{outline:2px dashed rgba(188,236,21,0.4);outline-offset:2px}
-.help-img.size-selected{outline:2px solid var(--accent);outline-offset:2px}
-.img-size-toggle{position:fixed;right:16px;bottom:16px;z-index:210;border:1px solid rgba(188,236,21,0.7);background:var(--bg2);color:var(--accent);font-family:var(--font-en);font-size:11px;font-weight:900;letter-spacing:0.08em;padding:8px 10px;border-radius:8px;cursor:pointer}
-.img-size-toggle:hover{background:rgba(188,236,21,0.1)}
-.img-size-editor{position:fixed;right:16px;bottom:56px;z-index:220;width:320px;background:var(--bg2);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px}
-.img-size-editor strong{font-size:12px}
-.img-size-meta{font-size:11px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.img-size-editor input[type="range"]{width:100%}
-.img-size-row{display:flex;gap:8px}
-.img-size-row input{flex:1;background:var(--bg1);color:var(--text1);border:1px solid rgba(255,255,255,0.14);border-radius:6px;padding:6px 8px;font-size:12px}
-.img-size-row button,.img-size-editor button{border:1px solid rgba(255,255,255,0.18);background:var(--bg1);color:var(--text1);font-size:11px;font-weight:700;padding:6px 8px;border-radius:6px;cursor:pointer}
-.img-size-row button:hover,.img-size-editor button:hover{border-color:var(--accent);color:var(--accent)}
-.img-size-css{width:100%;height:88px;background:var(--bg1);color:var(--text1);border:1px solid rgba(255,255,255,0.12);border-radius:6px;padding:8px;font-size:11px;resize:vertical}
 
 /* Footer */
 .footer{text-align:center;padding:32px 40px;border-top:1px solid rgba(255,255,255,0.06);color:var(--text2);font-size:11px;scroll-snap-align:start}
@@ -114,8 +100,6 @@ body.img-size-mode .help-img:hover{outline:2px dashed rgba(188,236,21,0.4);outli
   .main{margin-left:0}
   .feat-grid{grid-template-columns:1fr}
   .hero h1{font-size:22px}
-  .img-size-toggle{right:10px;bottom:10px}
-  .img-size-editor{left:10px;right:10px;bottom:52px;width:auto}
 }
 </style>
 </head>
@@ -410,20 +394,6 @@ body.img-size-mode .help-img:hover{outline:2px dashed rgba(188,236,21,0.4);outli
 
 </div><!-- /main -->
 
-<button type="button" class="img-size-toggle" id="img-size-toggle">IMG SIZE</button>
-<div class="img-size-editor" id="img-size-editor" hidden>
-  <strong>Image Size Editor</strong>
-  <div class="img-size-meta" id="img-size-meta">Click an image to select</div>
-  <input type="range" id="img-size-range" min="180" max="1400" step="10" value="820">
-  <div class="img-size-row">
-    <input type="number" id="img-size-number" min="180" max="1400" step="10" value="820">
-    <button type="button" id="img-size-reset">Reset</button>
-    <button type="button" id="img-size-clear">Clear All</button>
-  </div>
-  <textarea class="img-size-css" id="img-size-css" readonly></textarea>
-  <button type="button" id="img-size-copy">Copy CSS</button>
-</div>
-
 <script>
 function setLang(lang) {
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
@@ -470,219 +440,7 @@ function updateNav() {
   });
 }
 
-function initImageSizeEditor() {
-  var toggle = document.getElementById('img-size-toggle');
-  var panel = document.getElementById('img-size-editor');
-  var meta = document.getElementById('img-size-meta');
-  var range = document.getElementById('img-size-range');
-  var number = document.getElementById('img-size-number');
-  var reset = document.getElementById('img-size-reset');
-  var clear = document.getElementById('img-size-clear');
-  var cssBox = document.getElementById('img-size-css');
-  var copy = document.getElementById('img-size-copy');
-  var images = Array.prototype.slice.call(document.querySelectorAll('.help-img'));
-  var storageKey = 'textvas_help_img_sizes_v1';
-
-  if (!toggle || !panel || !images.length) return;
-
-  var sizes = {};
-  var defaults = {};
-  var selected = null;
-  var isMode = false;
-  var drag = null;
-
-  function readStore() {
-    try {
-      var raw = localStorage.getItem(storageKey);
-      sizes = raw ? JSON.parse(raw) : {};
-    } catch (_err) {
-      sizes = {};
-    }
-  }
-
-  function saveStore() {
-    localStorage.setItem(storageKey, JSON.stringify(sizes));
-  }
-
-  function clamp(v) {
-    var n = Number(v);
-    if (!isFinite(n)) n = 820;
-    n = Math.round(n / 10) * 10;
-    if (n < 180) n = 180;
-    if (n > 1400) n = 1400;
-    return n;
-  }
-
-  function selectorFor(img, index) {
-    var ja = img.getAttribute('data-img-ja');
-    if (ja) return '.help-img[data-img-ja="' + ja.replace(/"/g, '\\"') + '"]';
-    var en = img.getAttribute('data-img-en');
-    if (en) return '.help-img[data-img-en="' + en.replace(/"/g, '\\"') + '"]';
-    if (img.id) return '#' + img.id;
-    return '.help-img[data-size-index="' + index + '"]';
-  }
-
-  function keyFor(img, index) {
-    return img.getAttribute('data-img-ja') || img.getAttribute('data-img-en') || img.getAttribute('src') || ('img-' + (index + 1));
-  }
-
-  function getCurrentMax(img) {
-    var inline = parseFloat(img.style.maxWidth);
-    if (isFinite(inline)) return inline;
-    var computed = parseFloat(window.getComputedStyle(img).maxWidth);
-    if (isFinite(computed)) return computed;
-    return 820;
-  }
-
-  function refreshCssOutput() {
-    var lines = [];
-    images.forEach(function(img, index) {
-      var key = keyFor(img, index);
-      var val = sizes[key];
-      if (!val) return;
-      lines.push(selectorFor(img, index) + '{max-width:' + val + 'px !important;}');
-    });
-    cssBox.value = lines.join('\n');
-  }
-
-  function applySize(img, value) {
-    img.style.maxWidth = value + 'px';
-  }
-
-  function setSelected(img) {
-    if (selected) selected.classList.remove('size-selected');
-    selected = img;
-    if (!selected) {
-      meta.textContent = 'Click an image to select';
-      return;
-    }
-    selected.classList.add('size-selected');
-    var key = selected.dataset.sizeKey;
-    var value = clamp(sizes[key] || defaults[key] || getCurrentMax(selected));
-    range.value = value;
-    number.value = value;
-    meta.textContent = key;
-  }
-
-  function setSizeForSelected(value, persist) {
-    if (!selected) return;
-    var next = clamp(value);
-    var key = selected.dataset.sizeKey;
-    sizes[key] = next;
-    applySize(selected, next);
-    range.value = next;
-    number.value = next;
-    if (persist !== false) {
-      saveStore();
-      refreshCssOutput();
-    }
-  }
-
-  function setMode(next) {
-    isMode = !!next;
-    document.body.classList.toggle('img-size-mode', isMode);
-    panel.hidden = !isMode;
-    toggle.textContent = isMode ? 'IMG SIZE: ON' : 'IMG SIZE';
-    if (isMode && !selected) setSelected(images[0]);
-  }
-
-  readStore();
-
-  images.forEach(function(img, index) {
-    var key = keyFor(img, index);
-    img.dataset.sizeKey = key;
-    img.dataset.sizeIndex = index;
-    defaults[key] = clamp(getCurrentMax(img));
-    if (sizes[key]) applySize(img, clamp(sizes[key]));
-    img.addEventListener('click', function() {
-      if (!isMode) return;
-      setSelected(img);
-    });
-  });
-
-  refreshCssOutput();
-  setMode(false);
-
-  toggle.addEventListener('click', function() {
-    setMode(!isMode);
-  });
-
-  range.addEventListener('input', function() {
-    setSizeForSelected(range.value);
-  });
-
-  number.addEventListener('change', function() {
-    setSizeForSelected(number.value);
-  });
-
-  reset.addEventListener('click', function() {
-    if (!selected) return;
-    var key = selected.dataset.sizeKey;
-    delete sizes[key];
-    applySize(selected, defaults[key] || 820);
-    saveStore();
-    setSelected(selected);
-    refreshCssOutput();
-  });
-
-  clear.addEventListener('click', function() {
-    sizes = {};
-    localStorage.removeItem(storageKey);
-    images.forEach(function(img, index) {
-      var key = keyFor(img, index);
-      applySize(img, defaults[key] || 820);
-    });
-    setSelected(selected);
-    refreshCssOutput();
-  });
-
-  copy.addEventListener('click', function() {
-    var text = cssBox.value.trim();
-    if (!text) {
-      meta.textContent = 'No custom size yet';
-      return;
-    }
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(function() {
-        meta.textContent = 'CSS copied';
-      });
-      return;
-    }
-    cssBox.focus();
-    cssBox.select();
-    try {
-      document.execCommand('copy');
-      meta.textContent = 'CSS copied';
-    } catch (_err) {
-      meta.textContent = 'Copy failed';
-    }
-  });
-
-  document.addEventListener('mousedown', function(e) {
-    if (!isMode) return;
-    var img = e.target.closest('.help-img');
-    if (!img) return;
-    setSelected(img);
-    drag = { startX: e.clientX, startSize: Number(range.value) || defaults[img.dataset.sizeKey] || 820 };
-    e.preventDefault();
-  });
-
-  document.addEventListener('mousemove', function(e) {
-    if (!drag || !isMode || !selected) return;
-    var delta = e.clientX - drag.startX;
-    setSizeForSelected(drag.startSize + delta, false);
-  });
-
-  document.addEventListener('mouseup', function() {
-    if (!drag || !selected) return;
-    drag = null;
-    saveStore();
-    refreshCssOutput();
-  });
-}
-
 setLang(navigator.language.startsWith('ja') ? 'ja' : 'en');
-initImageSizeEditor();
 </script>
 </body>
 </html>
