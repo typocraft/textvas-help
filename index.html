@@ -10,17 +10,17 @@
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--bg1:#111113;--bg2:#1a1a1e;--bg3:#242428;--accent:#bcec15;--text1:#e8e8e8;--text2:rgba(232,232,232,0.65);--font:'Noto Sans JP',sans-serif;--font-en:'Orbitron',sans-serif}
 html{scroll-behavior:smooth}
-body{background:var(--bg1);color:var(--text1);font-family:var(--font);font-size:14px;line-height:1.7}
+body{background:var(--bg1);color:var(--text1);font-family:var(--font);font-size:21px;line-height:1.7}
 a{color:var(--accent);text-decoration:none}
 a:hover{text-decoration:underline}
 
 /* Sidebar */
 .sidebar{position:fixed;top:0;left:0;width:220px;height:100vh;background:var(--bg2);border-right:1px solid rgba(255,255,255,0.06);display:flex;flex-direction:column;z-index:100;overflow-y:auto}
-.sidebar-logo{font-family:var(--font-en);font-size:16px;font-weight:900;letter-spacing:0.1em;padding:20px 20px 6px}
+.sidebar-logo{font-family:var(--font-en);font-size:24px;font-weight:900;letter-spacing:0.1em;padding:20px 20px 6px}
 .sidebar-logo span{color:var(--accent)}
-.sidebar-sub{font-size:10px;color:var(--text1);padding:0 20px 16px;font-weight:700}
+.sidebar-sub{font-size:15px;color:var(--text1);padding:0 20px 16px;font-weight:700}
 .sidebar-nav{display:flex;flex-direction:column;gap:2px;padding:0 10px;flex:1}
-.sidebar-nav a{display:block;font-size:14px;font-weight:700;color:var(--text2);padding:8px 12px;border-radius:6px;transition:all 0.15s}
+.sidebar-nav a{display:block;font-size:16px;font-weight:700;color:var(--text2);padding:8px 12px;border-radius:6px;transition:all 0.15s}
 .sidebar-nav a:hover{color:var(--text1);background:rgba(255,255,255,0.04);text-decoration:none}
 .sidebar-nav a.active{color:var(--accent);background:rgba(188,236,21,0.08)}
 .sidebar-bottom{padding:12px 20px;border-top:1px solid rgba(255,255,255,0.06)}
@@ -30,47 +30,47 @@ a:hover{text-decoration:underline}
 
 /* Hero */
 .hero{padding:48px 60px 40px;max-width:1200px}
-.hero h1{font-family:var(--font-en);font-size:28px;font-weight:900;letter-spacing:0.08em;margin-bottom:8px;padding-bottom:12px;border-bottom:2px solid var(--accent);display:inline-block}
+.hero h1{font-family:var(--font-en);font-size:42px;font-weight:900;letter-spacing:0.08em;margin-bottom:8px;padding-bottom:12px;border-bottom:2px solid var(--accent);display:inline-block}
 .hero h1 span{color:var(--accent)}
-.hero p{color:var(--text1);font-size:13px}
+.hero p{color:var(--text1);font-size:21px}
 
 /* Container */
 .container{max-width:1200px;padding:0 60px 56px}
 
 /* Section */
 .section{margin-bottom:0;padding-top:48px;padding-bottom:48px}
-.section-title{font-size:24px;font-weight:900;margin-bottom:20px;padding:10px 0 10px 16px;border-left:4px solid var(--accent);line-height:1.4}
-.sub-title{font-size:15px;font-weight:700;color:var(--text1);margin:16px 0 8px;display:flex;align-items:center;gap:8px}
+.section-title{font-size:36px;font-weight:900;margin-bottom:20px;padding:10px 0 10px 16px;border-left:4px solid var(--accent);line-height:1.4}
+.sub-title{font-size:22px;font-weight:700;color:var(--text1);margin:16px 0 8px;display:flex;align-items:center;gap:8px}
 .sub-title::before{content:'';display:inline-block;width:2px;height:14px;background:var(--accent);border-radius:1px}
-.section-desc{color:var(--text1);font-size:13px;margin-bottom:20px;line-height:2.0}
+.section-desc{color:var(--text1);font-size:21px;margin-bottom:20px;line-height:2.0}
 
 /* Shortcut table */
 .sc-table{width:100%;border-collapse:collapse}
-.sc-table th{text-align:left;font-size:11px;color:var(--text1);font-weight:700;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,0.08)}
-.sc-table td{padding:8px 12px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:13px}
+.sc-table th{text-align:left;font-size:16px;color:var(--text1);font-weight:700;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.sc-table td{padding:8px 12px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:21px}
 .sc-table td:first-child{width:200px;white-space:nowrap}
-kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-size:13px;font-family:var(--font);font-weight:700;color:var(--text1);white-space:nowrap}
+kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-size:21px;font-family:var(--font);font-weight:700;color:var(--text1);white-space:nowrap}
 
 /* Feature card */
 .feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .feat-card{background:var(--bg2);border-radius:10px;padding:16px 18px;border:1px solid rgba(255,255,255,0.04);transition:border-color 0.15s}
 .feat-card:hover{}
-.feat-card h3{font-size:13px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.feat-card h3{font-size:20px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:6px}
 .feat-card h3 .icon{font-size:15px}
-.feat-card p{font-size:13px;color:var(--text1);line-height:1.6}
+.feat-card p{font-size:21px;color:var(--text1);line-height:1.6}
 
 /* Simple content */
 .simple-content{display:flex;flex-direction:column;gap:4px}
-.simple-content h4{font-size:15px;font-weight:700;margin-top:20px;padding-bottom:6px;display:flex;align-items:center;gap:8px}
+.simple-content h4{font-size:22px;font-weight:700;margin-top:20px;padding-bottom:6px;display:flex;align-items:center;gap:8px}
 .simple-content h4::before{content:'';display:inline-block;width:2px;height:16px;background:var(--accent);border-radius:1px;flex-shrink:0}
-.simple-content p{font-size:13px;color:var(--text1);line-height:2.0;margin-top:4px;max-width:800px}
+.simple-content p{font-size:21px;color:var(--text1);line-height:2.0;margin-top:4px;max-width:800px}
 
 /* Steps */
 .steps{display:flex;flex-direction:column;gap:10px}
 .step{display:flex;gap:14px;align-items:flex-start;background:var(--bg2);border-radius:10px;padding:14px 18px;border:1px solid rgba(255,255,255,0.04)}
 .step-num{background:var(--accent);color:var(--bg1);width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0}
-.step-body h4{font-size:13px;font-weight:700;margin-bottom:2px}
-.step-body p{font-size:13px;color:var(--text1);line-height:1.6}
+.step-body h4{font-size:20px;font-weight:700;margin-bottom:2px}
+.step-body p{font-size:21px;color:var(--text1);line-height:1.6}
 
 /* Color swatches */
 .preset-row{display:flex;gap:10px;flex-wrap:wrap}
@@ -79,7 +79,7 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
 .preset-label{text-align:center;font-size:9px;color:var(--text2);margin-top:4px}
 
 /* Tips */
-.tip{background:rgba(188,236,21,0.06);border:1px solid rgba(188,236,21,0.15);border-radius:10px;padding:14px 18px;margin:12px 0;font-size:12px;line-height:1.7}
+.tip{background:rgba(188,236,21,0.06);border:1px solid rgba(188,236,21,0.15);border-radius:10px;padding:14px 18px;margin:12px 0;font-size:18px;line-height:1.7}
 .tip::before{content:'TIP';display:inline-block;background:var(--accent);color:var(--bg1);font-size:9px;font-weight:900;padding:1px 6px;border-radius:3px;margin-right:8px}
 
 /* Help image */
@@ -89,11 +89,11 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
 .help-img-row .help-img{margin:0;max-width:none;flex:1;min-width:0}
 
 /* Footer */
-.footer{text-align:center;padding:32px 40px;border-top:1px solid rgba(255,255,255,0.06);color:var(--text2);font-size:11px;scroll-snap-align:start}
+.footer{text-align:center;padding:32px 40px;border-top:1px solid rgba(255,255,255,0.06);color:var(--text2);font-size:16px;scroll-snap-align:start}
 
 /* Language toggle */
 .lang-toggle{display:flex;gap:2px}
-.lang-btn{border:1px solid rgba(255,255,255,0.15);background:none;color:var(--text2);font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;cursor:pointer;font-family:var(--font);transition:all 0.2s}
+.lang-btn{border:1px solid rgba(255,255,255,0.15);background:none;color:var(--text2);font-size:15px;font-weight:700;padding:3px 8px;border-radius:4px;cursor:pointer;font-family:var(--font);transition:all 0.2s}
 .lang-btn:hover{background:rgba(255,255,255,0.08);color:var(--text1);border-color:rgba(255,255,255,0.3)}
 .lang-btn.active{background:var(--accent);color:var(--bg1);border-color:var(--accent)}
 
@@ -111,7 +111,7 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
 <div class="sidebar">
   <div class="sidebar-logo"><span>T</span>extvas</div>
   <div style="display:flex;align-items:center;justify-content:space-between;padding:0 20px 16px">
-    <div class="sidebar-sub i18n" style="padding:0" data-ja="Textvas" data-en="Textvas"></div>
+    <div class="sidebar-sub" style="padding:0">User Guide</div>
     <div class="lang-toggle">
       <button class="lang-btn active" onclick="setLang('ja')">JP</button>
       <button class="lang-btn" onclick="setLang('en')">EN</button>
@@ -399,7 +399,7 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
     <tr><td><kbd>Ctrl</kbd>+<kbd class="i18n" data-ja="ホイール" data-en="Wheel"></kbd></td><td class="i18n" data-ja="ズーム（0.3x〜3.0x）" data-en="Zoom (0.3x - 3.0x)"></td></tr>
   </table>
 
-  <p style="font-size:12px;color:var(--text1);margin-top:20px" class="i18n" data-ja="※ 一部のキーはお使いの環境により動作しない場合があります。" data-en="* Some keys may not work depending on your environment."></p>
+  <p style="font-size:18px;color:var(--text1);margin-top:20px" class="i18n" data-ja="※ 一部のキーはお使いの環境により動作しない場合があります。" data-en="* Some keys may not work depending on your environment."></p>
 </div>
 
 <!-- FAQ -->
@@ -409,43 +409,54 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
   <div style="display:flex;flex-direction:column;gap:16px">
 
     <div style="background:var(--bg3);border-radius:8px;padding:16px 20px">
-      <h3 style="font-size:14px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="試用期間はどのくらいですか？" data-en="How long is the trial period?"></h3>
-      <p style="font-size:13px;color:var(--text1)" class="i18n" data-ja="初回起動から7日間、すべての機能を無料でお試しいただけます。" data-en="You can try all features free for 7 days from the first launch."></p>
+      <h3 style="font-size:21px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="試用期間はどのくらいですか？" data-en="How long is the trial period?"></h3>
+      <p style="font-size:20px;color:var(--text1)" class="i18n" data-ja="初回起動から7日間、すべての機能を無料でお試しいただけます。" data-en="You can try all features free for 7 days from the first launch."></p>
     </div>
 
     <div style="background:var(--bg3);border-radius:8px;padding:16px 20px">
-      <h3 style="font-size:14px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="シリアルキーはどこで入力しますか？" data-en="Where do I enter the serial key?"></h3>
-      <p style="font-size:13px;color:var(--text1)" class="i18n" data-ja="設定 → ライセンスタブ、または試用期限画面から入力できます。" data-en="From Settings → License tab, or from the trial expiration screen."></p>
+      <h3 style="font-size:21px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="シリアルキーはどこで入力しますか？" data-en="Where do I enter the serial key?"></h3>
+      <p style="font-size:20px;color:var(--text1)" class="i18n" data-ja="設定 → ライセンスタブ、または試用期限画面から入力できます。" data-en="From Settings → License tab, or from the trial expiration screen."></p>
     </div>
 
     <div style="background:var(--bg3);border-radius:8px;padding:16px 20px">
-      <h3 style="font-size:14px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="オフラインで使えますか？" data-en="Can I use it offline?"></h3>
-      <p style="font-size:13px;color:var(--text1)" class="i18n" data-ja="はい。インターネット接続なしで動作します。" data-en="Yes. It works without an internet connection."></p>
+      <h3 style="font-size:21px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="オフラインで使えますか？" data-en="Can I use it offline?"></h3>
+      <p style="font-size:20px;color:var(--text1)" class="i18n" data-ja="はい。インターネット接続なしで動作します。" data-en="Yes. It works without an internet connection."></p>
     </div>
 
     <div style="background:var(--bg3);border-radius:8px;padding:16px 20px">
-      <h3 style="font-size:14px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="対応OSは？" data-en="What OS is supported?"></h3>
-      <p style="font-size:13px;color:var(--text1)" class="i18n" data-ja="Windows 10 / 11（64bit）に対応しています。" data-en="Windows 10 / 11 (64-bit) is supported."></p>
+      <h3 style="font-size:21px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="対応OSは？" data-en="What OS is supported?"></h3>
+      <p style="font-size:20px;color:var(--text1)" class="i18n" data-ja="Windows 10 / 11（64bit）に対応しています。" data-en="Windows 10 / 11 (64-bit) is supported."></p>
     </div>
 
     <div style="background:var(--bg3);border-radius:8px;padding:16px 20px">
-      <h3 style="font-size:14px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="買い切りですか？" data-en="Is it a one-time purchase?"></h3>
-      <p style="font-size:13px;color:var(--text1)" class="i18n" data-ja="はい。サブスクリプションではなく買い切り型です。" data-en="Yes. It is a one-time purchase, not a subscription."></p>
+      <h3 style="font-size:21px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="買い切りですか？" data-en="Is it a one-time purchase?"></h3>
+      <p style="font-size:20px;color:var(--text1)" class="i18n" data-ja="はい。サブスクリプションではなく買い切り型です。" data-en="Yes. It is a one-time purchase, not a subscription."></p>
     </div>
 
     <div style="background:var(--bg3);border-radius:8px;padding:16px 20px">
-      <h3 style="font-size:14px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="複数のPCで使えますか？" data-en="Can I use it on multiple PCs?"></h3>
-      <p style="font-size:13px;color:var(--text1)" class="i18n" data-ja="1ライセンスにつき1台のPCでご利用いただけます。複数のPCでご利用の場合は、台数分のライセンスが必要です。" data-en="One license is valid for one PC. If you wish to use it on multiple PCs, a separate license is required for each."></p>
+      <h3 style="font-size:21px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="複数のPCで使えますか？" data-en="Can I use it on multiple PCs?"></h3>
+      <p style="font-size:20px;color:var(--text1)" class="i18n" data-ja="1ライセンスにつき1台のPCでご利用いただけます。複数のPCでご利用の場合は、台数分のライセンスが必要です。" data-en="One license is valid for one PC. If you wish to use it on multiple PCs, a separate license is required for each."></p>
     </div>
 
     <div style="background:var(--bg3);border-radius:8px;padding:16px 20px">
-      <h3 style="font-size:14px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="データはどこに保存されますか？" data-en="Where is my data saved?"></h3>
-      <p style="font-size:13px;color:var(--text1)" class="i18n" data-ja=".txv形式のファイルとしてローカルに保存されます。クラウドへの送信はありません。" data-en="Saved locally as .txv files. No data is sent to the cloud."></p>
+      <h3 style="font-size:21px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="データはどこに保存されますか？" data-en="Where is my data saved?"></h3>
+      <p style="font-size:20px;color:var(--text1)" class="i18n" data-ja=".txv形式のファイルとしてローカルに保存されます。クラウドへの送信はありません。" data-en="Saved locally as .txv files. No data is sent to the cloud."></p>
     </div>
 
     <div style="background:var(--bg3);border-radius:8px;padding:16px 20px">
-      <h3 style="font-size:14px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="設定データはどこに保存されますか？" data-en="Where is the settings data stored?"></h3>
-      <p style="font-size:13px;color:var(--text1)" class="i18n" data-ja="AppData\Roaming\Textvas フォルダに保存されます。アンインストールしても設定データは保持されます。このフォルダを保管しておくことで設定のバックアップができます。" data-en="Stored in the AppData\Roaming\Textvas folder. Settings data is preserved even after uninstalling. You can back up your settings by saving this folder."></p>
+      <h3 style="font-size:21px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="画像はどこに保存されますか？" data-en="Where are images stored?"></h3>
+      <p style="font-size:20px;color:var(--text1)" class="i18n" data-ja="ボードに貼り付けた画像は.txvファイル内に埋め込まれます。元の画像ファイルを削除しても影響ありません。" data-en="Images pasted on the board are embedded in the .txv file. Deleting the original image file has no effect."></p>
+    </div>
+
+    <div style="background:var(--bg3);border-radius:8px;padding:16px 20px">
+      <h3 style="font-size:21px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="設定データはどこに保存されますか？" data-en="Where is the settings data stored?"></h3>
+      <p style="font-size:20px;color:var(--text1)" class="i18n" data-ja="AppData\Roaming\Textvas フォルダに保存されます。アンインストールしても設定データは保持されます。このフォルダを保管しておくことで設定のバックアップができます。" data-en="Stored in the AppData\Roaming\Textvas folder. Settings data is preserved even after uninstalling. You can back up your settings by saving this folder."></p>
+    </div>
+
+    <div style="background:var(--bg3);border-radius:8px;padding:16px 20px">
+      <h3 style="font-size:21px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="画像の書き出しがうまくいきません" data-en="Image export is not working"></h3>
+      <p style="font-size:20px;color:var(--text1)" class="i18n" data-ja="画像の枚数やサイズが大きすぎると書き出しに失敗する場合があります。画像の枚数やサイズを見直してください。" data-en="Export may fail if there are too many images or the image sizes are too large. Please review the number and size of images."></p>
+      <p style="font-size:20px;color:var(--text1)" class="i18n" data-ja="一度ボードを複製して不要なデータを整理するか、画像データを縮小してお試しください。" data-en="Try duplicating the board and cleaning up unnecessary data, or reducing image sizes."></p>
     </div>
 
   </div>
@@ -467,7 +478,7 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
     <p class="i18n" data-ja="本ソフトウェアに関する著作権その他一切の権利は作者（typocraft）に帰属します。" data-en="All copyrights and other rights related to this software belong to the author (typocraft)."></p>
     <p class="i18n" data-ja="作者に無断で、本ソフトウェアの複製や再配布、リバースエンジニアリング行為などを行うことは法律で固く禁止されております。" data-en="Unauthorized reproduction, redistribution, or reverse engineering of this software is strictly prohibited by law."></p>
     <p class="i18n" data-ja="ユーザーは利用規約に従うものとし、これに違反した場合は、いかなる理由においても作者の指示に従うものとします。" data-en="Users shall comply with the terms of use. In the event of a violation, users shall follow the instructions of the author regardless of the reason."></p>
-    <p style="margin-top:16px;font-size:12px;color:var(--text1)">&copy; 2026 typocraft. All rights reserved.</p>
+    <p style="margin-top:16px;font-size:18px;color:var(--text1)">&copy; 2026 typocraft. All rights reserved.</p>
   </div>
 </div>
 
