@@ -88,6 +88,19 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
 .help-img-row{display:flex;gap:12px;margin:16px 0}
 .help-img-row .help-img{margin:0;max-width:none;flex:1;min-width:0}
 
+/* FAQ Accordion */
+.faq-list{display:flex;flex-direction:column;gap:8px}
+.faq-item{background:var(--bg3);border-radius:8px;overflow:hidden}
+.faq-q{width:100%;background:none;border:none;color:var(--text1);font-family:var(--font);font-size:21px;font-weight:700;text-align:left;padding:16px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.faq-q:hover{background:rgba(255,255,255,0.04)}
+.faq-arrow{flex-shrink:0;width:20px;height:20px;display:flex;align-items:center;justify-content:center;transition:transform 0.2s;color:var(--accent)}
+.faq-item.open .faq-arrow{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height 0.25s ease}
+.faq-item.open .faq-a{max-height:400px}
+.faq-a-inner{padding:0 20px 16px;font-size:20px;color:var(--text1);line-height:1.8}
+.faq-a-inner p{margin-top:6px}
+.faq-a-inner p:first-child{margin-top:0}
+
 /* Footer */
 .footer{text-align:center;padding:32px 40px;border-top:1px solid rgba(255,255,255,0.06);color:var(--text2);font-size:16px;scroll-snap-align:start}
 
@@ -413,74 +426,139 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
 <div class="section" id="faq">
   <h2 class="section-title i18n" data-ja="よくある質問" data-en="FAQ"></h2>
 
-  <div style="display:flex;flex-direction:column;gap:16px">
+  <div class="faq-list">
 
-    <div style="background:var(--bg3);border-radius:8px;padding:16px 20px">
-      <h3 style="font-size:21px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="試用期間はどのくらいですか？" data-en="How long is the trial period?"></h3>
-      <p style="font-size:20px;color:var(--text1)" class="i18n" data-ja="初回起動から7日間、すべての機能を無料でお試しいただけます。" data-en="You can try all features free for 7 days from the first launch."></p>
+    <div class="faq-item">
+      <button class="faq-q" onclick="faqToggle(this)">
+        <span class="i18n" data-ja="試用期間はどのくらいですか？" data-en="How long is the trial period?"></span>
+        <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p class="i18n" data-ja="初回起動から7日間、すべての機能を無料でお試しいただけます。" data-en="You can try all features free for 7 days from the first launch."></p>
+      </div></div>
     </div>
 
-    <div style="background:var(--bg3);border-radius:8px;padding:16px 20px">
-      <h3 style="font-size:21px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="シリアルキーはどこで入力しますか？" data-en="Where do I enter the serial key?"></h3>
-      <p style="font-size:20px;color:var(--text1)" class="i18n" data-ja="設定 → ライセンスタブ、または試用期限画面から入力できます。" data-en="From Settings → License tab, or from the trial expiration screen."></p>
+    <div class="faq-item">
+      <button class="faq-q" onclick="faqToggle(this)">
+        <span class="i18n" data-ja="シリアルキーはどこで入力しますか？" data-en="Where do I enter the serial key?"></span>
+        <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p class="i18n" data-ja="設定 → ライセンスタブ、または試用期限画面から入力できます。" data-en="From Settings → License tab, or from the trial expiration screen."></p>
+      </div></div>
     </div>
 
-    <div style="background:var(--bg3);border-radius:8px;padding:16px 20px">
-      <h3 style="font-size:21px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="オフラインで使えますか？" data-en="Can I use it offline?"></h3>
-      <p style="font-size:20px;color:var(--text1)" class="i18n" data-ja="はい。インターネット接続なしで動作します。" data-en="Yes. It works without an internet connection."></p>
+    <div class="faq-item">
+      <button class="faq-q" onclick="faqToggle(this)">
+        <span class="i18n" data-ja="オフラインで使えますか？" data-en="Can I use it offline?"></span>
+        <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p class="i18n" data-ja="はい。インターネット接続なしで動作します。" data-en="Yes. It works without an internet connection."></p>
+      </div></div>
     </div>
 
-    <div style="background:var(--bg3);border-radius:8px;padding:16px 20px">
-      <h3 style="font-size:21px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="対応OSは？" data-en="What OS is supported?"></h3>
-      <p style="font-size:20px;color:var(--text1)" class="i18n" data-ja="Windows 10 / 11（64bit）に対応しています。" data-en="Windows 10 / 11 (64-bit) is supported."></p>
+    <div class="faq-item">
+      <button class="faq-q" onclick="faqToggle(this)">
+        <span class="i18n" data-ja="対応OSは？" data-en="What OS is supported?"></span>
+        <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p class="i18n" data-ja="Windows 10 / 11（64bit）に対応しています。" data-en="Windows 10 / 11 (64-bit) is supported."></p>
+      </div></div>
     </div>
 
-    <div style="background:var(--bg3);border-radius:8px;padding:16px 20px">
-      <h3 style="font-size:21px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="買い切りですか？" data-en="Is it a one-time purchase?"></h3>
-      <p style="font-size:20px;color:var(--text1)" class="i18n" data-ja="はい。サブスクリプションではなく買い切り型です。" data-en="Yes. It is a one-time purchase, not a subscription."></p>
+    <div class="faq-item">
+      <button class="faq-q" onclick="faqToggle(this)">
+        <span class="i18n" data-ja="買い切りですか？" data-en="Is it a one-time purchase?"></span>
+        <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p class="i18n" data-ja="はい。サブスクリプションではなく買い切り型です。" data-en="Yes. It is a one-time purchase, not a subscription."></p>
+      </div></div>
     </div>
 
-    <div style="background:var(--bg3);border-radius:8px;padding:16px 20px">
-      <h3 style="font-size:21px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="複数のPCで使えますか？" data-en="Can I use it on multiple PCs?"></h3>
-      <p style="font-size:20px;color:var(--text1)" class="i18n" data-ja="1ライセンスにつき1台のPCでご利用いただけます。複数のPCでご利用の場合は、台数分のライセンスが必要です。" data-en="One license is valid for one PC. If you wish to use it on multiple PCs, a separate license is required for each."></p>
+    <div class="faq-item">
+      <button class="faq-q" onclick="faqToggle(this)">
+        <span class="i18n" data-ja="複数のPCで使えますか？" data-en="Can I use it on multiple PCs?"></span>
+        <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p class="i18n" data-ja="1ライセンスにつき1台のPCでご利用いただけます。複数のPCでご利用の場合は、台数分のライセンスが必要です。" data-en="One license is valid for one PC. If you wish to use it on multiple PCs, a separate license is required for each."></p>
+      </div></div>
     </div>
 
-    <div style="background:var(--bg3);border-radius:8px;padding:16px 20px">
-      <h3 style="font-size:21px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="データはどこに保存されますか？" data-en="Where is my data saved?"></h3>
-      <p style="font-size:20px;color:var(--text1)" class="i18n" data-ja=".txv形式のファイルとしてローカルに保存されます。クラウドへの送信はありません。" data-en="Saved locally as .txv files. No data is sent to the cloud."></p>
+    <div class="faq-item">
+      <button class="faq-q" onclick="faqToggle(this)">
+        <span class="i18n" data-ja="データはどこに保存されますか？" data-en="Where is my data saved?"></span>
+        <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p class="i18n" data-ja=".txv形式のファイルとしてローカルに保存されます。クラウドへの送信はありません。" data-en="Saved locally as .txv files. No data is sent to the cloud."></p>
+      </div></div>
     </div>
 
-    <div style="background:var(--bg3);border-radius:8px;padding:16px 20px">
-      <h3 style="font-size:21px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="どれくらい画像をボードに貼り付けられますか？" data-en="How many images can I paste on a board?"></h3>
-      <p style="font-size:20px;color:var(--text1)" class="i18n" data-ja="1プロジェクトあたり100枚程度を推奨しています。" data-en="We recommend up to around 100 images per project."></p>
-      <p style="font-size:20px;color:var(--text1)" class="i18n" data-ja="大きな画像をそのまま貼り付けると動作が重くなります。必ず事前に縮小してからご使用ください。" data-en="Pasting large images without resizing will cause heavy load. Always resize images before use."></p>
-      <p style="font-size:20px;color:var(--text1)" class="i18n" data-ja="画像を扱う際は事前にバックアップを取ることをおすすめします。" data-en="We recommend backing up your file before working with images."></p>
+    <div class="faq-item">
+      <button class="faq-q" onclick="faqToggle(this)">
+        <span class="i18n" data-ja="どれくらい画像をボードに貼り付けられますか？" data-en="How many images can I paste on a board?"></span>
+        <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p class="i18n" data-ja="1プロジェクトあたり100枚程度を推奨しています。" data-en="We recommend up to around 100 images per project."></p>
+        <p class="i18n" data-ja="大きな画像をそのまま貼り付けると動作が重くなります。必ず事前に縮小してからご使用ください。" data-en="Pasting large images without resizing will cause heavy load. Always resize images before use."></p>
+        <p class="i18n" data-ja="画像を扱う際は事前にバックアップを取ることをおすすめします。" data-en="We recommend backing up your file before working with images."></p>
+      </div></div>
     </div>
 
-    <div style="background:var(--bg3);border-radius:8px;padding:16px 20px">
-      <h3 style="font-size:21px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="画像はどこに保存されますか？" data-en="Where are images stored?"></h3>
-      <p style="font-size:20px;color:var(--text1)" class="i18n" data-ja="ボードに貼り付けた画像は.txvファイル内に埋め込まれます。元の画像ファイルを削除しても影響ありません。" data-en="Images pasted on the board are embedded in the .txv file. Deleting the original image file has no effect."></p>
+    <div class="faq-item">
+      <button class="faq-q" onclick="faqToggle(this)">
+        <span class="i18n" data-ja="画像はどこに保存されますか？" data-en="Where are images stored?"></span>
+        <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p class="i18n" data-ja="ボードに貼り付けた画像は.txvファイル内に埋め込まれます。元の画像ファイルを削除しても影響ありません。" data-en="Images pasted on the board are embedded in the .txv file. Deleting the original image file has no effect."></p>
+      </div></div>
     </div>
 
-    <div style="background:var(--bg3);border-radius:8px;padding:16px 20px">
-      <h3 style="font-size:21px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="設定データはどこに保存されますか？" data-en="Where is the settings data stored?"></h3>
-      <p style="font-size:20px;color:var(--text1)" class="i18n" data-ja="AppData\Roaming\Textvas フォルダに保存されます。アンインストールしても設定データは保持されます。このフォルダを保管しておくことで設定のバックアップができます。" data-en="Stored in the AppData\Roaming\Textvas folder. Settings data is preserved even after uninstalling. You can back up your settings by saving this folder."></p>
+    <div class="faq-item">
+      <button class="faq-q" onclick="faqToggle(this)">
+        <span class="i18n" data-ja="設定データはどこに保存されますか？" data-en="Where is the settings data stored?"></span>
+        <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p class="i18n" data-ja="AppData\Roaming\Textvas フォルダに保存されます。アンインストールしても設定データは保持されます。このフォルダを保管しておくことで設定のバックアップができます。" data-en="Stored in the AppData\Roaming\Textvas folder. Settings data is preserved even after uninstalling. You can back up your settings by saving this folder."></p>
+      </div></div>
     </div>
 
-    <div style="background:var(--bg3);border-radius:8px;padding:16px 20px">
-      <h3 style="font-size:21px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="画像の書き出しがうまくいきません" data-en="Image export is not working"></h3>
-      <p style="font-size:20px;color:var(--text1)" class="i18n" data-ja="画像の枚数やサイズが大きすぎると書き出しに失敗する場合があります。画像の枚数やサイズを見直してください。" data-en="Export may fail if there are too many images or the image sizes are too large. Please review the number and size of images."></p>
-      <p style="font-size:20px;color:var(--text1)" class="i18n" data-ja="一度ボードを複製して不要なデータを整理するか、画像データを縮小してお試しください。" data-en="Try duplicating the board and cleaning up unnecessary data, or reducing image sizes."></p>
+    <div class="faq-item">
+      <button class="faq-q" onclick="faqToggle(this)">
+        <span class="i18n" data-ja="画像の書き出しがうまくいきません" data-en="Image export is not working"></span>
+        <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p class="i18n" data-ja="画像の枚数やサイズが大きすぎると書き出しに失敗する場合があります。画像の枚数やサイズを見直してください。" data-en="Export may fail if there are too many images or the image sizes are too large. Please review the number and size of images."></p>
+        <p class="i18n" data-ja="一度ボードを複製して不要なデータを整理するか、画像データを縮小してお試しください。" data-en="Try duplicating the board and cleaning up unnecessary data, or reducing image sizes."></p>
+      </div></div>
     </div>
 
-    <div style="background:var(--bg3);border-radius:8px;padding:16px 20px">
-      <h3 style="font-size:21px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="テキストがリサイズできないのは不具合ですか？" data-en="Is it a bug that text cannot be resized?"></h3>
-      <p style="font-size:20px;color:var(--text1)" class="i18n" data-ja="不具合ではなく仕様です。画像サイズを調整しながらテキストサイズを合わせる想定のため、テキストのリサイズには対応していません。テキストサイズはツールバーの5つのサイズボタンで調整してください。" data-en="This is by design, not a bug. Text resizing is not supported, as text size is intended to be adjusted relative to image size using the 5 size buttons in the toolbar."></p>
+    <div class="faq-item">
+      <button class="faq-q" onclick="faqToggle(this)">
+        <span class="i18n" data-ja="テキストがリサイズできないのは不具合ですか？" data-en="Is it a bug that text cannot be resized?"></span>
+        <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p class="i18n" data-ja="不具合ではなく仕様です。画像サイズを調整しながらテキストサイズを合わせる想定のため、テキストのリサイズには対応していません。テキストサイズはツールバーの5つのサイズボタンで調整してください。" data-en="This is by design, not a bug. Text resizing is not supported, as text size is intended to be adjusted relative to image size using the 5 size buttons in the toolbar."></p>
+      </div></div>
     </div>
 
-    <div style="background:var(--bg3);border-radius:8px;padding:16px 20px">
-      <h3 style="font-size:21px;color:var(--text1);margin-bottom:6px" class="i18n" data-ja="フォントが適用されないのはなぜですか？" data-en="Why is the font not applied?"></h3>
-      <p style="font-size:20px;color:var(--text1)" class="i18n" data-ja="フォントが未適用の場合、インターネット接続が必要です。必要なフォントは自動でダウンロードされます。" data-en="An internet connection is required to apply fonts. The necessary fonts will be downloaded automatically."></p>
+    <div class="faq-item">
+      <button class="faq-q" onclick="faqToggle(this)">
+        <span class="i18n" data-ja="フォントが適用されないのはなぜですか？" data-en="Why is the font not applied?"></span>
+        <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p class="i18n" data-ja="フォントが未適用の場合、インターネット接続が必要です。必要なフォントは自動でダウンロードされます。" data-en="An internet connection is required to apply fonts. The necessary fonts will be downloaded automatically."></p>
+      </div></div>
     </div>
 
   </div>
@@ -516,6 +594,11 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
 </div><!-- /main -->
 
 <script>
+function faqToggle(btn) {
+  var item = btn.closest('.faq-item');
+  item.classList.toggle('open');
+}
+
 function setLang(lang) {
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
   document.querySelector('.lang-btn:' + (lang === 'ja' ? 'first-child' : 'last-child')).classList.add('active');
