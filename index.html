@@ -105,11 +105,20 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
 /* Footer */
 .footer{text-align:center;padding:32px 40px;border-top:1px solid rgba(255,255,255,0.06);color:var(--text2);font-size:16px;scroll-snap-align:start}
 
-/* Language toggle */
-.lang-toggle{display:flex;gap:2px}
-.lang-btn{border:1px solid rgba(255,255,255,0.15);background:none;color:var(--text2);font-size:15px;font-weight:700;padding:3px 8px;border-radius:4px;cursor:pointer;font-family:var(--font);transition:all 0.2s}
-.lang-btn:hover{background:rgba(255,255,255,0.08);color:var(--text1);border-color:rgba(255,255,255,0.3)}
-.lang-btn.active{background:var(--accent);color:var(--bg1);border-color:var(--accent)}
+/* Language toggle (Globe pulldown) */
+.lang-toggle{position:relative}
+.lang-trigger{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,0.15);background:none;color:var(--text2);font-size:16px;font-weight:700;padding:10px 16px;border-radius:8px;cursor:pointer;font-family:var(--font);transition:all 0.2s;min-width:180px}
+.lang-trigger:hover{background:rgba(255,255,255,0.08);color:var(--text1);border-color:rgba(255,255,255,0.3)}
+.lang-toggle.open .lang-trigger{background:rgba(255,255,255,0.08);color:var(--text1);border-color:rgba(255,255,255,0.3)}
+.lang-globe{width:24px;height:24px;flex-shrink:0;color:currentColor;display:block}
+.lang-caret{font-size:18px;opacity:0.7;transition:transform 0.15s;margin-left:auto;line-height:1}
+.lang-toggle.open .lang-caret{transform:rotate(180deg)}
+.lang-panel{position:absolute;top:calc(100% + 4px);left:0;min-width:300px;background:var(--bg1);border:1px solid rgba(255,255,255,0.15);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.4);padding:6px;z-index:1000;display:none}
+.lang-toggle.open .lang-panel{display:block}
+.lang-item{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;font-size:15px;font-weight:700;color:var(--text2);cursor:pointer;border-radius:6px;transition:all 0.15s;white-space:nowrap;font-family:var(--font)}
+.lang-item:hover{background:rgba(255,255,255,0.06);color:var(--text1)}
+.lang-item.active{color:var(--text1)}
+.lang-item.active::after{content:'✓';font-size:11px;opacity:0.8;margin-left:12px}
 
 @media(max-width:768px){
   .sidebar{position:relative;width:100%;height:auto;border-right:none;border-bottom:1px solid rgba(255,255,255,0.06)}
@@ -124,28 +133,47 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
 
 <div class="sidebar">
   <div class="sidebar-logo"><span class="sidebar-logo-inner"><span>T</span>extvas</span></div>
-  <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 20px 12px">
-    <div class="sidebar-sub" style="padding:0">User Guide</div>
-    <div class="lang-toggle">
-      <button class="lang-btn active" onclick="setLang('ja')">JP</button>
-      <button class="lang-btn" onclick="setLang('en')">EN</button>
+  <div style="display:flex;align-items:center;justify-content:flex-start;padding:6px 20px 12px">
+    <div class="lang-toggle" id="lang-toggle">
+      <button class="lang-trigger" type="button" id="lang-trigger" aria-haspopup="listbox" aria-expanded="false">
+        <svg class="lang-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M2 12h20"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+        <span id="lang-current-label">日本語</span>
+        <span class="lang-caret">▾</span>
+      </button>
+      <div class="lang-panel" role="listbox" id="lang-panel">
+        <div class="lang-item active" data-lang="ja" role="option">日本語</div>
+        <div class="lang-item" data-lang="en" role="option">English</div>
+        <div class="lang-item" data-lang="zh" role="option">简体中文</div>
+        <div class="lang-item" data-lang="zh-tw" role="option">繁體中文</div>
+        <div class="lang-item" data-lang="ko" role="option">한국어</div>
+        <div class="lang-item" data-lang="es" role="option">Español</div>
+        <div class="lang-item" data-lang="pt-br" role="option">Português (BR)</div>
+        <div class="lang-item" data-lang="de" role="option">Deutsch</div>
+        <div class="lang-item" data-lang="fr" role="option">Français</div>
+        <div class="lang-item" data-lang="ru" role="option">Русский</div>
+      </div>
     </div>
   </div>
   <nav class="sidebar-nav">
-    <a href="#about" class="i18n nav-link active" data-ja="Textvasとは" data-en="About Textvas"></a>
-    <a href="#install" class="i18n nav-link" data-ja="インストール" data-en="Installation"></a>
-    <a href="#start" class="i18n nav-link" data-ja="基本操作" data-en="Basics"></a>
-    <a href="#canvas" class="i18n nav-link" data-ja="ボード操作" data-en="Board Controls"></a>
-    <a href="#boards" class="i18n nav-link" data-ja="ボードタブ管理" data-en="Board Tabs"></a>
-    <a href="#connection" class="i18n nav-link" data-ja="接続" data-en="Connection"></a>
-    <a href="#export" class="i18n nav-link" data-ja="書き出し" data-en="Export"></a>
-    <a href="#features" class="i18n nav-link" data-ja="その他の機能" data-en="Other Features"></a>
-    <a href="#settings" class="i18n nav-link" data-ja="設定" data-en="Settings"></a>
-    <a href="#save" class="i18n nav-link" data-ja="保存について" data-en="About Saving"></a>
-    <a href="#shortcuts" class="i18n nav-link" data-ja="ショートカット" data-en="Shortcuts"></a>
-    <a href="#faq" class="i18n nav-link" data-ja="よくある質問" data-en="FAQ"></a>
-    <a href="#contact" class="i18n nav-link" data-ja="お問い合わせ" data-en="Contact"></a>
-    <a href="#copyright" class="i18n nav-link" data-ja="著作権と免責" data-en="Copyright"></a>
+    <a href="#about" class="i18n nav-link active" data-ja="Textvasとは" data-en="About Textvas" data-zh="关于 Textvas" data-zh-tw="關於 Textvas" data-ko="Textvas 소개" data-es="Acerca de Textvas" data-pt-br="Sobre o Textvas" data-de="Über Textvas" data-fr="À propos de Textvas" data-ru="О Textvas"></a>
+    <a href="#install" class="i18n nav-link" data-ja="インストール" data-en="Installation" data-zh="安装" data-zh-tw="安裝" data-ko="설치" data-es="Instalación" data-pt-br="Instalação" data-de="Installation" data-fr="Installation" data-ru="Установка"></a>
+    <a href="#start" class="i18n nav-link" data-ja="基本操作" data-en="Basics" data-zh="基本操作" data-zh-tw="基本操作" data-ko="기본 조작" data-es="Conceptos básicos" data-pt-br="Noções básicas" data-de="Grundlagen" data-fr="Bases" data-ru="Основы"></a>
+    <a href="#canvas" class="i18n nav-link" data-ja="ボード操作" data-en="Board Controls" data-zh="面板操作" data-zh-tw="面板操作" data-ko="보드 조작" data-es="Controles del tablero" data-pt-br="Controles do quadro" data-de="Board-Steuerung" data-fr="Contrôles du tableau" data-ru="Управление доской"></a>
+    <a href="#boards" class="i18n nav-link" data-ja="ボードタブ管理" data-en="Board Tabs" data-zh="面板标签" data-zh-tw="面板標籤" data-ko="보드 탭" data-es="Pestañas del tablero" data-pt-br="Abas do quadro" data-de="Board-Tabs" data-fr="Onglets de tableau" data-ru="Вкладки досок"></a>
+    <a href="#connection" class="i18n nav-link" data-ja="接続" data-en="Connection" data-zh="连接" data-zh-tw="連接" data-ko="연결" data-es="Conexión" data-pt-br="Conexão" data-de="Verbindung" data-fr="Connexion" data-ru="Соединение"></a>
+    <a href="#export" class="i18n nav-link" data-ja="書き出し" data-en="Export" data-zh="导出" data-zh-tw="匯出" data-ko="내보내기" data-es="Exportar" data-pt-br="Exportar" data-de="Export" data-fr="Exporter" data-ru="Экспорт"></a>
+    <a href="#features" class="i18n nav-link" data-ja="その他の機能" data-en="Other Features" data-zh="其他功能" data-zh-tw="其他功能" data-ko="기타 기능" data-es="Otras funciones" data-pt-br="Outros recursos" data-de="Weitere Funktionen" data-fr="Autres fonctions" data-ru="Прочие функции"></a>
+    <a href="#settings" class="i18n nav-link" data-ja="設定" data-en="Settings" data-zh="设置" data-zh-tw="設定" data-ko="설정" data-es="Configuración" data-pt-br="Configurações" data-de="Einstellungen" data-fr="Paramètres" data-ru="Настройки"></a>
+    <a href="#save" class="i18n nav-link" data-ja="保存について" data-en="About Saving" data-zh="关于保存" data-zh-tw="關於儲存" data-ko="저장에 대해" data-es="Acerca del guardado" data-pt-br="Sobre salvamento" data-de="Über das Speichern" data-fr="À propos de l'enregistrement" data-ru="О сохранении"></a>
+    <a href="#shortcuts" class="i18n nav-link" data-ja="ショートカット" data-en="Shortcuts" data-zh="快捷键" data-zh-tw="快捷鍵" data-ko="단축키" data-es="Atajos" data-pt-br="Atalhos" data-de="Tastenkürzel" data-fr="Raccourcis" data-ru="Сочетания клавиш"></a>
+    <a href="#faq" class="i18n nav-link" data-ja="よくある質問" data-en="FAQ" data-zh="常见问题" data-zh-tw="常見問題" data-ko="자주 묻는 질문" data-es="Preguntas frecuentes" data-pt-br="Perguntas frequentes" data-de="FAQ" data-fr="FAQ" data-ru="Частые вопросы"></a>
+    <a href="#contact" class="i18n nav-link" data-ja="お問い合わせ" data-en="Contact" data-zh="联系我们" data-zh-tw="聯絡我們" data-ko="문의" data-es="Contacto" data-pt-br="Contato" data-de="Kontakt" data-fr="Contact" data-ru="Контакты"></a>
+    <a href="#copyright" class="i18n nav-link" data-ja="著作権と免責" data-en="Copyright" data-zh="版权与免责声明" data-zh-tw="版權與免責聲明" data-ko="저작권 및 면책" data-es="Derechos y exención" data-pt-br="Direitos autorais e isenção" data-de="Urheberrecht & Haftung" data-fr="Copyright et avertissement" data-ru="Авторские права и отказ"></a>
+    <a href="#releases" class="i18n nav-link" data-ja="リリースノート" data-en="Release Notes" data-zh="更新日志" data-zh-tw="更新日誌" data-ko="릴리스 노트" data-es="Notas de la versión" data-pt-br="Notas de versão" data-de="Versionshinweise" data-fr="Notes de version" data-ru="Список изменений"></a>
   </nav>
 </div>
 
@@ -154,67 +182,75 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
 <div class="hero" id="about">
   <h1><span>Textvas</span> User Guide</h1>
   <img src="images/hero_ja.jpg" alt="Textvas" class="help-img" id="hero-img" data-img-ja="images/hero_ja.jpg" data-img-en="images/hero_en.jpg">
-  <p class="i18n" style="margin-top:16px;line-height:2.0;max-width:800px" data-ja="Textvasはテキストと画像を自由に配置・整理できるノートアプリです。" data-en="Textvas is a note app for freely arranging and organizing text and images."></p>
-  <p class="i18n" style="line-height:2.0;max-width:800px" data-ja="ひとつのファイル内にボードタブを追加して見出しや区切り線で細分化できるため、情報の整理やアイデアの管理に適しています。" data-en="You can add board tabs within a single file and organize them with headings and separators, making it ideal for organizing information and managing ideas."></p>
+  <p class="i18n" style="margin-top:16px;line-height:2.0;max-width:800px" data-ja="Textvasはテキストと画像を自由に配置・整理できるノートアプリです。" data-en="Textvas is a note app for freely arranging and organizing text and images." data-zh="Textvas 是一款可以自由放置和整理文本与图像的笔记应用。" data-zh-tw="Textvas 是一款可以自由排列與整理文字與圖片的筆記應用程式。" data-ko="Textvas는 텍스트와 이미지를 자유롭게 배치하고 정리할 수 있는 노트 앱입니다." data-es="Textvas es una aplicación de notas que permite organizar y disponer libremente textos e imágenes." data-pt-br="Textvas é um aplicativo de notas para organizar e dispor livremente textos e imagens." data-de="Textvas ist eine Notiz-App zum freien Anordnen und Organisieren von Texten und Bildern." data-fr="Textvas est une application de notes permettant d'organiser librement textes et images." data-ru="Textvas — приложение для заметок, позволяющее свободно располагать и упорядочивать текст и изображения."></p>
+  <p class="i18n" style="line-height:2.0;max-width:800px" data-ja="ひとつのファイル内にボードタブを追加して見出しや区切り線で細分化できるため、情報の整理やアイデアの管理に適しています。" data-en="You can add board tabs within a single file and organize them with headings and separators, making it ideal for organizing information and managing ideas." data-zh="可以在单个文件内添加面板标签，并用标题和分隔线进行细分，非常适合整理信息和管理创意。" data-zh-tw="可以在單一檔案中新增面板標籤，並以標題和分隔線細分，非常適合整理資訊和管理創意。" data-ko="하나의 파일 내에 보드 탭을 추가하고 제목과 구분선으로 세분화할 수 있어 정보 정리와 아이디어 관리에 적합합니다." data-es="Puedes añadir pestañas de tablero dentro de un único archivo y organizarlas con encabezados y separadores, ideal para gestionar información e ideas." data-pt-br="Você pode adicionar abas de quadro em um único arquivo e organizá-las com títulos e separadores, ideal para gerenciar informações e ideias." data-de="In einer einzigen Datei können Sie Board-Tabs hinzufügen und mit Überschriften und Trennlinien gliedern – ideal zum Organisieren von Informationen und Ideen." data-fr="Vous pouvez ajouter des onglets de tableau dans un même fichier et les organiser avec des titres et des séparateurs, idéal pour organiser des informations et gérer des idées." data-ru="В одном файле можно добавлять вкладки досок и структурировать их заголовками и разделителями — удобно для упорядочивания информации и управления идеями."></p>
 </div>
 
 <div class="container">
 
 <!-- 0. Installation -->
 <div class="section" id="install">
-  <h2 class="section-title i18n" data-ja="インストール" data-en="Installation"></h2>
+  <h2 class="section-title i18n" data-ja="インストール" data-en="Installation" data-zh="安装" data-zh-tw="安裝" data-ko="설치" data-es="Instalación" data-pt-br="Instalação" data-de="Installation" data-fr="Installation" data-ru="Установка"></h2>
   <img src="images/install_ja.jpg" alt="Install" class="help-img" data-img-ja="images/install_ja.jpg" data-img-en="images/install_en.jpg">
   <div class="simple-content">
-    <h4 class="i18n" data-ja="インストーラーを実行" data-en="Run the Installer"></h4>
-    <p class="i18n" data-ja="インストーラーを実行します。言語選択後、利用規約に同意してインストールを進めてください。デフォルトでは C:\Program Files\Textvas にインストールされます。" data-en="Run the installer. Select your language, accept the terms, and proceed. By default, Textvas is installed to C:\Program Files\Textvas."></p>
-    <h4 class="i18n" data-ja="起動" data-en="Launch"></h4>
-    <p class="i18n" data-ja="デスクトップのショートカット、またはスタートメニューから起動します。" data-en="Launch from the desktop shortcut or Start menu."></p>
-    <p class="i18n" data-ja="このアプリは初回起動から7日間、すべての機能を無料でお試しいただけます。" data-en="This app offers a free 7-day trial from the first launch."></p>
-    <p class="i18n" data-ja="継続利用にはライセンスキーが必要です。" data-en="A license key is required for continued use."></p>
-    <h4 class="i18n" data-ja="ライセンス認証" data-en="License Activation"></h4>
-    <p class="i18n" data-ja="設定 → ライセンスタブまたは試用期限画面からシリアルキーを入力して下さい。" data-en="Enter your serial key from Settings → License tab, or from the trial expiration screen."></p>
+
+    <h4 class="i18n" data-ja="Steam版" data-en="Steam Version" data-zh="Steam 版" data-zh-tw="Steam 版" data-ko="Steam 버전" data-es="Versión de Steam" data-pt-br="Versão Steam" data-de="Steam-Version" data-fr="Version Steam" data-ru="Версия для Steam"></h4>
+    <p class="i18n" data-ja="Steam クライアントで「インストール」ボタンを押すと自動でインストールされます。インストール先は通常 Steam\steamapps\common\Textvas です。" data-en="Click the “Install” button in the Steam client. Textvas will be installed automatically (typically under Steam\steamapps\common\Textvas)." data-zh="在 Steam 客户端点击「安装」按钮即可自动安装。安装位置通常为 Steam\steamapps\common\Textvas。" data-zh-tw="在 Steam 用戶端點擊「安裝」按鈕即可自動安裝。安裝位置通常為 Steam\steamapps\common\Textvas。" data-ko="Steam 클라이언트에서 '설치' 버튼을 누르면 자동으로 설치됩니다. 설치 경로는 보통 Steam\steamapps\common\Textvas 입니다." data-es="Pulsa el botón «Instalar» en el cliente de Steam y la instalación se realizará automáticamente. La ruta suele ser Steam\steamapps\common\Textvas." data-pt-br="Clique no botão «Instalar» no cliente Steam e a instalação será feita automaticamente. O local de instalação geralmente é Steam\steamapps\common\Textvas." data-de="Klicken Sie im Steam-Client auf «Installieren» – die Installation erfolgt automatisch. Der Installationsort ist üblicherweise Steam\steamapps\common\Textvas." data-fr="Cliquez sur «Installer» dans le client Steam pour une installation automatique. L'emplacement d'installation est généralement Steam\steamapps\common\Textvas." data-ru="Нажмите кнопку «Установить» в клиенте Steam — установка пройдёт автоматически. Путь установки обычно Steam\steamapps\common\Textvas."></p>
+    <p class="i18n" data-ja="DRM フリーで配布されており、Steam クライアントを起動していない状態でもご利用可能です。インストールフォルダを別の PC にコピーしての利用も可能です（購入者ご本人によるご利用に限ります）。" data-en="Distributed DRM-free, so it can be used even when the Steam client is not running. You may also copy the install folder to another PC and use it (limited to personal use by the purchaser)." data-zh="本软件无 DRM，即使未启动 Steam 客户端也可以使用。也可以将安装文件夹复制到其他 PC 使用（仅限购买者本人使用）。" data-zh-tw="本軟體無 DRM，即使未啟動 Steam 用戶端也可以使用。亦可將安裝資料夾複製到其他 PC 使用（僅限購買者本人使用）。" data-ko="DRM 없이 배포되어 Steam 클라이언트가 실행되지 않은 상태에서도 사용할 수 있습니다. 설치 폴더를 다른 PC에 복사하여 사용할 수도 있습니다（구매자 본인의 사용에 한함）." data-es="Se distribuye sin DRM, por lo que puede usarse incluso sin el cliente Steam abierto. También puedes copiar la carpeta de instalación a otro PC (limitado al uso personal del comprador)." data-pt-br="Distribuído sem DRM, pode ser usado mesmo sem o cliente Steam aberto. Também é possível copiar a pasta de instalação para outro PC (limitado ao uso pessoal do comprador)." data-de="Wird DRM-frei verteilt und kann auch ohne laufenden Steam-Client genutzt werden. Sie können den Installationsordner auch auf einen anderen PC kopieren (beschränkt auf die persönliche Nutzung durch den Käufer)." data-fr="Distribué sans DRM, il fonctionne même lorsque le client Steam n'est pas lancé. Vous pouvez également copier le dossier d'installation sur un autre PC (réservé à l'usage personnel de l'acheteur)." data-ru="Распространяется без DRM и работает даже при выключенном клиенте Steam. Папку установки можно скопировать на другой ПК (только для личного использования покупателя)."></p>
+
+    <h4 class="i18n" data-ja="スタンドアロン版（BOOTH 等）" data-en="Standalone Version (BOOTH, etc.)" data-zh="独立版（BOOTH 等）" data-zh-tw="獨立版（BOOTH 等）" data-ko="독립 실행 버전 (BOOTH 등)" data-es="Versión independiente (BOOTH, etc.)" data-pt-br="Versão avulsa (BOOTH, etc.)" data-de="Standalone-Version (BOOTH usw.)" data-fr="Version autonome (BOOTH, etc.)" data-ru="Автономная версия (BOOTH и т. п.)"></h4>
+    <p class="i18n" data-ja="ダウンロードしたファイル（インストーラー または zip 形式）をお使いください。インストーラーの場合はそのまま実行し、画面の指示に従ってインストールします。zip 形式の場合は任意のフォルダに展開し、フォルダ内の Textvas.exe をダブルクリックで起動できます。インストール先・展開先は任意の場所で構いません。" data-en="Use the downloaded file (installer or zip). For the installer, simply run it and follow the on-screen instructions. For the zip, extract it to any folder and double-click Textvas.exe to launch. You can install or extract Textvas to any location." data-zh="请使用下载的文件（安装程序或 zip 格式）。安装程序请直接运行，并按照画面指示进行安装。zip 格式则解压到任意文件夹，双击文件夹内的 Textvas.exe 即可启动。安装或解压位置可以任意选择。" data-zh-tw="請使用下載的檔案（安裝程式或 zip 格式）。安裝程式請直接執行，並按照畫面指示安裝。zip 格式則解壓縮至任意資料夾，雙擊資料夾內的 Textvas.exe 即可啟動。安裝或解壓位置可任意選擇。" data-ko="다운로드한 파일（설치 프로그램 또는 zip 형식）을 사용하세요. 설치 프로그램은 그대로 실행해 화면 지시에 따라 설치합니다. zip 형식은 원하는 폴더에 압축을 풀고 폴더 내 Textvas.exe를 더블 클릭하여 실행할 수 있습니다. 설치 또는 압축 해제 위치는 임의로 정할 수 있습니다." data-es="Usa el archivo descargado (instalador o zip). Para el instalador, ejecútalo y sigue las instrucciones en pantalla. Para el zip, extrae a cualquier carpeta y haz doble clic en Textvas.exe para iniciar. La ubicación de instalación o extracción puede ser cualquiera." data-pt-br="Use o arquivo baixado (instalador ou zip). No caso do instalador, basta executá-lo e seguir as instruções na tela. Para o zip, extraia em qualquer pasta e dê duplo clique em Textvas.exe para iniciar. O local de instalação ou extração pode ser qualquer pasta." data-de="Verwenden Sie die heruntergeladene Datei (Installer oder zip). Den Installer einfach ausführen und den Anweisungen folgen. Beim zip in einen beliebigen Ordner entpacken und Textvas.exe per Doppelklick starten. Installations- bzw. Entpackungsort sind frei wählbar." data-fr="Utilisez le fichier téléchargé (installateur ou zip). Avec l'installateur, exécutez-le et suivez les instructions à l'écran. Avec le zip, extrayez dans un dossier de votre choix puis double-cliquez sur Textvas.exe pour lancer. L'emplacement d'installation ou d'extraction est libre." data-ru="Используйте загруженный файл (установщик или zip). Установщик просто запустите и следуйте указаниям на экране. Zip распакуйте в любую папку и запустите Textvas.exe двойным щелчком. Расположение установки или распаковки — на ваше усмотрение."></p>
+
+    <h4 class="i18n" data-ja="起動" data-en="Launch" data-zh="启动" data-zh-tw="啟動" data-ko="실행" data-es="Inicio" data-pt-br="Iniciar" data-de="Start" data-fr="Lancement" data-ru="Запуск"></h4>
+    <p class="i18n" data-ja="Steam版は Steam クライアントから、スタンドアロン版はデスクトップショートカット・スタートメニュー・または展開先フォルダ内の Textvas.exe から起動します。" data-en="Launch the Steam version from the Steam client, or the standalone version via a desktop shortcut, the Start menu, or by running Textvas.exe from the install folder." data-zh="Steam 版从 Steam 客户端启动，独立版可通过桌面快捷方式、开始菜单，或解压文件夹中的 Textvas.exe 启动。" data-zh-tw="Steam 版從 Steam 用戶端啟動，獨立版可透過桌面捷徑、開始功能表，或解壓資料夾中的 Textvas.exe 啟動。" data-ko="Steam 버전은 Steam 클라이언트에서, 독립 실행 버전은 바탕 화면 바로가기·시작 메뉴·또는 압축 해제 폴더 내의 Textvas.exe에서 실행할 수 있습니다." data-es="La versión Steam se inicia desde el cliente Steam; la versión independiente, mediante un acceso directo de escritorio, el menú Inicio o ejecutando Textvas.exe desde la carpeta de extracción." data-pt-br="A versão Steam é iniciada pelo cliente Steam; a versão avulsa, por atalho na área de trabalho, menu Iniciar ou executando Textvas.exe da pasta de extração." data-de="Die Steam-Version starten Sie über den Steam-Client, die Standalone-Version über die Desktop-Verknüpfung, das Startmenü oder Textvas.exe im Entpackungsordner." data-fr="Lancez la version Steam depuis le client Steam ; la version autonome via le raccourci du bureau, le menu Démarrer ou en exécutant Textvas.exe depuis le dossier d'extraction." data-ru="Версия для Steam запускается через клиент Steam; автономная версия — через ярлык на рабочем столе, меню «Пуск» или файл Textvas.exe в папке распаковки."></p>
+
+    <h4 class="i18n" data-ja="体験版について" data-en="About the Demo Version" data-zh="关于体验版" data-zh-tw="關於體驗版" data-ko="체험판에 대해" data-es="Acerca de la versión de prueba" data-pt-br="Sobre a versão de demonstração" data-de="Über die Testversion" data-fr="À propos de la version d'essai" data-ru="О пробной версии"></h4>
+    <p class="i18n" data-ja="無料の体験版もご用意しています。体験版では保存機能（手動保存・自動保存・タイムスタンプ保存・設定のバックアップ）をご利用いただけません。" data-en="A free demo version is also available. The demo does not include any save features (manual save, auto-save, timestamp backup, or settings backup)." data-zh="我们也提供免费的体验版。体验版无法使用保存功能（手动保存、自动保存、时间戳保存和设置备份）。" data-zh-tw="我們也提供免費的體驗版。體驗版無法使用儲存功能（手動儲存、自動儲存、時間戳儲存與設定備份）。" data-ko="무료 체험판도 제공합니다. 체험판에서는 저장 기능（수동 저장·자동 저장·타임스탬프 저장·설정 백업）을 사용할 수 없습니다." data-es="También está disponible una versión de prueba gratuita. La versión de prueba no incluye las funciones de guardado (guardado manual, guardado automático, copia con marca de tiempo y copia de configuración)." data-pt-br="Há também uma versão de demonstração gratuita. Ela não inclui as funções de salvamento (manual, automático, com marca de tempo e backup de configurações)." data-de="Es steht auch eine kostenlose Testversion zur Verfügung. In der Testversion sind die Speicherfunktionen (manuelles Speichern, automatisches Speichern, Zeitstempel-Speichern und Sicherung der Einstellungen) nicht verfügbar." data-fr="Une version d'essai gratuite est également proposée. Les fonctions de sauvegarde (manuelle, automatique, par horodatage et sauvegarde des paramètres) ne sont pas disponibles dans la version d'essai." data-ru="Доступна также бесплатная пробная версия. В ней не работают функции сохранения (ручное, автоматическое, по времени и резервное копирование настроек)."></p>
+
   </div>
 </div>
 
 <!-- 1. Basics -->
 <div class="section" id="start">
-  <h2 class="section-title i18n" data-ja="基本操作" data-en="Basics"></h2>
+  <h2 class="section-title i18n" data-ja="基本操作" data-en="Basics" data-zh="基本操作" data-zh-tw="基本操作" data-ko="기본 조작" data-es="Conceptos básicos" data-pt-br="Noções básicas" data-de="Grundlagen" data-fr="Bases" data-ru="Основы"></h2>
   <img src="images/basics_ja.jpg" alt="Basics" class="help-img" data-img-ja="images/basics_ja.jpg" data-img-en="images/basics_en.jpg">
   <div class="simple-content">
-    <h4 class="i18n" data-ja="プロジェクト名・ボード名" data-en="Project & Board Name"></h4>
-    <p class="i18n" data-ja="画面上部でプロジェクト名とボード名を入力できます。" data-en="Enter the project name and board name at the top of the screen."></p>
-    <p class="i18n" data-ja="プロジェクト名はファイル全体の名前、ボード名は各ボードの名前です。" data-en="The project name applies to the entire file, and the board name applies to each board."></p>
-    <h4 class="i18n" data-ja="テキストを作る" data-en="Create Text"></h4>
-    <p class="i18n" data-ja="ボード上でダブルクリック、またはTキーを押すとテキストが作成されます。" data-en="Double-click on the board or press T to create text."></p>
-    <h4 class="i18n" data-ja="テキストを編集する" data-en="Edit Text"></h4>
-    <p class="i18n" data-ja="ダブルクリックで編集モードに入ります。ボードの空白部分をクリックすると編集を終了します。" data-en="Double-click to enter edit mode. Click on an empty area of the board to finish editing."></p>
-    <h4 class="i18n" data-ja="リッチテキスト" data-en="Rich Text"></h4>
-    <p class="i18n" data-ja="テキストモード中に上のアイコンをクリックすると、色・下線・枠線を指定できます。" data-en="Click the icons above while in text mode to apply color, underline, and border."></p>
-    <h4 class="i18n" data-ja="移動・リサイズ" data-en="Move & Resize"></h4>
-    <p class="i18n" data-ja="テキスト、画像はドラッグで移動できます。画像は端をドラッグでリサイズ、回転ができます。" data-en="Drag to move text and images. Drag image edges to resize and rotate."></p>
-    <h4 class="i18n" data-ja="整列" data-en="Alignment"></h4>
-    <p class="i18n" data-ja="複数選択してCtrl+矢印キーで整列できます。" data-en="Select multiple items and use Ctrl+Arrow to align."></p>
-    <p class="i18n" data-ja="テキストの左揃え・中央揃え・右揃え・両端揃えはツールバーから変更できます。" data-en="Text alignment (left, center, right, justify) can be changed from the toolbar."></p>
-    <h4 class="i18n" data-ja="テキストサイズ" data-en="Text Sizes"></h4>
-    <p class="i18n" data-ja="XS / S / M / L / XL の5段階から選べます。選択中にツールバーから変更できます。" data-en="5 levels: XS / S / M / L / XL. Change from the toolbar while selected."></p>
-    <p class="i18n" data-ja="基本テキストサイズはMとなっています。" data-en="The default text size is M."></p>
-    <p class="i18n" data-ja="テキストのリサイズは5段階のみの調整で行います。" data-en="Text resizing is done in 5 levels only."></p>
+    <h4 class="i18n" data-ja="プロジェクト名・ボード名" data-en="Project & Board Name" data-zh="项目名与面板名" data-zh-tw="專案名與面板名" data-ko="프로젝트명·보드명" data-es="Nombre de proyecto y tablero" data-pt-br="Nome do projeto e do quadro" data-de="Projekt- und Boardname" data-fr="Nom du projet et du tableau" data-ru="Имя проекта и доски"></h4>
+    <p class="i18n" data-ja="画面上部でプロジェクト名とボード名を入力できます。" data-en="Enter the project name and board name at the top of the screen." data-zh="可以在画面上方输入项目名和面板名。" data-zh-tw="可在畫面上方輸入專案名稱和面板名稱。" data-ko="화면 상단에서 프로젝트명과 보드명을 입력할 수 있습니다." data-es="Puedes introducir el nombre del proyecto y del tablero en la parte superior de la pantalla." data-pt-br="Digite o nome do projeto e do quadro na parte superior da tela." data-de="Projekt- und Boardname können oben am Bildschirm eingegeben werden." data-fr="Saisissez le nom du projet et celui du tableau en haut de l'écran." data-ru="В верхней части экрана можно ввести имя проекта и доски."></p>
+    <p class="i18n" data-ja="プロジェクト名はファイル全体の名前、ボード名は各ボードの名前です。" data-en="The project name applies to the entire file, and the board name applies to each board." data-zh="项目名是整个文件的名称，面板名是各个面板的名称。" data-zh-tw="專案名為整個檔案的名稱，面板名為各個面板的名稱。" data-ko="프로젝트명은 파일 전체의 이름, 보드명은 각 보드의 이름입니다." data-es="El nombre del proyecto se aplica a todo el archivo, y el nombre del tablero a cada tablero." data-pt-br="O nome do projeto refere-se ao arquivo inteiro; o nome do quadro, a cada quadro." data-de="Der Projektname gilt für die gesamte Datei, der Boardname für jedes einzelne Board." data-fr="Le nom du projet s'applique à tout le fichier, et celui du tableau à chaque tableau." data-ru="Имя проекта относится ко всему файлу, имя доски — к отдельной доске."></p>
+    <h4 class="i18n" data-ja="テキストを作る" data-en="Create Text" data-zh="创建文本" data-zh-tw="建立文字" data-ko="텍스트 만들기" data-es="Crear texto" data-pt-br="Criar texto" data-de="Text erstellen" data-fr="Créer du texte" data-ru="Создание текста"></h4>
+    <p class="i18n" data-ja="ボード上でダブルクリック、またはTキーを押すとテキストが作成されます。" data-en="Double-click on the board or press T to create text." data-zh="在面板上双击，或按 T 键即可创建文本。" data-zh-tw="在面板上雙擊，或按 T 鍵即可建立文字。" data-ko="보드에서 더블 클릭하거나 T 키를 누르면 텍스트가 생성됩니다." data-es="Haz doble clic en el tablero o pulsa T para crear texto." data-pt-br="Dê duplo clique no quadro ou pressione T para criar um texto." data-de="Doppelklicken Sie auf das Board oder drücken Sie T, um Text zu erstellen." data-fr="Double-cliquez sur le tableau ou appuyez sur T pour créer du texte." data-ru="Двойной щелчок по доске или клавиша T создаёт текст."></p>
+    <h4 class="i18n" data-ja="テキストを編集する" data-en="Edit Text" data-zh="编辑文本" data-zh-tw="編輯文字" data-ko="텍스트 편집" data-es="Editar texto" data-pt-br="Editar texto" data-de="Text bearbeiten" data-fr="Modifier le texte" data-ru="Редактирование текста"></h4>
+    <p class="i18n" data-ja="ダブルクリックで編集モードに入ります。ボードの空白部分をクリックすると編集を終了します。" data-en="Double-click to enter edit mode. Click on an empty area of the board to finish editing." data-zh="双击进入编辑模式。点击面板的空白处可结束编辑。" data-zh-tw="雙擊進入編輯模式。點擊面板空白處即可結束編輯。" data-ko="더블 클릭하면 편집 모드로 들어갑니다. 보드의 빈 영역을 클릭하면 편집이 종료됩니다." data-es="Doble clic para entrar al modo edición. Haz clic en una zona vacía del tablero para salir." data-pt-br="Dê duplo clique para entrar no modo de edição. Clique em uma área vazia do quadro para sair." data-de="Per Doppelklick in den Bearbeitungsmodus. Ein Klick auf einen leeren Bereich des Boards beendet die Bearbeitung." data-fr="Double-cliquez pour entrer en mode édition. Cliquez sur une zone vide du tableau pour quitter." data-ru="Двойной щелчок включает режим редактирования. Щелчок по пустой области доски завершает его."></p>
+    <h4 class="i18n" data-ja="リッチテキスト" data-en="Rich Text" data-zh="富文本" data-zh-tw="豐富文字" data-ko="리치 텍스트" data-es="Texto enriquecido" data-pt-br="Texto formatado" data-de="Rich Text" data-fr="Texte enrichi" data-ru="Форматированный текст"></h4>
+    <p class="i18n" data-ja="テキストモード中に上のアイコンをクリックすると、色・下線・枠線を指定できます。" data-en="Click the icons above while in text mode to apply color, underline, and border." data-zh="在文本模式下点击上方图标，可设置颜色、下划线和边框。" data-zh-tw="在文字模式下點擊上方圖示，可設定顏色、底線與邊框。" data-ko="텍스트 모드에서 상단 아이콘을 클릭하면 색상·밑줄·테두리를 지정할 수 있습니다." data-es="En el modo texto, haz clic en los iconos superiores para aplicar color, subrayado o borde." data-pt-br="No modo texto, clique nos ícones superiores para aplicar cor, sublinhado e borda." data-de="Im Textmodus können Sie über die Symbole oben Farbe, Unterstreichung und Rahmen festlegen." data-fr="En mode texte, cliquez sur les icônes du haut pour définir couleur, soulignement et contour." data-ru="В режиме редактирования текста значки сверху позволяют задать цвет, подчёркивание и рамку."></p>
+    <h4 class="i18n" data-ja="移動・リサイズ" data-en="Move & Resize" data-zh="移动·调整大小" data-zh-tw="移動·調整大小" data-ko="이동·크기 조정" data-es="Mover y redimensionar" data-pt-br="Mover e redimensionar" data-de="Verschieben & Größe ändern" data-fr="Déplacer & redimensionner" data-ru="Перемещение и изменение размера"></h4>
+    <p class="i18n" data-ja="テキスト、画像はドラッグで移動できます。画像は端をドラッグでリサイズ、回転ができます。" data-en="Drag to move text and images. Drag image edges to resize and rotate." data-zh="文本和图像可通过拖动来移动。图像可拖动边缘进行调整大小和旋转。" data-zh-tw="文字和圖片可透過拖曳移動。圖片可拖曳邊緣進行調整大小與旋轉。" data-ko="텍스트와 이미지는 드래그로 이동할 수 있습니다. 이미지는 가장자리를 드래그하여 크기 조정 및 회전할 수 있습니다." data-es="Arrastra textos e imágenes para moverlos. Arrastra los bordes de las imágenes para redimensionarlas y rotarlas." data-pt-br="Arraste textos e imagens para movê-los. Arraste as bordas das imagens para redimensionar e girar." data-de="Texte und Bilder lassen sich per Drag verschieben. Bei Bildern können Sie die Ränder ziehen, um Größe und Drehung anzupassen." data-fr="Faites glisser textes et images pour les déplacer. Faites glisser les bords des images pour les redimensionner et les faire pivoter." data-ru="Перетаскивайте текст и изображения для перемещения. У изображений тяните за края для изменения размера и поворота."></p>
+    <h4 class="i18n" data-ja="整列" data-en="Alignment" data-zh="对齐" data-zh-tw="對齊" data-ko="정렬" data-es="Alineación" data-pt-br="Alinhamento" data-de="Ausrichtung" data-fr="Alignement" data-ru="Выравнивание"></h4>
+    <p class="i18n" data-ja="複数選択してCtrl+矢印キーで整列できます。" data-en="Select multiple items and use Ctrl+Arrow to align." data-zh="多选后按 Ctrl + 方向键即可对齐。" data-zh-tw="多選後按 Ctrl + 方向鍵即可對齊。" data-ko="여러 개를 선택한 뒤 Ctrl+방향키로 정렬할 수 있습니다." data-es="Selecciona varios elementos y usa Ctrl+flechas para alinear." data-pt-br="Selecione vários itens e use Ctrl+setas para alinhar." data-de="Mehrere Elemente auswählen und mit Strg+Pfeiltasten ausrichten." data-fr="Sélectionnez plusieurs éléments et utilisez Ctrl+flèches pour les aligner." data-ru="Выделите несколько объектов и используйте Ctrl+стрелки для выравнивания."></p>
+    <p class="i18n" data-ja="テキストの左揃え・中央揃え・右揃え・両端揃えはツールバーから変更できます。" data-en="Text alignment (left, center, right, justify) can be changed from the toolbar." data-zh="文本的左对齐、居中、右对齐、两端对齐可在工具栏中切换。" data-zh-tw="文字的靠左對齊、置中、靠右對齊、兩端對齊可在工具列切換。" data-ko="텍스트의 왼쪽·가운데·오른쪽·양쪽 정렬은 툴바에서 변경할 수 있습니다." data-es="La alineación del texto (izquierda, centro, derecha, justificado) se cambia desde la barra de herramientas." data-pt-br="O alinhamento do texto (esquerda, centro, direita, justificado) pode ser alterado na barra de ferramentas." data-de="Textausrichtung (links, zentriert, rechts, Blocksatz) lässt sich über die Symbolleiste ändern." data-fr="L'alignement du texte (gauche, centré, droite, justifié) se change depuis la barre d'outils." data-ru="Выравнивание текста (по левому краю, по центру, по правому, по ширине) меняется на панели инструментов."></p>
+    <h4 class="i18n" data-ja="テキストサイズ" data-en="Text Sizes" data-zh="文本大小" data-zh-tw="文字大小" data-ko="텍스트 크기" data-es="Tamaños de texto" data-pt-br="Tamanhos de texto" data-de="Textgrößen" data-fr="Tailles de texte" data-ru="Размер текста"></h4>
+    <p class="i18n" data-ja="XS / S / M / L / XL の5段階から選べます。選択中にツールバーから変更できます。" data-en="5 levels: XS / S / M / L / XL. Change from the toolbar while selected." data-zh="可从 XS / S / M / L / XL 五个级别中选择。可在选中时通过工具栏切换。" data-zh-tw="可從 XS / S / M / L / XL 五個級別中選擇。可在選取時透過工具列切換。" data-ko="XS / S / M / L / XL 5단계에서 선택할 수 있습니다. 선택 중에 툴바에서 변경할 수 있습니다." data-es="Puedes elegir entre 5 tamaños: XS / S / M / L / XL. Cámbialo desde la barra de herramientas con el elemento seleccionado." data-pt-br="Há 5 tamanhos: XS / S / M / L / XL. Altere pela barra de ferramentas com o item selecionado." data-de="Es stehen fünf Stufen zur Verfügung: XS / S / M / L / XL. Bei Auswahl über die Symbolleiste änderbar." data-fr="5 tailles disponibles : XS / S / M / L / XL. Modifiable via la barre d'outils lorsqu'un élément est sélectionné." data-ru="Доступно 5 размеров: XS / S / M / L / XL. Изменяется на панели инструментов при выделении."></p>
+    <p class="i18n" data-ja="基本テキストサイズはMとなっています。" data-en="The default text size is M." data-zh="默认文本大小为 M。" data-zh-tw="預設文字大小為 M。" data-ko="기본 텍스트 크기는 M입니다." data-es="El tamaño de texto predeterminado es M." data-pt-br="O tamanho padrão é M." data-de="Die Standardtextgröße ist M." data-fr="La taille de texte par défaut est M." data-ru="Размер текста по умолчанию — M."></p>
+    <p class="i18n" data-ja="テキストのリサイズは5段階のみの調整で行います。" data-en="Text resizing is done in 5 levels only." data-zh="文本仅可在 5 个级别内调整大小。" data-zh-tw="文字僅可在 5 個級別內調整大小。" data-ko="텍스트 크기 조정은 5단계 내에서만 가능합니다." data-es="El tamaño del texto solo se ajusta entre estos 5 niveles." data-pt-br="O texto só pode ser redimensionado nesses 5 níveis." data-de="Die Textgröße lässt sich nur in diesen 5 Stufen anpassen." data-fr="La taille du texte ne se règle qu'entre ces 5 niveaux." data-ru="Размер текста изменяется только в пределах этих 5 уровней."></p>
+    <h4 class="i18n" data-ja="折り返し・除去機能" data-en="Wrap & Strip" data-zh="换行·清除功能" data-zh-tw="換行·清除功能" data-ko="줄바꿈·제거 기능" data-es="Ajuste de línea y limpieza" data-pt-br="Quebra de linha e limpeza" data-de="Umbruch & Entfernen" data-fr="Retour à la ligne & nettoyage" data-ru="Перенос и удаление форматирования"></h4>
+    <p class="i18n" data-ja="テキストカードを右クリックし、指定した行で折り返しや、マークダウン記法の除去が行えます。" data-en="Right-click a text card to wrap text at a specified line, or to strip Markdown formatting." data-zh="右键单击文本卡片，可在指定行换行，或清除 Markdown 标记。" data-zh-tw="右鍵點擊文字卡片，可在指定行換行，或移除 Markdown 標記。" data-ko="텍스트 카드를 우클릭하여 지정한 줄에서 줄바꿈하거나 Markdown 표기를 제거할 수 있습니다." data-es="Haz clic derecho en una tarjeta de texto para ajustar el texto en una línea concreta o eliminar la sintaxis Markdown." data-pt-br="Clique com o botão direito em um cartão de texto para quebrar a linha em determinado ponto ou remover a sintaxe Markdown." data-de="Per Rechtsklick auf eine Textkarte können Sie Zeilen an gewünschter Stelle umbrechen oder Markdown-Formatierungen entfernen." data-fr="Clic droit sur une carte de texte pour insérer un retour à la ligne à un endroit donné ou supprimer la syntaxe Markdown." data-ru="Кликните правой кнопкой по карточке текста, чтобы перенести строку в нужном месте или удалить разметку Markdown."></p>
   </div>
 </div>
 
 <!-- 2. Board Controls -->
 <div class="section" id="canvas">
-  <h2 class="section-title i18n" data-ja="ボード操作" data-en="Board Controls"></h2>
+  <h2 class="section-title i18n" data-ja="ボード操作" data-en="Board Controls" data-zh="面板操作" data-zh-tw="面板操作" data-ko="보드 조작" data-es="Controles del tablero" data-pt-br="Controles do quadro" data-de="Board-Steuerung" data-fr="Contrôles du tableau" data-ru="Управление доской"></h2>
 
-  <h3 class="sub-title i18n" data-ja="基本操作" data-en="Basic Controls"></h3>
+  <h3 class="sub-title i18n" data-ja="基本操作" data-en="Basic Controls" data-zh="基本操作" data-zh-tw="基本操作" data-ko="기본 조작" data-es="Controles básicos" data-pt-br="Controles básicos" data-de="Grundlegende Steuerung" data-fr="Contrôles de base" data-ru="Основное управление"></h3>
   <table class="sc-table">
-    <tr><th class="i18n" data-ja="操作" data-en="Action"></th><th class="i18n" data-ja="方法" data-en="How"></th></tr>
-    <tr><td class="i18n" data-ja="パン（移動）" data-en="Pan"></td><td class="i18n" data-ja="中ボタンドラッグ / Space+左ドラッグ" data-en="Middle-click drag / Space+Left drag"></td></tr>
-    <tr><td class="i18n" data-ja="ズーム" data-en="Zoom"></td><td><kbd>Ctrl</kbd>+<span class="i18n" data-ja="ホイール" data-en="Wheel"></span></td></tr>
-    <tr><td class="i18n" data-ja="スクロール（縦）" data-en="Scroll (Vertical)"></td><td class="i18n" data-ja="ホイール" data-en="Wheel"></td></tr>
-    <tr><td class="i18n" data-ja="スクロール（横）" data-en="Scroll (Horizontal)"></td><td class="i18n" data-ja="Shift+ホイール" data-en="Shift+Wheel"></td></tr>
-    <tr><td class="i18n" data-ja="範囲選択" data-en="Lasso Select"></td><td class="i18n" data-ja="空白エリアで左ドラッグ" data-en="Left-drag on empty area"></td></tr>
-    <tr><td class="i18n" data-ja="右クリックメニュー" data-en="Context Menu"></td><td class="i18n" data-ja="ボード上で右クリック" data-en="Right-click on board"></td></tr>
+    <tr><th class="i18n" data-ja="操作" data-en="Action" data-zh="操作" data-zh-tw="操作" data-ko="동작" data-es="Acción" data-pt-br="Ação" data-de="Aktion" data-fr="Action" data-ru="Действие"></th><th class="i18n" data-ja="方法" data-en="How" data-zh="方法" data-zh-tw="方法" data-ko="방법" data-es="Método" data-pt-br="Método" data-de="Methode" data-fr="Méthode" data-ru="Способ"></th></tr>
+    <tr><td class="i18n" data-ja="パン（移動）" data-en="Pan" data-zh="平移" data-zh-tw="平移" data-ko="팬(이동)" data-es="Desplazamiento" data-pt-br="Pan" data-de="Verschieben (Pan)" data-fr="Panoramique" data-ru="Панорамирование"></td><td class="i18n" data-ja="中ボタンドラッグ / Space+左ドラッグ" data-en="Middle-click drag / Space+Left drag" data-zh="中键拖动 / Space+左键拖动" data-zh-tw="中鍵拖曳 / Space+左鍵拖曳" data-ko="중간 버튼 드래그 / Space+왼쪽 드래그" data-es="Arrastrar con clic central / Espacio+clic izq." data-pt-br="Arrastar com botão do meio / Espaço+botão esq." data-de="Mittelklick ziehen / Leertaste+Linksklick ziehen" data-fr="Glisser au clic central / Espace+glisser au clic gauche" data-ru="Перетаскивание СКМ / Space+перетаскивание ЛКМ"></td></tr>
+    <tr><td class="i18n" data-ja="ズーム" data-en="Zoom" data-zh="缩放" data-zh-tw="縮放" data-ko="확대/축소" data-es="Zoom" data-pt-br="Zoom" data-de="Zoom" data-fr="Zoom" data-ru="Масштаб"></td><td><kbd>Ctrl</kbd>+<span class="i18n" data-ja="ホイール" data-en="Wheel" data-zh="滚轮" data-zh-tw="滾輪" data-ko="휠" data-es="rueda del ratón" data-pt-br="roda do mouse" data-de="Mausrad" data-fr="molette" data-ru="колесо"></span></td></tr>
+    <tr><td class="i18n" data-ja="スクロール（縦）" data-en="Scroll (Vertical)" data-zh="滚动（垂直）" data-zh-tw="捲動（垂直）" data-ko="스크롤(세로)" data-es="Desplazar (vertical)" data-pt-br="Rolar (vertical)" data-de="Scrollen (vertikal)" data-fr="Défilement (vertical)" data-ru="Прокрутка (вертикальная)"></td><td class="i18n" data-ja="ホイール" data-en="Wheel" data-zh="滚轮" data-zh-tw="滾輪" data-ko="휠" data-es="Rueda del ratón" data-pt-br="Roda do mouse" data-de="Mausrad" data-fr="Molette" data-ru="Колесо"></td></tr>
+    <tr><td class="i18n" data-ja="スクロール（横）" data-en="Scroll (Horizontal)" data-zh="滚动（水平）" data-zh-tw="捲動（水平）" data-ko="스크롤(가로)" data-es="Desplazar (horizontal)" data-pt-br="Rolar (horizontal)" data-de="Scrollen (horizontal)" data-fr="Défilement (horizontal)" data-ru="Прокрутка (горизонтальная)"></td><td class="i18n" data-ja="Shift+ホイール" data-en="Shift+Wheel" data-zh="Shift+滚轮" data-zh-tw="Shift+滾輪" data-ko="Shift+휠" data-es="Shift+rueda" data-pt-br="Shift+roda" data-de="Umschalt+Mausrad" data-fr="Maj+molette" data-ru="Shift+колесо"></td></tr>
+    <tr><td class="i18n" data-ja="範囲選択" data-en="Lasso Select" data-zh="框选" data-zh-tw="框選" data-ko="범위 선택" data-es="Selección por área" data-pt-br="Seleção por área" data-de="Bereichsauswahl" data-fr="Sélection par zone" data-ru="Выделение области"></td><td class="i18n" data-ja="空白エリアで左ドラッグ" data-en="Left-drag on empty area" data-zh="在空白区域左键拖动" data-zh-tw="在空白區域左鍵拖曳" data-ko="빈 영역에서 왼쪽 드래그" data-es="Arrastrar con clic izq. en zona vacía" data-pt-br="Arrastar com botão esq. em área vazia" data-de="Linksklick-Ziehen auf leerer Fläche" data-fr="Glisser-clic gauche sur zone vide" data-ru="ЛКМ перетаскивание на пустой области"></td></tr>
+    <tr><td class="i18n" data-ja="右クリックメニュー" data-en="Context Menu" data-zh="右键菜单" data-zh-tw="右鍵選單" data-ko="우클릭 메뉴" data-es="Menú contextual" data-pt-br="Menu de contexto" data-de="Kontextmenü" data-fr="Menu contextuel" data-ru="Контекстное меню"></td><td class="i18n" data-ja="ボード上で右クリック" data-en="Right-click on board" data-zh="在面板上右键" data-zh-tw="在面板上右鍵" data-ko="보드에서 우클릭" data-es="Clic derecho en el tablero" data-pt-br="Clique direito no quadro" data-de="Rechtsklick auf das Board" data-fr="Clic droit sur le tableau" data-ru="Правый клик по доске"></td></tr>
   </table>
 
 
@@ -222,159 +258,171 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
 
 <!-- 4. Boards -->
 <div class="section" id="boards">
-  <h2 class="section-title i18n" data-ja="ボードタブ管理" data-en="Board Tab Management"></h2>
+  <h2 class="section-title i18n" data-ja="ボードタブ管理" data-en="Board Tab Management" data-zh="面板标签管理" data-zh-tw="面板標籤管理" data-ko="보드 탭 관리" data-es="Gestión de pestañas del tablero" data-pt-br="Gerenciamento de abas do quadro" data-de="Board-Tab-Verwaltung" data-fr="Gestion des onglets de tableau" data-ru="Управление вкладками досок"></h2>
   <img src="images/tabs_ja.jpg" alt="Board Tabs" class="help-img" data-img-ja="images/tabs_ja.jpg" data-img-en="images/tabs_en.jpg">
 
   <div class="simple-content">
-    <h4 class="i18n" data-ja="タブの追加・複製" data-en="Add & Duplicate Tabs"></h4>
-    <p class="i18n" data-ja="タイトルバーの上部の＋ボタンで追加できます。右クリックでタブの複製もできます。" data-en="Use the + button at the top of the title bar to add. Right-click a tab to duplicate."></p>
+    <h4 class="i18n" data-ja="タブの追加・複製" data-en="Add & Duplicate Tabs" data-zh="标签的添加·复制" data-zh-tw="標籤的新增·複製" data-ko="탭 추가·복제" data-es="Añadir y duplicar pestañas" data-pt-br="Adicionar e duplicar abas" data-de="Tabs hinzufügen & duplizieren" data-fr="Ajouter & dupliquer des onglets" data-ru="Добавление и дублирование вкладок"></h4>
+    <p class="i18n" data-ja="タイトルバーの上部の＋ボタン、またはサイドバーで右クリック→「ボードを追加」で追加できます。" data-en="Click the + button at the top of the title bar, or right-click in the sidebar and select “Add Board” to add one." data-zh="点击标题栏上方的 ＋ 按钮，或在侧边栏右键 →「添加面板」即可新增。" data-zh-tw="點擊標題列上方的 ＋ 按鈕，或在側邊欄按右鍵 →「新增面板」即可新增。" data-ko="타이틀 바 상단의 ＋ 버튼을 누르거나, 사이드바에서 우클릭 → '보드 추가'로 추가할 수 있습니다." data-es="Pulsa el botón + en la parte superior de la barra de título, o haz clic derecho en la barra lateral y selecciona «Añadir tablero»." data-pt-br="Clique no botão + no topo da barra de título, ou clique com o botão direito na barra lateral e selecione «Adicionar quadro»." data-de="Klicken Sie auf das ＋ oben in der Titelleiste oder mit Rechtsklick in der Seitenleiste auf „Board hinzufügen“." data-fr="Cliquez sur le bouton ＋ en haut de la barre de titre, ou faites un clic droit dans la barre latérale → « Ajouter un tableau »." data-ru="Нажмите кнопку ＋ вверху заголовка или щёлкните правой кнопкой в боковой панели → «Добавить доску»."></p>
+    <p class="i18n" data-ja="右クリックで複製もできます。" data-en="Right-click to duplicate." data-zh="右键也可以进行复制。" data-zh-tw="右鍵也可以複製。" data-ko="우클릭으로 복제할 수도 있습니다." data-es="Con clic derecho también puedes duplicar." data-pt-br="Com o botão direito também é possível duplicar." data-de="Per Rechtsklick lässt sich auch duplizieren." data-fr="Le clic droit permet aussi de dupliquer." data-ru="Через правый клик можно также дублировать."></p>
 
-    <h4 class="i18n" data-ja="タブの整理" data-en="Organize Tabs"></h4>
-    <p class="i18n" data-ja="サイドバーのタブを右クリックで連番追加・除去、見出し追加、区切り線追加ができます。" data-en="Right-click a tab in the sidebar for numbering, headings, and separator lines."></p>
-    <p class="i18n" data-ja="またShift、Ctrl押しながらで複数選択ができます。" data-en="Hold Shift or Ctrl to select multiple tabs."></p>
+    <h4 class="i18n" data-ja="フォルダの作成・複製" data-en="Create & Duplicate Folders" data-zh="文件夹的创建·复制" data-zh-tw="資料夾的建立·複製" data-ko="폴더 생성·복제" data-es="Crear y duplicar carpetas" data-pt-br="Criar e duplicar pastas" data-de="Ordner erstellen & duplizieren" data-fr="Créer & dupliquer des dossiers" data-ru="Создание и дублирование папок"></h4>
+    <p class="i18n" data-ja="サイドバーで右クリック→「フォルダを作成」で追加できます。右クリックで複製もできます。" data-en="Right-click in the sidebar and select “Create Folder” to add one. Right-click to duplicate." data-zh="在侧边栏右键 →「创建文件夹」即可新增。右键也可复制。" data-zh-tw="在側邊欄按右鍵 →「建立資料夾」即可新增。右鍵也可複製。" data-ko="사이드바에서 우클릭 → '폴더 생성'으로 추가할 수 있습니다. 우클릭으로 복제도 가능합니다." data-es="Clic derecho en la barra lateral → «Crear carpeta». Con clic derecho también puedes duplicar." data-pt-br="Clique com o botão direito na barra lateral → «Criar pasta». Com o botão direito também é possível duplicar." data-de="Per Rechtsklick in der Seitenleiste auf „Ordner erstellen“ hinzufügen. Per Rechtsklick auch duplizierbar." data-fr="Clic droit dans la barre latérale → « Créer un dossier ». Le clic droit permet aussi de dupliquer." data-ru="Щёлкните правой кнопкой в боковой панели → «Создать папку». Через правый клик можно также дублировать."></p>
+    <p class="i18n" data-ja="タブをフォルダの中にドラッグすると、フォルダ内に格納できます。" data-en="Drag a tab into a folder to place it inside." data-zh="将标签拖入文件夹即可放入其中。" data-zh-tw="將標籤拖入資料夾即可放入其中。" data-ko="탭을 폴더 안으로 드래그하면 폴더 안에 넣을 수 있습니다." data-es="Arrastra una pestaña dentro de una carpeta para guardarla allí." data-pt-br="Arraste uma aba para dentro de uma pasta para guardá-la nela." data-de="Ziehen Sie einen Tab in einen Ordner, um ihn darin abzulegen." data-fr="Glissez un onglet dans un dossier pour l'y placer." data-ru="Перетащите вкладку в папку, чтобы поместить её внутрь."></p>
+    <p class="i18n" data-ja="フォルダをクリックすると開閉します。" data-en="Click a folder to expand or collapse it." data-zh="点击文件夹可展开或折叠。" data-zh-tw="點擊資料夾可展開或收合。" data-ko="폴더를 클릭하면 열리고 닫힙니다." data-es="Haz clic en una carpeta para expandirla o contraerla." data-pt-br="Clique em uma pasta para expandi-la ou recolhê-la." data-de="Klicken Sie auf einen Ordner, um ihn auf- oder zuzuklappen." data-fr="Cliquez sur un dossier pour le déplier ou le replier." data-ru="Щелчок по папке раскрывает или сворачивает её."></p>
 
-    <h4 class="i18n" data-ja="タブの色変更" data-en="Tab Colors"></h4>
-    <p class="i18n" data-ja="サイドバーのタブを右クリック→「色を変更」でタブごとに色を設定できます。" data-en="Right-click a tab in the sidebar and select 'Change color' to customize its color."></p>
+    <h4 class="i18n" data-ja="タブの整理" data-en="Organize Tabs" data-zh="标签整理" data-zh-tw="標籤整理" data-ko="탭 정리" data-es="Organizar pestañas" data-pt-br="Organizar abas" data-de="Tabs organisieren" data-fr="Organiser les onglets" data-ru="Упорядочивание вкладок"></h4>
+    <p class="i18n" data-ja="サイドバーのタブを右クリックで連番追加・除去、見出し追加、フォルダ追加、区切り線追加ができます。" data-en="Right-click a tab in the sidebar for numbering, headings, folders, and separator lines." data-zh="在侧边栏的标签上右键，可进行编号添加·移除、标题添加、文件夹添加、分隔线添加。" data-zh-tw="在側邊欄的標籤上按右鍵，可進行編號新增·移除、標題新增、資料夾新增、分隔線新增。" data-ko="사이드바의 탭을 우클릭하여 일련 번호 추가·제거, 제목 추가, 폴더 추가, 구분선 추가가 가능합니다." data-es="Clic derecho en una pestaña de la barra lateral para añadir/quitar numeración, encabezados, carpetas y líneas separadoras." data-pt-br="Clique com o botão direito em uma aba da barra lateral para adicionar/remover numeração, títulos, pastas e linhas separadoras." data-de="Per Rechtsklick auf einen Tab in der Seitenleiste lassen sich Nummerierung, Überschriften, Ordner und Trennlinien hinzufügen/entfernen." data-fr="Clic droit sur un onglet de la barre latérale pour ajouter/supprimer numérotation, titres, dossiers et lignes de séparation." data-ru="Правый клик по вкладке в боковой панели — добавление/удаление нумерации, заголовков, папок и разделителей."></p>
+    <p class="i18n" data-ja="またShift、Ctrl押しながらで複数選択ができます。" data-en="Hold Shift or Ctrl to select multiple tabs." data-zh="按住 Shift 或 Ctrl 可多选。" data-zh-tw="按住 Shift 或 Ctrl 可多選。" data-ko="Shift 또는 Ctrl을 누른 채로 여러 개 선택할 수 있습니다." data-es="Mantén Shift o Ctrl para seleccionar varias pestañas." data-pt-br="Segure Shift ou Ctrl para selecionar várias abas." data-de="Halten Sie Umschalt oder Strg, um mehrere Tabs auszuwählen." data-fr="Maintenez Maj ou Ctrl pour sélectionner plusieurs onglets." data-ru="Удерживайте Shift или Ctrl, чтобы выбрать несколько вкладок."></p>
 
-    <h4 class="i18n" data-ja="完了チェック" data-en="Completion Check"></h4>
-    <p class="i18n" data-ja="サイドバーのタブにマウスホバーすると左側にチェックボタンが出現します。" data-en="Hover over a tab in the sidebar to reveal a check button on the left."></p>
-    <p class="i18n" data-ja="クリックすると完了マークを付けられます。" data-en="Click it to mark the tab as complete."></p>
-    <p class="i18n" data-ja="この機能は設定 → その他タブで「ボードの完了チェック」をオンにすると使用できます。デフォルトではオフとなっています。" data-en="Enable this feature in Settings → Misc tab by turning on 'Board Done Checkbox'. Off by default."></p>
+    <h4 class="i18n" data-ja="色の変更" data-en="Color Change" data-zh="颜色更改" data-zh-tw="顏色變更" data-ko="색상 변경" data-es="Cambio de color" data-pt-br="Alterar cor" data-de="Farbe ändern" data-fr="Changement de couleur" data-ru="Изменение цвета"></h4>
+    <p class="i18n" data-ja="タブとフォルダ、見出しの色が変更できます。" data-en="You can change the color of tabs, folders, and headings." data-zh="可以更改标签、文件夹和标题的颜色。" data-zh-tw="可以變更標籤、資料夾與標題的顏色。" data-ko="탭, 폴더, 제목의 색상을 변경할 수 있습니다." data-es="Puedes cambiar el color de pestañas, carpetas y encabezados." data-pt-br="É possível alterar a cor de abas, pastas e títulos." data-de="Sie können die Farbe von Tabs, Ordnern und Überschriften ändern." data-fr="Vous pouvez modifier la couleur des onglets, dossiers et titres." data-ru="Можно изменить цвет вкладок, папок и заголовков."></p>
+    <p class="i18n" data-ja="右クリックメニューの下部に出るスウォッチから色の変更ができます。" data-en="Use the swatch at the bottom of the right-click menu to change the color." data-zh="可在右键菜单底部的色板中更改颜色。" data-zh-tw="可在右鍵選單底部的色票中變更顏色。" data-ko="우클릭 메뉴 하단에 표시되는 스와치에서 색상을 변경할 수 있습니다." data-es="Cambia el color desde la paleta que aparece en la parte inferior del menú contextual." data-pt-br="Altere a cor pela paleta que aparece na parte inferior do menu de contexto." data-de="Ändern Sie die Farbe über das Farbfeld unten im Kontextmenü." data-fr="Changez la couleur via le nuancier en bas du menu contextuel." data-ru="Меняйте цвет через образцы внизу контекстного меню."></p>
+
+    <h4 class="i18n" data-ja="完了チェック" data-en="Completion Check" data-zh="完成勾选" data-zh-tw="完成勾選" data-ko="완료 체크" data-es="Marca de completado" data-pt-br="Marca de conclusão" data-de="Erledigt-Markierung" data-fr="Coche d'achèvement" data-ru="Отметка о выполнении"></h4>
+    <p class="i18n" data-ja="サイドバーのタブにマウスホバーすると左側にチェックボタンが出現します。" data-en="Hover over a tab in the sidebar to reveal a check button on the left." data-zh="将鼠标悬停在侧边栏的标签上，左侧会出现勾选按钮。" data-zh-tw="將滑鼠停留在側邊欄的標籤上，左側會出現勾選按鈕。" data-ko="사이드바의 탭에 마우스를 올리면 왼쪽에 체크 버튼이 나타납니다." data-es="Pasa el ratón sobre una pestaña de la barra lateral y aparecerá un botón de marca a la izquierda." data-pt-br="Passe o mouse sobre uma aba da barra lateral; um botão de marcação aparecerá à esquerda." data-de="Wenn Sie über einen Tab in der Seitenleiste fahren, erscheint links eine Markierungsschaltfläche." data-fr="Survolez un onglet dans la barre latérale ; un bouton de coche apparaît à gauche." data-ru="Наведите курсор на вкладку в боковой панели — слева появится кнопка отметки."></p>
+    <p class="i18n" data-ja="クリックすると完了マークを付けられます。" data-en="Click it to mark the tab as complete." data-zh="点击即可添加完成标记。" data-zh-tw="點擊即可加上完成標記。" data-ko="클릭하면 완료 표시를 할 수 있습니다." data-es="Haz clic para marcarla como completada." data-pt-br="Clique para marcar como concluída." data-de="Klicken Sie darauf, um den Tab als erledigt zu markieren." data-fr="Cliquez pour marquer l'onglet comme terminé." data-ru="Щёлкните, чтобы отметить вкладку как выполненную."></p>
+    <p class="i18n" data-ja="この機能は設定 → その他タブで「ボードの完了チェック」をオンにすると使用できます。デフォルトではオフとなっています。" data-en="Enable this feature in Settings → Misc tab by turning on 'Board Done Checkbox'. Off by default." data-zh="该功能可在 设置 → 其他 标签中开启「面板完成勾选」后使用。默认关闭。" data-zh-tw="此功能可在 設定 → 其他 標籤中開啟「面板完成勾選」後使用。預設為關閉。" data-ko="이 기능은 설정 → 기타 탭에서 '보드 완료 체크'를 켜야 사용할 수 있습니다. 기본값은 꺼짐입니다." data-es="Activa esta función en Configuración → pestaña Misc, marcando «Casilla de completado del tablero». Desactivada por defecto." data-pt-br="Ative este recurso em Configurações → aba Misc, marcando «Caixa de conclusão do quadro». Desativada por padrão." data-de="Aktivieren Sie diese Funktion unter Einstellungen → Tab „Sonstiges“ über „Board-Erledigt-Kontrollkästchen“. Standardmäßig deaktiviert." data-fr="Activez cette fonction dans Paramètres → onglet Divers en cochant « Case d'achèvement du tableau ». Désactivée par défaut." data-ru="Включите функцию в Настройки → вкладка «Прочее», параметр «Отметка выполнения доски». По умолчанию выключено."></p>
 
 
-    <h4 class="i18n" data-ja="並べ替え" data-en="Reorder"></h4>
-    <p class="i18n" data-ja="サイドバーのタブをドラッグで並べ替えできます。" data-en="Drag tabs in the sidebar to reorder."></p>
+    <h4 class="i18n" data-ja="並べ替え" data-en="Reorder" data-zh="排序" data-zh-tw="排序" data-ko="순서 변경" data-es="Reordenar" data-pt-br="Reordenar" data-de="Sortieren" data-fr="Réorganiser" data-ru="Изменение порядка"></h4>
+    <p class="i18n" data-ja="サイドバーのタブをドラッグで並べ替えできます。" data-en="Drag tabs in the sidebar to reorder." data-zh="可在侧边栏拖动标签进行排序。" data-zh-tw="可在側邊欄拖曳標籤進行排序。" data-ko="사이드바의 탭을 드래그하여 순서를 변경할 수 있습니다." data-es="Arrastra las pestañas en la barra lateral para reordenarlas." data-pt-br="Arraste as abas na barra lateral para reordená-las." data-de="Tabs in der Seitenleiste per Drag sortieren." data-fr="Glissez les onglets dans la barre latérale pour les réorganiser." data-ru="Перетаскивайте вкладки в боковой панели, чтобы изменить их порядок."></p>
 
-    <h4 class="i18n" data-ja="名前の変更" data-en="Rename"></h4>
-    <p class="i18n" data-ja="サイドバーのタブを右クリック →「名前を変更」" data-en="Right-click a tab in the sidebar → 'Rename'"></p>
-    <p class="i18n" data-ja="またはダブルクリックで直接名前を編集できます。" data-en="Or double-click to edit the name directly."></p>
+    <h4 class="i18n" data-ja="名前の変更" data-en="Rename" data-zh="重命名" data-zh-tw="重新命名" data-ko="이름 변경" data-es="Renombrar" data-pt-br="Renomear" data-de="Umbenennen" data-fr="Renommer" data-ru="Переименование"></h4>
+    <p class="i18n" data-ja="サイドバーで対象を右クリック →「名前を変更」で編集できます。" data-en="Right-click an item in the sidebar → “Rename” to edit the name." data-zh="在侧边栏右键目标 →「重命名」即可编辑。" data-zh-tw="在側邊欄按右鍵目標 →「重新命名」即可編輯。" data-ko="사이드바에서 대상을 우클릭 → '이름 변경'으로 편집할 수 있습니다." data-es="Clic derecho en un elemento de la barra lateral → «Renombrar» para editar el nombre." data-pt-br="Clique com o botão direito em um item da barra lateral → «Renomear» para editar o nome." data-de="Per Rechtsklick auf das Element in der Seitenleiste → „Umbenennen“ bearbeiten." data-fr="Clic droit sur un élément dans la barre latérale → « Renommer » pour modifier le nom." data-ru="Щёлкните правой кнопкой по элементу в боковой панели → «Переименовать»."></p>
+    <p class="i18n" data-ja="または対象を選択して F2 キーで編集できます。" data-en="Or select an item and press F2 to edit the name." data-zh="也可以选中目标后按 F2 键进行编辑。" data-zh-tw="也可以選取目標後按 F2 鍵進行編輯。" data-ko="또는 대상을 선택한 뒤 F2 키로 편집할 수 있습니다." data-es="O selecciona un elemento y pulsa F2 para editar el nombre." data-pt-br="Ou selecione um item e pressione F2 para editar o nome." data-de="Oder wählen Sie ein Element aus und drücken F2 zum Bearbeiten." data-fr="Ou sélectionnez un élément et appuyez sur F2 pour modifier le nom." data-ru="Либо выделите элемент и нажмите F2."></p>
   </div>
 </div>
 
 <!-- Connection -->
 <div class="section" id="connection">
-  <h2 class="section-title i18n" data-ja="接続" data-en="Connection"></h2>
+  <h2 class="section-title i18n" data-ja="接続" data-en="Connection" data-zh="连接" data-zh-tw="連接" data-ko="연결" data-es="Conexión" data-pt-br="Conexão" data-de="Verbindung" data-fr="Connexion" data-ru="Соединение"></h2>
   <img src="images/connection_ja.jpg" alt="Connection" class="help-img" data-img-ja="images/connection_ja.jpg" data-img-en="images/connection_en.jpg">
   <div class="simple-content">
-    <h4 class="i18n" data-ja="接続線" data-en="Connection Line"></h4>
-    <p class="i18n" data-ja="テキスト同士を線で接続できます。テキストを選択して右クリック →「接続」で接続モードに入ります。" data-en="Connect text elements with lines. Select a text, right-click → 'Connect' to enter connection mode."></p>
-    <p class="i18n" data-ja="接続先のテキストをクリックすると線が作成されます。画像にも接続できます。" data-en="Click the target text to create a connection line. Images can also be connected."></p>
+    <h4 class="i18n" data-ja="接続線" data-en="Connection Line" data-zh="连接线" data-zh-tw="連接線" data-ko="연결선" data-es="Línea de conexión" data-pt-br="Linha de conexão" data-de="Verbindungslinie" data-fr="Ligne de connexion" data-ru="Линия соединения"></h4>
+    <p class="i18n" data-ja="テキスト同士を線で接続できます。テキストを選択して右クリック →「接続」で接続モードに入ります。" data-en="Connect text elements with lines. Select a text, right-click → 'Connect' to enter connection mode." data-zh="可以用线连接文本。选中文本后右键 →「连接」进入连接模式。" data-zh-tw="可以用線連接文字。選取文字後按右鍵 →「連接」進入連接模式。" data-ko="텍스트끼리 선으로 연결할 수 있습니다. 텍스트를 선택하고 우클릭 → '연결'로 연결 모드에 들어갑니다." data-es="Conecta textos mediante líneas. Selecciona un texto, clic derecho → «Conectar» para entrar al modo conexión." data-pt-br="Conecte textos com linhas. Selecione um texto, clique com o botão direito → «Conectar» para entrar no modo conexão." data-de="Verbinden Sie Texte mit Linien. Text auswählen, Rechtsklick → „Verbinden“, um in den Verbindungsmodus zu wechseln." data-fr="Reliez les textes par des lignes. Sélectionnez un texte, clic droit → « Connecter » pour entrer en mode connexion." data-ru="Соединяйте тексты линиями. Выделите текст, правый клик → «Соединить», чтобы войти в режим соединения."></p>
+    <p class="i18n" data-ja="接続先のテキストをクリックすると線が作成されます。画像にも接続できます。" data-en="Click the target text to create a connection line. Images can also be connected." data-zh="点击目标文本即可创建连接线。也可以连接到图像。" data-zh-tw="點擊目標文字即可建立連接線。也可以連接到圖片。" data-ko="대상 텍스트를 클릭하면 선이 생성됩니다. 이미지에도 연결할 수 있습니다." data-es="Haz clic en el texto destino para crear la línea. También puedes conectar imágenes." data-pt-br="Clique no texto de destino para criar a linha. Imagens também podem ser conectadas." data-de="Klicken Sie auf den Zieltext, um eine Verbindungslinie zu erstellen. Auch Bilder lassen sich verbinden." data-fr="Cliquez sur le texte cible pour créer la ligne. Les images peuvent aussi être connectées." data-ru="Щёлкните по целевому тексту, чтобы создать линию. Изображения также можно соединять."></p>
 
-    <h4 class="i18n" data-ja="接続線テキスト" data-en="Connection Line Text"></h4>
-    <p class="i18n" data-ja="接続線の間の〇をクリックするとテキストを入力できます。" data-en="Click the circle on the connection line to enter text."></p>
+    <h4 class="i18n" data-ja="接続線テキスト" data-en="Connection Line Text" data-zh="连接线文本" data-zh-tw="連接線文字" data-ko="연결선 텍스트" data-es="Texto de la línea de conexión" data-pt-br="Texto da linha de conexão" data-de="Text der Verbindungslinie" data-fr="Texte de la ligne de connexion" data-ru="Текст линии соединения"></h4>
+    <p class="i18n" data-ja="接続線の間の〇をクリックするとテキストを入力できます。" data-en="Click the circle on the connection line to enter text." data-zh="点击连接线中间的 〇 即可输入文本。" data-zh-tw="點擊連接線中間的 〇 即可輸入文字。" data-ko="연결선의 가운데 ○를 클릭하면 텍스트를 입력할 수 있습니다." data-es="Haz clic en el círculo de la línea de conexión para introducir texto." data-pt-br="Clique no círculo na linha de conexão para inserir texto." data-de="Klicken Sie auf den Kreis auf der Verbindungslinie, um Text einzugeben." data-fr="Cliquez sur le cercle de la ligne de connexion pour saisir du texte." data-ru="Щёлкните по кружку на линии соединения, чтобы ввести текст."></p>
 
-    <h4 class="i18n" data-ja="接続線を削除" data-en="Delete Connection Line"></h4>
-    <p class="i18n" data-ja="接続線を右クリックすると削除できます。" data-en="Right-click the connection line to delete it."></p>
+    <h4 class="i18n" data-ja="接続線を削除" data-en="Delete Connection Line" data-zh="删除连接线" data-zh-tw="刪除連接線" data-ko="연결선 삭제" data-es="Eliminar línea de conexión" data-pt-br="Excluir linha de conexão" data-de="Verbindungslinie löschen" data-fr="Supprimer la ligne de connexion" data-ru="Удаление линии соединения"></h4>
+    <p class="i18n" data-ja="接続線を右クリックすると削除できます。" data-en="Right-click the connection line to delete it." data-zh="右键单击连接线即可删除。" data-zh-tw="按右鍵連接線即可刪除。" data-ko="연결선을 우클릭하면 삭제할 수 있습니다." data-es="Haz clic derecho en la línea de conexión para eliminarla." data-pt-br="Clique com o botão direito na linha de conexão para excluí-la." data-de="Per Rechtsklick auf die Verbindungslinie löschen." data-fr="Clic droit sur la ligne de connexion pour la supprimer." data-ru="Щёлкните правой кнопкой по линии соединения для её удаления."></p>
   </div>
 </div>
 
 <!-- Export -->
 <div class="section" id="export">
-  <h2 class="section-title i18n" data-ja="書き出し" data-en="Export"></h2>
+  <h2 class="section-title i18n" data-ja="書き出し" data-en="Export" data-zh="导出" data-zh-tw="匯出" data-ko="내보내기" data-es="Exportar" data-pt-br="Exportar" data-de="Export" data-fr="Exporter" data-ru="Экспорт"></h2>
   <img src="images/export_ja.jpg" alt="Export" class="help-img" data-img-ja="images/export_ja.jpg" data-img-en="images/export_en.jpg">
   <div class="simple-content">
-    <h4 class="i18n" data-ja="画像の書き出し" data-en="Export Image"></h4>
-    <p class="i18n" data-ja="ボードで右クリック →「書き出し」で全体を1枚のPNG画像として書き出せます。" data-en="Right-click on the board → 'Export' to export the entire board as a single PNG image."></p>
+    <h4 class="i18n" data-ja="画像で書き出し" data-en="Export as Image" data-zh="导出为图像" data-zh-tw="匯出為圖片" data-ko="이미지로 내보내기" data-es="Exportar como imagen" data-pt-br="Exportar como imagem" data-de="Als Bild exportieren" data-fr="Exporter en image" data-ru="Экспорт в изображение"></h4>
+    <p class="i18n" data-ja="サイドバーのタブを右クリック →「画像で書き出し」でボード全体を1枚のPNG画像として書き出せます。" data-en="Right-click a tab in the sidebar → “Export as Image” to export the entire board as a single PNG image." data-zh="在侧边栏的标签上右键 →「导出为图像」即可将整个面板导出为一张 PNG 图像。" data-zh-tw="在側邊欄的標籤上按右鍵 →「匯出為圖片」即可將整個面板匯出為一張 PNG 圖片。" data-ko="사이드바의 탭을 우클릭 → '이미지로 내보내기'로 보드 전체를 한 장의 PNG 이미지로 내보낼 수 있습니다." data-es="Clic derecho en una pestaña de la barra lateral → «Exportar como imagen» para exportar todo el tablero como una sola imagen PNG." data-pt-br="Clique com o botão direito em uma aba da barra lateral → «Exportar como imagem» para exportar o quadro inteiro em uma única imagem PNG." data-de="Per Rechtsklick auf einen Tab in der Seitenleiste → „Als Bild exportieren“ wird das gesamte Board als einzelnes PNG-Bild exportiert." data-fr="Clic droit sur un onglet dans la barre latérale → « Exporter en image » pour exporter tout le tableau en une seule image PNG." data-ru="Правый клик по вкладке в боковой панели → «Экспорт в изображение» сохранит всю доску как один PNG-файл."></p>
 
-    <h4 class="i18n" data-ja="テキストの書き出し" data-en="Export Text"></h4>
-    <p class="i18n" data-ja="サイドバーのタブを右クリック →「テキストの書き出し」で、ボード内のテキストを.txtファイルとして保存できます。" data-en="Right-click a tab in the sidebar → 'Export Text' to save the board's text as a .txt file."></p>
-    <p class="i18n" data-ja="複数タブを選択している場合はひとつのファイルに結合されたテキストが作成できます。" data-en="When multiple tabs are selected, the text is merged into one file."></p>
+    <h4 class="i18n" data-ja="テキストで書き出し" data-en="Export as Text" data-zh="导出为文本" data-zh-tw="匯出為文字" data-ko="텍스트로 내보내기" data-es="Exportar como texto" data-pt-br="Exportar como texto" data-de="Als Text exportieren" data-fr="Exporter en texte" data-ru="Экспорт в текст"></h4>
+    <p class="i18n" data-ja="サイドバーのタブを右クリック →「テキストで書き出し」で" data-en="Right-click a tab in the sidebar → “Export as Text”" data-zh="在侧边栏的标签上右键 →「导出为文本」" data-zh-tw="在側邊欄的標籤上按右鍵 →「匯出為文字」" data-ko="사이드바의 탭을 우클릭 → '텍스트로 내보내기'" data-es="Clic derecho en una pestaña de la barra lateral → «Exportar como texto»" data-pt-br="Clique com o botão direito em uma aba da barra lateral → «Exportar como texto»" data-de="Per Rechtsklick auf einen Tab in der Seitenleiste → „Als Text exportieren“" data-fr="Clic droit sur un onglet dans la barre latérale → « Exporter en texte »" data-ru="Правый клик по вкладке в боковой панели → «Экспорт в текст»"></p>
+    <p class="i18n" data-ja="ボード内のテキストを.txtファイルとして保存できます。" data-en="to save the board's text as a .txt file." data-zh="可将面板内的文本保存为 .txt 文件。" data-zh-tw="可將面板內的文字儲存為 .txt 檔案。" data-ko="으로 보드 내 텍스트를 .txt 파일로 저장할 수 있습니다." data-es="para guardar el texto del tablero como archivo .txt." data-pt-br="para salvar o texto do quadro como arquivo .txt." data-de="speichert den Text des Boards als .txt-Datei." data-fr="permet d'enregistrer le texte du tableau au format .txt." data-ru="сохраняет текст доски в файл .txt."></p>
+    <p class="i18n" data-ja="複数タブを選択している場合はひとつのファイルに結合されたテキストが作成できます。" data-en="When multiple tabs are selected, the text is merged into one file." data-zh="选中多个标签时，文本将合并为一个文件。" data-zh-tw="選取多個標籤時，文字將合併為一個檔案。" data-ko="여러 탭이 선택되어 있는 경우 하나의 파일로 결합된 텍스트를 만들 수 있습니다." data-es="Si hay varias pestañas seleccionadas, el texto se combina en un solo archivo." data-pt-br="Quando várias abas estão selecionadas, o texto é combinado em um único arquivo." data-de="Sind mehrere Tabs ausgewählt, wird der Text in eine einzige Datei zusammengeführt." data-fr="Si plusieurs onglets sont sélectionnés, le texte est fusionné en un seul fichier." data-ru="Если выбрано несколько вкладок, текст объединяется в один файл."></p>
   </div>
 </div>
 
 <!-- 6. Features -->
 <div class="section" id="features">
-  <h2 class="section-title i18n" data-ja="その他の機能" data-en="Other Features"></h2>
+  <h2 class="section-title i18n" data-ja="その他の機能" data-en="Other Features" data-zh="其他功能" data-zh-tw="其他功能" data-ko="기타 기능" data-es="Otras funciones" data-pt-br="Outros recursos" data-de="Weitere Funktionen" data-fr="Autres fonctions" data-ru="Прочие функции"></h2>
   <img src="images/features_ja.jpg" alt="Features" class="help-img" data-img-ja="images/features_ja.jpg" data-img-en="images/features_en.jpg">
 
   <div class="simple-content">
-    <h4 class="i18n" data-ja="メモウィンドウ" data-en="Memo Window"></h4>
-    <p class="i18n" data-ja="ボード上で右クリックから作成できます。ドラッグ可能な浮遊メモです。" data-en="Create from right-click on the board. A floating draggable memo."></p>
-    <p class="i18n" data-ja="＋ボタンでメモをさらに追加、×ボタンで削除、↓アイコンで格納できます。" data-en="Use + to add more memos, × to delete, and ↓ to collapse."></p>
+    <h4 class="i18n" data-ja="メモウィンドウ" data-en="Memo Window" data-zh="备忘窗口" data-zh-tw="備忘視窗" data-ko="메모 창" data-es="Ventana de notas" data-pt-br="Janela de memorando" data-de="Memo-Fenster" data-fr="Fenêtre de mémo" data-ru="Окно заметок"></h4>
+    <p class="i18n" data-ja="ボード上で右クリックから作成できます。ドラッグ可能な浮遊メモです。" data-en="Create from right-click on the board. A floating draggable memo." data-zh="可在面板上右键创建。是可拖动的浮动备忘。" data-zh-tw="可在面板上按右鍵建立。是可拖曳的浮動備忘。" data-ko="보드에서 우클릭으로 생성할 수 있습니다. 드래그 가능한 부유 메모입니다." data-es="Créala desde el clic derecho en el tablero. Es una nota flotante y arrastrable." data-pt-br="Crie pelo clique direito no quadro. É um memorando flutuante e arrastável." data-de="Per Rechtsklick auf das Board erstellen. Ein verschiebbares, schwebendes Memo." data-fr="Créez-la via un clic droit sur le tableau. Un mémo flottant déplaçable." data-ru="Создаётся правым кликом по доске. Перетаскиваемая плавающая заметка."></p>
+    <p class="i18n" data-ja="＋ボタンでメモをさらに追加、×ボタンで削除、↓アイコンで格納できます。" data-en="Use + to add more memos, × to delete, and ↓ to collapse." data-zh="用 ＋ 按钮添加更多备忘，× 删除，↓ 收起。" data-zh-tw="用 ＋ 按鈕新增更多備忘，× 刪除，↓ 收起。" data-ko="＋ 버튼으로 메모를 추가, × 버튼으로 삭제, ↓ 아이콘으로 접을 수 있습니다." data-es="Usa + para añadir más notas, × para borrarlas y ↓ para contraerlas." data-pt-br="Use + para adicionar mais memorandos, × para excluir e ↓ para recolher." data-de="Mit ＋ weitere Memos hinzufügen, mit × löschen und mit ↓ einklappen." data-fr="Utilisez ＋ pour ajouter d'autres mémos, × pour supprimer et ↓ pour réduire." data-ru="Кнопка ＋ добавляет ещё одну заметку, × удаляет, ↓ сворачивает."></p>
 
-    <h4 class="i18n" data-ja="アイコンパレット" data-en="Icon Palette"></h4>
-    <p class="i18n" data-ja="ボード上で右クリックからアイコンパレットを表示できます。" data-en="Right-click on the board to show the icon palette."></p>
-    <p class="i18n" data-ja="評価・矢印・タスク・構造・記号などのアイコンをボードに追加できます。" data-en="Add icons for ratings, arrows, tasks, structure, and symbols to the board."></p>
+    <h4 class="i18n" data-ja="アイコンパレット" data-en="Icon Palette" data-zh="图标面板" data-zh-tw="圖示面板" data-ko="아이콘 팔레트" data-es="Paleta de iconos" data-pt-br="Paleta de ícones" data-de="Icon-Palette" data-fr="Palette d'icônes" data-ru="Палитра значков"></h4>
+    <p class="i18n" data-ja="ボード上で右クリックからアイコンパレットを表示できます。" data-en="Right-click on the board to show the icon palette." data-zh="在面板上右键即可显示图标面板。" data-zh-tw="在面板上按右鍵即可顯示圖示面板。" data-ko="보드에서 우클릭하면 아이콘 팔레트를 표시할 수 있습니다." data-es="Clic derecho en el tablero para mostrar la paleta de iconos." data-pt-br="Clique com o botão direito no quadro para exibir a paleta de ícones." data-de="Per Rechtsklick auf das Board die Icon-Palette anzeigen." data-fr="Clic droit sur le tableau pour afficher la palette d'icônes." data-ru="Правый клик по доске открывает палитру значков."></p>
+    <p class="i18n" data-ja="評価・矢印・タスク・構造・記号などのアイコンをボードに追加できます。" data-en="Add icons for ratings, arrows, tasks, structure, and symbols to the board." data-zh="可向面板添加评价、箭头、任务、结构、符号等图标。" data-zh-tw="可向面板新增評價、箭頭、任務、結構、符號等圖示。" data-ko="평가·화살표·작업·구조·기호 등의 아이콘을 보드에 추가할 수 있습니다." data-es="Añade iconos de valoración, flechas, tareas, estructura, símbolos y más al tablero." data-pt-br="Adicione ícones de avaliação, setas, tarefas, estrutura, símbolos e outros ao quadro." data-de="Fügen Sie dem Board Symbole für Bewertungen, Pfeile, Aufgaben, Struktur, Zeichen u. v. m. hinzu." data-fr="Ajoutez au tableau des icônes d'évaluation, de flèches, de tâches, de structure, de symboles, etc." data-ru="Добавляйте на доску значки оценок, стрелок, задач, структур, символов и т. п."></p>
 
-    <h4 class="i18n" data-ja="拡大・縮小" data-en="Zoom"></h4>
-    <p class="i18n" data-ja="タイトルバーの左上の虫眼鏡の＋−を押すと、全体の拡大・縮小ができます。" data-en="Click the magnifying glass +/- at the top left of the title bar to zoom in and out."></p>
-    <p class="i18n" data-ja="高解像度モニターなどで見づらい場合に調整できます。" data-en="Useful for adjusting on high-resolution monitors."></p>
+    <h4 class="i18n" data-ja="拡大・縮小" data-en="Zoom" data-zh="缩放" data-zh-tw="縮放" data-ko="확대·축소" data-es="Zoom" data-pt-br="Zoom" data-de="Zoom" data-fr="Zoom" data-ru="Масштабирование"></h4>
+    <p class="i18n" data-ja="タイトルバーの左上の虫眼鏡の＋−を押すと、全体の拡大・縮小ができます。" data-en="Click the magnifying glass +/- at the top left of the title bar to zoom in and out." data-zh="点击标题栏左上角的放大镜 ＋− 即可整体缩放。" data-zh-tw="點擊標題列左上角的放大鏡 ＋− 即可整體縮放。" data-ko="타이틀 바 왼쪽 상단의 돋보기 ＋−를 누르면 전체를 확대·축소할 수 있습니다." data-es="Haz clic en la lupa ＋− de la parte superior izquierda de la barra de título para ampliar o reducir." data-pt-br="Clique na lupa ＋− no canto superior esquerdo da barra de título para ampliar ou reduzir." data-de="Klicken Sie auf das Lupensymbol ＋− oben links in der Titelleiste, um zu zoomen." data-fr="Cliquez sur la loupe ＋− en haut à gauche de la barre de titre pour zoomer/dézoomer." data-ru="Лупа ＋− в верхнем левом углу заголовка увеличивает и уменьшает масштаб."></p>
+    <p class="i18n" data-ja="高解像度モニターなどで見づらい場合に調整できます。" data-en="Useful for adjusting on high-resolution monitors." data-zh="在高分辨率显示器等情况下不易看清时可进行调整。" data-zh-tw="在高解析度顯示器等情況下不易看清時可調整。" data-ko="고해상도 모니터 등에서 보기 어려울 때 조정할 수 있습니다." data-es="Útil para ajustar en monitores de alta resolución." data-pt-br="Útil para ajustes em monitores de alta resolução." data-de="Hilfreich zur Anpassung an hochauflösende Monitore." data-fr="Utile pour ajuster l'affichage sur les moniteurs haute résolution." data-ru="Удобно для настройки на мониторах с высоким разрешением."></p>
 
-    <h4 class="i18n" data-ja="最前面表示" data-en="Always on Top"></h4>
-    <p class="i18n" data-ja="タイトルバーの右上のピンマークを押すと、最前面表示になります。" data-en="Click the pin icon at the top right of the title bar to enable always-on-top mode."></p>
+    <h4 class="i18n" data-ja="最前面表示" data-en="Always on Top" data-zh="置顶显示" data-zh-tw="置頂顯示" data-ko="항상 위 표시" data-es="Siempre encima" data-pt-br="Sempre no topo" data-de="Immer im Vordergrund" data-fr="Toujours au premier plan" data-ru="Поверх всех окон"></h4>
+    <p class="i18n" data-ja="タイトルバーの右上のピンマークを押すと、最前面表示になります。" data-en="Click the pin icon at the top right of the title bar to enable always-on-top mode." data-zh="点击标题栏右上角的图钉图标可启用置顶显示。" data-zh-tw="點擊標題列右上角的圖釘圖示可啟用置頂顯示。" data-ko="타이틀 바 오른쪽 상단의 핀 아이콘을 누르면 항상 위에 표시됩니다." data-es="Pulsa el icono de chincheta en la parte superior derecha de la barra de título para mantener la ventana siempre encima." data-pt-br="Clique no ícone de alfinete no canto superior direito da barra de título para manter a janela sempre no topo." data-de="Klicken Sie oben rechts in der Titelleiste auf das Pin-Symbol, um den Vordergrundmodus zu aktivieren." data-fr="Cliquez sur l'épingle en haut à droite de la barre de titre pour activer le mode toujours au premier plan." data-ru="Нажмите значок булавки в правом верхнем углу заголовка, чтобы окно отображалось поверх остальных."></p>
 
-    <h4 class="i18n" data-ja="プロジェクト名の表示" data-en="Project Name Display"></h4>
-    <p class="i18n" data-ja="設定 → その他タブで、ボード上部のプロジェクト名を非表示にできます。" data-en="In Settings → Misc tab, you can hide the project name at the top of the board."></p>
+    <h4 class="i18n" data-ja="プロジェクト名の表示" data-en="Project Name Display" data-zh="项目名显示" data-zh-tw="專案名顯示" data-ko="프로젝트명 표시" data-es="Mostrar nombre de proyecto" data-pt-br="Exibir nome do projeto" data-de="Projektname anzeigen" data-fr="Affichage du nom de projet" data-ru="Отображение имени проекта"></h4>
+    <p class="i18n" data-ja="設定 → その他タブで、ボード上部のプロジェクト名を非表示にできます。" data-en="In Settings → Misc tab, you can hide the project name at the top of the board." data-zh="在 设置 → 其他 标签中可隐藏面板上方的项目名。" data-zh-tw="在 設定 → 其他 標籤中可隱藏面板上方的專案名。" data-ko="설정 → 기타 탭에서 보드 상단의 프로젝트명을 숨길 수 있습니다." data-es="En Configuración → pestaña Misc, puedes ocultar el nombre del proyecto en la parte superior del tablero." data-pt-br="Em Configurações → aba Misc, é possível ocultar o nome do projeto na parte superior do quadro." data-de="Unter Einstellungen → Tab „Sonstiges“ können Sie den Projektnamen oben am Board ausblenden." data-fr="Dans Paramètres → onglet Divers, vous pouvez masquer le nom du projet en haut du tableau." data-ru="В Настройки → вкладка «Прочее» можно скрыть имя проекта в верхней части доски."></p>
 
-    <h4 class="i18n" data-ja="ボード名の表示" data-en="Board Name Display"></h4>
-    <p class="i18n" data-ja="設定 → その他タブで、ボード上部のボード名を非表示にできます。" data-en="In Settings → Misc tab, you can hide the board name at the top of the board."></p>
+    <h4 class="i18n" data-ja="ボード名の表示" data-en="Board Name Display" data-zh="面板名显示" data-zh-tw="面板名顯示" data-ko="보드명 표시" data-es="Mostrar nombre de tablero" data-pt-br="Exibir nome do quadro" data-de="Boardname anzeigen" data-fr="Affichage du nom de tableau" data-ru="Отображение имени доски"></h4>
+    <p class="i18n" data-ja="設定 → その他タブで、ボード上部のボード名を非表示にできます。" data-en="In Settings → Misc tab, you can hide the board name at the top of the board." data-zh="在 设置 → 其他 标签中可隐藏面板上方的面板名。" data-zh-tw="在 設定 → 其他 標籤中可隱藏面板上方的面板名。" data-ko="설정 → 기타 탭에서 보드 상단의 보드명을 숨길 수 있습니다." data-es="En Configuración → pestaña Misc, puedes ocultar el nombre del tablero en la parte superior." data-pt-br="Em Configurações → aba Misc, é possível ocultar o nome do quadro na parte superior." data-de="Unter Einstellungen → Tab „Sonstiges“ können Sie den Boardnamen oben am Board ausblenden." data-fr="Dans Paramètres → onglet Divers, vous pouvez masquer le nom du tableau en haut." data-ru="В Настройки → вкладка «Прочее» можно скрыть имя доски в верхней части."></p>
 
-    <h4 class="i18n" data-ja="ボード名の下線ライン" data-en="Board Name Underline"></h4>
-    <p class="i18n" data-ja="設定 → その他タブで、ボード名下のアクセントラインを非表示にできます。" data-en="In Settings → Misc tab, you can hide the accent line under the board name."></p>
+    <h4 class="i18n" data-ja="ボード名の下線ライン" data-en="Board Name Underline" data-zh="面板名下划线" data-zh-tw="面板名底線" data-ko="보드명 밑줄 라인" data-es="Subrayado del nombre del tablero" data-pt-br="Sublinhado do nome do quadro" data-de="Unterstrich des Boardnamens" data-fr="Soulignement du nom de tableau" data-ru="Подчёркивание имени доски"></h4>
+    <p class="i18n" data-ja="設定 → その他タブで、ボード名下のアクセントラインを非表示にできます。" data-en="In Settings → Misc tab, you can hide the accent line under the board name." data-zh="在 设置 → 其他 标签中可隐藏面板名下方的强调线。" data-zh-tw="在 設定 → 其他 標籤中可隱藏面板名下方的強調線。" data-ko="설정 → 기타 탭에서 보드명 아래의 액센트 라인을 숨길 수 있습니다." data-es="En Configuración → pestaña Misc, puedes ocultar la línea de acento bajo el nombre del tablero." data-pt-br="Em Configurações → aba Misc, é possível ocultar a linha de destaque abaixo do nome do quadro." data-de="Unter Einstellungen → Tab „Sonstiges“ können Sie die Akzentlinie unter dem Boardnamen ausblenden." data-fr="Dans Paramètres → onglet Divers, vous pouvez masquer la ligne d'accent sous le nom du tableau." data-ru="В Настройки → вкладка «Прочее» можно скрыть акцентную линию под именем доски."></p>
 
-    <h4 class="i18n" data-ja="ボードの完了チェック" data-en="Board Done Checkbox"></h4>
-    <p class="i18n" data-ja="設定 → その他タブで、サイドバーのボードタブの完了チェックボタンを表示できます。" data-en="In Settings → Misc tab, you can show the completion checkbox on sidebar board tabs."></p>
+    <h4 class="i18n" data-ja="ボードの完了チェック" data-en="Board Done Checkbox" data-zh="面板完成勾选" data-zh-tw="面板完成勾選" data-ko="보드 완료 체크" data-es="Casilla de completado del tablero" data-pt-br="Caixa de conclusão do quadro" data-de="Board-Erledigt-Kontrollkästchen" data-fr="Case d'achèvement du tableau" data-ru="Отметка выполнения доски"></h4>
+    <p class="i18n" data-ja="設定 → その他タブで、サイドバーのボードタブの完了チェックボタンを表示できます。" data-en="In Settings → Misc tab, you can show the completion checkbox on sidebar board tabs." data-zh="在 设置 → 其他 标签中可显示侧边栏面板标签的完成勾选按钮。" data-zh-tw="在 設定 → 其他 標籤中可顯示側邊欄面板標籤的完成勾選按鈕。" data-ko="설정 → 기타 탭에서 사이드바의 보드 탭에 완료 체크 버튼을 표시할 수 있습니다." data-es="En Configuración → pestaña Misc, puedes mostrar la casilla de completado en las pestañas de tablero de la barra lateral." data-pt-br="Em Configurações → aba Misc, é possível exibir a caixa de conclusão nas abas de quadro da barra lateral." data-de="Unter Einstellungen → Tab „Sonstiges“ können Sie das Erledigt-Kontrollkästchen für Board-Tabs in der Seitenleiste anzeigen." data-fr="Dans Paramètres → onglet Divers, vous pouvez afficher la case d'achèvement sur les onglets de tableau de la barre latérale." data-ru="В Настройки → вкладка «Прочее» можно показать кнопку отметки выполнения для вкладок доски в боковой панели."></p>
 
-    <h4 class="i18n" data-ja="タッチ操作" data-en="Touch Controls"></h4>
-    <p class="i18n" data-ja="タップでボードタブを選択、スワイプでスクロール、ピンチで拡大・縮小ができます。" data-en="Tap to select a board tab, swipe to scroll, and pinch to zoom in or out."></p>
+    <h4 class="i18n" data-ja="タブ背景をオフ" data-en="Tab Background Off" data-zh="关闭标签背景" data-zh-tw="關閉標籤背景" data-ko="탭 배경 끄기" data-es="Desactivar fondo de pestañas" data-pt-br="Desativar fundo das abas" data-de="Tab-Hintergrund aus" data-fr="Désactiver le fond des onglets" data-ru="Отключить фон вкладок"></h4>
+    <p class="i18n" data-ja="設定 → その他タブで、ボードタブの背景色を非表示にすることができます。" data-en="In Settings → Misc tab, you can hide the background color of board tabs." data-zh="在 设置 → 其他 标签中可隐藏面板标签的背景色。" data-zh-tw="在 設定 → 其他 標籤中可隱藏面板標籤的背景色。" data-ko="설정 → 기타 탭에서 보드 탭의 배경색을 숨길 수 있습니다." data-es="En Configuración → pestaña Misc, puedes ocultar el color de fondo de las pestañas de tablero." data-pt-br="Em Configurações → aba Misc, é possível ocultar a cor de fundo das abas de quadro." data-de="Unter Einstellungen → Tab „Sonstiges“ können Sie die Hintergrundfarbe der Board-Tabs ausblenden." data-fr="Dans Paramètres → onglet Divers, vous pouvez masquer la couleur de fond des onglets de tableau." data-ru="В Настройки → вкладка «Прочее» можно скрыть цвет фона вкладок доски."></p>
+
+    <h4 class="i18n" data-ja="タッチ操作" data-en="Touch Controls" data-zh="触控操作" data-zh-tw="觸控操作" data-ko="터치 조작" data-es="Controles táctiles" data-pt-br="Controles por toque" data-de="Touch-Steuerung" data-fr="Contrôles tactiles" data-ru="Управление касаниями"></h4>
+    <p class="i18n" data-ja="タップでボードタブを選択、スワイプでスクロール、ピンチで拡大・縮小ができます。" data-en="Tap to select a board tab, swipe to scroll, and pinch to zoom in or out." data-zh="点按选择面板标签，滑动滚动，捏合进行缩放。" data-zh-tw="點按選擇面板標籤，滑動捲動，捏合進行縮放。" data-ko="탭으로 보드 탭을 선택, 스와이프로 스크롤, 핀치로 확대·축소할 수 있습니다." data-es="Toca para seleccionar una pestaña, desliza para desplazar y pellizca para hacer zoom." data-pt-br="Toque para selecionar uma aba, deslize para rolar e use pinça para aplicar zoom." data-de="Tippen wählt einen Board-Tab aus, Wischen scrollt, Zwei-Finger-Geste zoomt." data-fr="Touchez pour sélectionner un onglet, glissez pour défiler, pincez pour zoomer." data-ru="Касание выбирает вкладку, свайп прокручивает, щипок изменяет масштаб."></p>
+
+    <h4 class="i18n" data-ja="ボードの合成" data-en="Merge Boards" data-zh="面板合并" data-zh-tw="面板合併" data-ko="보드 병합" data-es="Fusionar tableros" data-pt-br="Mesclar quadros" data-de="Boards zusammenführen" data-fr="Fusionner les tableaux" data-ru="Объединение досок"></h4>
+    <p class="i18n" data-ja="作成済みの.txvファイルと、現在開いているファイルのボードを合成することができます。" data-en="You can merge boards from a previously saved .txv file into the currently open file." data-zh="可以将已创建的 .txv 文件与当前打开的文件中的面板合并。" data-zh-tw="可以將已建立的 .txv 檔案與目前開啟的檔案中的面板合併。" data-ko="이미 만들어진 .txv 파일과 현재 열려 있는 파일의 보드를 합칠 수 있습니다." data-es="Puedes fusionar los tableros de un archivo .txv guardado con el archivo abierto actualmente." data-pt-br="É possível mesclar os quadros de um arquivo .txv salvo com o arquivo aberto no momento." data-de="Sie können die Boards aus einer bereits erstellten .txv-Datei mit der aktuell geöffneten Datei zusammenführen." data-fr="Vous pouvez fusionner les tableaux d'un fichier .txv existant avec le fichier actuellement ouvert." data-ru="Доски из сохранённого ранее файла .txv можно объединить с текущим открытым файлом."></p>
 
   </div>
 </div>
 
 <!-- 7. Settings -->
 <div class="section" id="settings">
-  <h2 class="section-title i18n" data-ja="設定" data-en="Settings"></h2>
+  <h2 class="section-title i18n" data-ja="設定" data-en="Settings" data-zh="设置" data-zh-tw="設定" data-ko="설정" data-es="Configuración" data-pt-br="Configurações" data-de="Einstellungen" data-fr="Paramètres" data-ru="Настройки"></h2>
   <img src="images/settings_ja.jpg" alt="Settings" class="help-img" data-img-ja="images/settings_ja.jpg" data-img-en="images/settings_en.jpg">
 
   <div class="simple-content">
-    <h4 class="i18n" data-ja="設定" data-en="Settings"></h4>
-    <p class="i18n" data-ja="設定はタイトルバーの左上の歯車アイコンから開けます。" data-en="Open settings from the gear icon at the top left of the title bar."></p>
+    <h4 class="i18n" data-ja="設定" data-en="Settings" data-zh="设置" data-zh-tw="設定" data-ko="설정" data-es="Configuración" data-pt-br="Configurações" data-de="Einstellungen" data-fr="Paramètres" data-ru="Настройки"></h4>
+    <p class="i18n" data-ja="設定はタイトルバーの左上の歯車アイコンから開けます。" data-en="Open settings from the gear icon at the top left of the title bar." data-zh="可通过标题栏左上角的齿轮图标打开设置。" data-zh-tw="可透過標題列左上角的齒輪圖示開啟設定。" data-ko="설정은 타이틀 바 왼쪽 상단의 톱니바퀴 아이콘에서 열 수 있습니다." data-es="Abre la configuración desde el icono de engranaje en la parte superior izquierda de la barra de título." data-pt-br="Abra as configurações pelo ícone de engrenagem no canto superior esquerdo da barra de título." data-de="Öffnen Sie die Einstellungen über das Zahnradsymbol oben links in der Titelleiste." data-fr="Ouvrez les paramètres via l'icône engrenage en haut à gauche de la barre de titre." data-ru="Настройки открываются по значку шестерёнки в левом верхнем углу заголовка."></p>
 
-    <h4 class="i18n" data-ja="カラー" data-en="Colors"></h4>
-    <p class="i18n" data-ja="8種類のカラープリセットから選択、変更できます。テーマカラーはUI全体のイメージを変更することができます。テキストカラーは、リッチテキストで使われるカラースウォッチを変更することができます。" data-en="Choose from 8 color presets and customize them. Theme colors change the overall UI appearance. Text colors change the color swatches used in rich text."></p>
+    <h4 class="i18n" data-ja="カラー" data-en="Colors" data-zh="颜色" data-zh-tw="顏色" data-ko="색상" data-es="Colores" data-pt-br="Cores" data-de="Farben" data-fr="Couleurs" data-ru="Цвета"></h4>
+    <p class="i18n" data-ja="8種類のカラープリセットから選択、変更できます。テーマカラーはUI全体のイメージを変更することができます。テキストカラーは、リッチテキストで使われるカラースウォッチを変更することができます。" data-en="Choose from 8 color presets and customize them. Theme colors change the overall UI appearance. Text colors change the color swatches used in rich text." data-zh="可从 8 种颜色预设中选择和更改。主题颜色用于更改整个 UI 的外观。文本颜色用于更改富文本中使用的色板。" data-zh-tw="可從 8 種顏色預設中選擇與變更。主題顏色用於變更整個 UI 的外觀。文字顏色用於變更豐富文字中使用的色票。" data-ko="8가지 색상 프리셋에서 선택·변경할 수 있습니다. 테마 색상은 UI 전체의 인상을 변경할 수 있습니다. 텍스트 색상은 리치 텍스트에서 사용되는 색상 스와치를 변경할 수 있습니다." data-es="Elige entre 8 ajustes de color y personalízalos. Los colores del tema cambian la apariencia general de la interfaz. Los colores de texto cambian las muestras usadas en el texto enriquecido." data-pt-br="Escolha entre 8 predefinições de cores e personalize-as. As cores do tema alteram a aparência geral da interface. As cores de texto alteram as amostras usadas no texto formatado." data-de="Wählen Sie aus 8 Farb-Presets und passen Sie sie an. Themenfarben verändern das gesamte UI-Erscheinungsbild. Textfarben ändern die Farbfelder im Rich Text." data-fr="Choisissez parmi 8 préréglages de couleurs et personnalisez-les. Les couleurs de thème modifient l'apparence générale de l'interface. Les couleurs de texte modifient les nuanciers utilisés dans le texte enrichi." data-ru="Выберите из 8 пресетов цветов и настройте их. Цвета темы меняют общий вид интерфейса. Цвета текста — палитру для форматированного текста."></p>
+    <p class="i18n" data-ja="サイドバーカラーは、サイドバーに並ぶ項目の色を変更することができます。" data-en="Sidebar Colors let you change the color of items in the sidebar." data-zh="侧边栏颜色可用于更改侧边栏内项目的颜色。" data-zh-tw="側邊欄顏色可用於變更側邊欄內項目的顏色。" data-ko="사이드바 색상은 사이드바에 표시되는 항목의 색상을 변경할 수 있습니다." data-es="Los colores de la barra lateral te permiten cambiar el color de los elementos que aparecen allí." data-pt-br="As cores da barra lateral permitem alterar a cor dos itens listados nela." data-de="Mit den Seitenleisten-Farben ändern Sie die Farbe der Elemente in der Seitenleiste." data-fr="Les couleurs de la barre latérale permettent de modifier la couleur des éléments qui y figurent." data-ru="Цвета боковой панели позволяют менять цвет её элементов."></p>
+    <p class="i18n" data-ja="対象となるのはフォルダ・見出し・タブの色です。" data-en="The supported items are folders, headings, and tabs." data-zh="对象为文件夹、标题和标签的颜色。" data-zh-tw="對象為資料夾、標題與標籤的顏色。" data-ko="대상은 폴더·제목·탭의 색상입니다." data-es="Se aplica a carpetas, encabezados y pestañas." data-pt-br="Aplica-se a pastas, títulos e abas." data-de="Betroffen sind Farben von Ordnern, Überschriften und Tabs." data-fr="Concerne les couleurs des dossiers, titres et onglets." data-ru="Это касается цветов папок, заголовков и вкладок."></p>
 
-    <h4 class="i18n" data-ja="フォント" data-en="Fonts"></h4>
-    <p class="i18n" data-ja="日本語・英文フォントを選択できます。" data-en="Select Japanese and English fonts."></p>
-    <p class="i18n" data-ja="プロジェクト名、ボード名、タブ名のテキストサイズやボードのテキストサイズ(XS〜XL)" data-en="Adjust text sizes for project name, board name, tab name, and board text (XS–XL)."></p>
-    <p class="i18n" data-ja="行間、文字間隔を調整できます。" data-en="Adjust line height and letter spacing."></p>
+    <h4 class="i18n" data-ja="フォント" data-en="Fonts" data-zh="字体" data-zh-tw="字型" data-ko="글꼴" data-es="Fuentes" data-pt-br="Fontes" data-de="Schriftarten" data-fr="Polices" data-ru="Шрифты"></h4>
+    <p class="i18n" data-ja="お使いの PC にインストールされているローカルフォントを参照して一覧表示するため、インターネット接続なしでも全ての候補を選択できます。" data-en="The list references local fonts installed on your PC, so all options are available without an internet connection." data-zh="参考您 PC 上已安装的本地字体进行列表显示，因此无需互联网连接也可选择全部候选项。" data-zh-tw="參考您 PC 上已安裝的本機字型進行列表顯示，因此無需網路連線也可選擇全部候選項。" data-ko="PC에 설치된 로컬 글꼴을 참조하여 목록을 표시하므로 인터넷 연결 없이도 모든 후보를 선택할 수 있습니다." data-es="La lista se basa en las fuentes locales instaladas en tu PC, por lo que todas las opciones están disponibles sin conexión a internet." data-pt-br="A lista usa as fontes locais instaladas no seu PC, então todas as opções ficam disponíveis sem conexão com a internet." data-de="Die Liste greift auf lokal installierte Schriften Ihres PCs zu, sodass alle Optionen auch ohne Internet verfügbar sind." data-fr="La liste s'appuie sur les polices locales installées sur votre PC, donc toutes les options sont disponibles sans connexion internet." data-ru="Список формируется из локальных шрифтов вашего ПК — все варианты доступны и без интернета."></p>
+    <p class="i18n" data-ja="プロジェクト名、ボード名、タブ名のテキストサイズやボードのテキストサイズ(XS〜XL)" data-en="Adjust text sizes for project name, board name, tab name, and board text (XS–XL)." data-zh="可调整项目名、面板名、标签名的文字大小，以及面板文字的大小（XS〜XL）。" data-zh-tw="可調整專案名、面板名、標籤名的文字大小，以及面板文字的大小（XS〜XL）。" data-ko="프로젝트명·보드명·탭명의 텍스트 크기 및 보드 텍스트 크기(XS〜XL)" data-es="Ajusta el tamaño de texto del nombre de proyecto, tablero, pestaña y del texto del tablero (XS–XL)." data-pt-br="Ajuste o tamanho de texto do nome do projeto, do quadro, das abas e do texto do quadro (XS–XL)." data-de="Passen Sie die Textgrößen für Projektname, Boardname, Tabname und Board-Text (XS–XL) an." data-fr="Réglez la taille du texte du nom de projet, du nom de tableau, du nom d'onglet et du texte du tableau (XS–XL)." data-ru="Настройте размер шрифта для имени проекта, доски, вкладок и текста на доске (XS–XL)."></p>
+    <p class="i18n" data-ja="行間、文字間隔を調整できます。" data-en="Adjust line height and letter spacing." data-zh="可调整行距和字距。" data-zh-tw="可調整行距與字距。" data-ko="행간·자간을 조정할 수 있습니다." data-es="Puedes ajustar el interlineado y el espaciado de letras." data-pt-br="Ajuste o espaçamento entre linhas e entre letras." data-de="Zeilenhöhe und Zeichenabstand lassen sich anpassen." data-fr="Réglez l'interligne et l'espacement des lettres." data-ru="Можно настроить межстрочный и межбуквенный интервал."></p>
 
-    <h4 class="i18n" data-ja="ショートカット" data-en="Shortcuts"></h4>
-    <p class="i18n" data-ja="キーボードショートカットを自由にカスタマイズできます。キーの組み合わせを録画して設定できます。" data-en="Customize keyboard shortcuts freely. Record key combinations to set."></p>
+    <h4 class="i18n" data-ja="ショートカット" data-en="Shortcuts" data-zh="快捷键" data-zh-tw="快捷鍵" data-ko="단축키" data-es="Atajos" data-pt-br="Atalhos" data-de="Tastenkürzel" data-fr="Raccourcis" data-ru="Сочетания клавиш"></h4>
+    <p class="i18n" data-ja="キーボードショートカットを自由にカスタマイズできます。キーの組み合わせを録画して設定できます。" data-en="Customize keyboard shortcuts freely. Record key combinations to set." data-zh="可自由自定义键盘快捷键。可通过录制按键组合进行设置。" data-zh-tw="可自由自訂鍵盤快捷鍵。可透過錄製按鍵組合進行設定。" data-ko="키보드 단축키를 자유롭게 사용자 지정할 수 있습니다. 키 조합을 녹화하여 설정할 수 있습니다." data-es="Personaliza libremente los atajos de teclado. Graba las combinaciones de teclas para asignarlas." data-pt-br="Personalize livremente os atalhos de teclado. Grave combinações de teclas para defini-las." data-de="Tastenkürzel beliebig anpassbar. Tastenkombinationen lassen sich aufzeichnen und festlegen." data-fr="Personnalisez librement les raccourcis clavier. Enregistrez les combinaisons de touches pour les définir." data-ru="Свободная настройка сочетаний клавиш. Сочетания можно записать, чтобы задать их."></p>
 
-    <h4 class="i18n" data-ja="その他" data-en="Miscellaneous"></h4>
-    <p class="i18n" data-ja="プロジェクト名・ボード名の表示切替、自動保存間隔、タイムスタンプ保存を設定できます。" data-en="Toggle project/board name display, auto-save interval, and timestamp save settings."></p>
+    <h4 class="i18n" data-ja="その他" data-en="Miscellaneous" data-zh="其他" data-zh-tw="其他" data-ko="기타" data-es="Otros" data-pt-br="Outros" data-de="Sonstiges" data-fr="Divers" data-ru="Прочее"></h4>
+    <p class="i18n" data-ja="プロジェクト名・ボード名の表示切替、自動保存間隔、タイムスタンプ保存を設定できます。" data-en="Toggle project/board name display, auto-save interval, and timestamp save settings." data-zh="可设置项目名·面板名的显示切换、自动保存间隔、时间戳保存。" data-zh-tw="可設定專案名·面板名的顯示切換、自動儲存間隔、時間戳儲存。" data-ko="프로젝트명·보드명 표시 전환, 자동 저장 간격, 타임스탬프 저장을 설정할 수 있습니다." data-es="Activa o desactiva la visualización del nombre de proyecto/tablero, el intervalo de autoguardado y el guardado con marca de tiempo." data-pt-br="Alterne a exibição do nome do projeto/quadro, o intervalo de salvamento automático e o salvamento com marca de tempo." data-de="Anzeige von Projekt-/Boardname umschalten, Auto-Speicher-Intervall und Zeitstempel-Speicherung konfigurieren." data-fr="Basculez l'affichage du nom de projet/tableau, l'intervalle d'enregistrement automatique et la sauvegarde par horodatage." data-ru="Переключение отображения имени проекта/доски, интервал автосохранения и сохранение по времени."></p>
 
-    <h4 class="i18n" data-ja="UIサイズ" data-en="UI Size"></h4>
-    <p class="i18n" data-ja="UIのサイズを100〜200%の間で調整できます。" data-en="Adjust the UI size between 100% and 200%."></p>
+    <h4 class="i18n" data-ja="UIサイズ" data-en="UI Size" data-zh="UI 大小" data-zh-tw="UI 大小" data-ko="UI 크기" data-es="Tamaño de UI" data-pt-br="Tamanho da UI" data-de="UI-Größe" data-fr="Taille de l'interface" data-ru="Размер интерфейса"></h4>
+    <p class="i18n" data-ja="UIのサイズを100〜200%の間で調整できます。" data-en="Adjust the UI size between 100% and 200%." data-zh="可在 100〜200% 之间调整 UI 大小。" data-zh-tw="可在 100〜200% 之間調整 UI 大小。" data-ko="UI 크기를 100〜200% 사이에서 조정할 수 있습니다." data-es="Ajusta el tamaño de la interfaz entre el 100% y el 200%." data-pt-br="Ajuste o tamanho da interface entre 100% e 200%." data-de="Die UI-Größe kann zwischen 100 % und 200 % angepasst werden." data-fr="Ajustez la taille de l'interface entre 100 % et 200 %." data-ru="Размер интерфейса регулируется в пределах 100–200%."></p>
 
-    <h4 class="i18n" data-ja="言語" data-en="Language"></h4>
-    <p class="i18n" data-ja="日本語 / English を切り替えられます。UIのすべてのテキストが切り替わります。" data-en="Switch between Japanese and English. All UI text will update."></p>
-
-    <h4 class="i18n" data-ja="ライセンス" data-en="License"></h4>
-    <p class="i18n" data-ja="ライセンス状態の確認、シリアルキーの入力、購入ページへのリンクがあります。" data-en="Check license status, enter serial key, and link to purchase page."></p>
-    <p class="i18n" data-ja="1ライセンスにつき1台のPCでご利用いただけます。" data-en="One license is valid for one PC."></p>
+    <h4 class="i18n" data-ja="言語" data-en="Language" data-zh="语言" data-zh-tw="語言" data-ko="언어" data-es="Idioma" data-pt-br="Idioma" data-de="Sprache" data-fr="Langue" data-ru="Язык"></h4>
+    <p class="i18n" data-ja="日本語・英語・中国語・韓国語・スペイン語・ドイツ語・フランス語・ロシア語など、複数の言語に対応しています。UIのすべてのテキストが切り替わります。" data-en="Multiple languages are supported, including Japanese, English, Chinese, Korean, Spanish, German, French, Russian and more. All UI text will update." data-zh="支持日语、英语、中文、韩语、西班牙语、德语、法语、俄语等多种语言。UI 中的所有文本都会切换。" data-zh-tw="支援日語、英語、中文、韓語、西班牙語、德語、法語、俄語等多種語言。UI 中的所有文字都會切換。" data-ko="일본어·영어·중국어·한국어·스페인어·독일어·프랑스어·러시아어 등 여러 언어를 지원합니다. UI의 모든 텍스트가 전환됩니다." data-es="Se admiten varios idiomas, como japonés, inglés, chino, coreano, español, alemán, francés, ruso y más. Toda la interfaz se actualiza." data-pt-br="Suporta vários idiomas, incluindo japonês, inglês, chinês, coreano, espanhol, alemão, francês, russo e outros. Toda a interface é atualizada." data-de="Mehrere Sprachen werden unterstützt, u. a. Japanisch, Englisch, Chinesisch, Koreanisch, Spanisch, Deutsch, Französisch, Russisch. Die gesamte UI wird umgestellt." data-fr="Plusieurs langues sont prises en charge : japonais, anglais, chinois, coréen, espagnol, allemand, français, russe, etc. Toute l'interface est mise à jour." data-ru="Поддерживаются несколько языков: японский, английский, китайский, корейский, испанский, немецкий, французский, русский и другие. Весь интерфейс переключится."></p>
   </div>
 
 </div>
 
 <!-- Save -->
 <div class="section" id="save">
-  <h2 class="section-title i18n" data-ja="保存について" data-en="About Saving"></h2>
+  <h2 class="section-title i18n" data-ja="保存について" data-en="About Saving" data-zh="关于保存" data-zh-tw="關於儲存" data-ko="저장에 대해" data-es="Acerca del guardado" data-pt-br="Sobre salvamento" data-de="Über das Speichern" data-fr="À propos de l'enregistrement" data-ru="О сохранении"></h2>
   <img src="images/save_ja.jpg" alt="Save" class="help-img" data-img-ja="images/save_ja.jpg" data-img-en="images/save_en.jpg">
   <div class="simple-content">
-    <h4 class="i18n" data-ja="手動保存" data-en="Manual Save"></h4>
-    <p class="i18n" data-ja="Ctrl+Sで上書き保存、Ctrl+Shift+Sで別名保存。.txv形式で保存されます。タイトルバーの「*」マークは未保存の変更があることを示します。" data-en="Ctrl+S to save, Ctrl+Shift+S to save as. Saved in .txv format. The '*' in the title bar indicates unsaved changes."></p>
+    <h4 class="i18n" data-ja="手動保存" data-en="Manual Save" data-zh="手动保存" data-zh-tw="手動儲存" data-ko="수동 저장" data-es="Guardado manual" data-pt-br="Salvamento manual" data-de="Manuelles Speichern" data-fr="Enregistrement manuel" data-ru="Ручное сохранение"></h4>
+    <p class="i18n" data-ja="Ctrl+Sで上書き保存、Ctrl+Shift+Sで別名保存。.txv形式で保存されます。タイトルバーの「*」マークは未保存の変更があることを示します。" data-en="Ctrl+S to save, Ctrl+Shift+S to save as. Saved in .txv format. The '*' in the title bar indicates unsaved changes." data-zh="Ctrl+S 覆盖保存，Ctrl+Shift+S 另存为。以 .txv 格式保存。标题栏的「*」标记表示有未保存的更改。" data-zh-tw="Ctrl+S 覆寫儲存，Ctrl+Shift+S 另存新檔。以 .txv 格式儲存。標題列的「*」標記表示有未儲存的變更。" data-ko="Ctrl+S로 덮어쓰기 저장, Ctrl+Shift+S로 다른 이름으로 저장. .txv 형식으로 저장됩니다. 타이틀 바의 '*' 표시는 저장되지 않은 변경 사항이 있음을 나타냅니다." data-es="Ctrl+S para guardar, Ctrl+Shift+S para guardar como. Se guarda en formato .txv. El símbolo «*» en la barra de título indica cambios sin guardar." data-pt-br="Ctrl+S para salvar, Ctrl+Shift+S para salvar como. Salvo no formato .txv. O «*» na barra de título indica alterações não salvas." data-de="Strg+S zum Speichern, Strg+Umschalt+S zum Speichern unter. Im .txv-Format gespeichert. Das „*“ in der Titelleiste zeigt ungespeicherte Änderungen an." data-fr="Ctrl+S pour enregistrer, Ctrl+Maj+S pour enregistrer sous. Enregistré au format .txv. Le « * » dans la barre de titre indique des modifications non enregistrées." data-ru="Ctrl+S — сохранить, Ctrl+Shift+S — сохранить как. Файл сохраняется в формате .txv. Символ «*» в заголовке указывает на несохранённые изменения."></p>
 
-    <h4 class="i18n" data-ja="自動保存" data-en="Auto Save"></h4>
-    <p class="i18n" data-ja="設定で保存間隔を指定すると自動で上書き保存されます。10秒～90分から選択できます。一度も保存していないファイルはスキップされます。" data-en="Set a save interval in settings for automatic overwrite saving. Choose from 10 seconds to 90 minutes. Files that have never been saved are skipped."></p>
+    <h4 class="i18n" data-ja="自動保存" data-en="Auto Save" data-zh="自动保存" data-zh-tw="自動儲存" data-ko="자동 저장" data-es="Guardado automático" data-pt-br="Salvamento automático" data-de="Automatisches Speichern" data-fr="Enregistrement automatique" data-ru="Автосохранение"></h4>
+    <p class="i18n" data-ja="設定で保存間隔を指定すると自動で上書き保存されます。10秒～90分から選択できます。一度も保存していないファイルはスキップされます。" data-en="Set a save interval in settings for automatic overwrite saving. Choose from 10 seconds to 90 minutes. Files that have never been saved are skipped." data-zh="在设置中指定保存间隔后将自动覆盖保存。可从 10 秒〜90 分钟中选择。从未保存过的文件将被跳过。" data-zh-tw="在設定中指定儲存間隔後將自動覆寫儲存。可從 10 秒〜90 分鐘中選擇。從未儲存過的檔案將被略過。" data-ko="설정에서 저장 간격을 지정하면 자동으로 덮어쓰기 저장됩니다. 10초〜90분에서 선택할 수 있습니다. 한 번도 저장하지 않은 파일은 건너뜁니다." data-es="Si defines un intervalo en configuración, se guardará automáticamente sobrescribiendo. Puedes elegir entre 10 segundos y 90 minutos. Los archivos que nunca se guardaron se omiten." data-pt-br="Defina um intervalo nas configurações para salvamento automático com sobrescrita. Escolha entre 10 segundos e 90 minutos. Arquivos que nunca foram salvos são ignorados." data-de="Legen Sie in den Einstellungen ein Intervall fest, dann wird automatisch überschrieben gespeichert. Auswahl zwischen 10 Sekunden und 90 Minuten. Nie gespeicherte Dateien werden übersprungen." data-fr="Définissez un intervalle dans les paramètres pour un enregistrement automatique par écrasement. Choisissez entre 10 secondes et 90 minutes. Les fichiers jamais enregistrés sont ignorés." data-ru="Задайте в настройках интервал — файл будет автоматически перезаписываться. Доступно от 10 секунд до 90 минут. Никогда не сохранявшиеся файлы пропускаются."></p>
 
-    <h4 class="i18n" data-ja="タイムスタンプ保存" data-en="Timestamp Backup"></h4>
-    <p class="i18n" data-ja="保存時に日時付きバックアップを自動作成します。" data-en="Automatically creates timestamped backups on save."></p>
-    <p class="i18n" data-ja="保持数を設定できます（1〜50個）" data-en="Set retention count (1–50)."></p>
-    <p class="i18n" data-ja="保存先と同じ場所に「bk_ファイル名」というフォルダ内に保存されます。" data-en="Backups are stored in a 'bk_filename' folder in the same location as the save file."></p>
+    <h4 class="i18n" data-ja="タイムスタンプ保存" data-en="Timestamp Backup" data-zh="时间戳保存" data-zh-tw="時間戳儲存" data-ko="타임스탬프 저장" data-es="Copia con marca de tiempo" data-pt-br="Backup com marca de tempo" data-de="Zeitstempel-Sicherung" data-fr="Sauvegarde horodatée" data-ru="Сохранение с меткой времени"></h4>
+    <p class="i18n" data-ja="保存時に日時付きバックアップを自動作成します。" data-en="Automatically creates timestamped backups on save." data-zh="保存时自动创建带日期时间的备份。" data-zh-tw="儲存時自動建立帶日期時間的備份。" data-ko="저장 시 날짜·시간이 포함된 백업을 자동으로 만듭니다." data-es="Crea automáticamente copias con marca de fecha y hora al guardar." data-pt-br="Cria automaticamente backups com data e hora a cada salvamento." data-de="Erstellt beim Speichern automatisch Sicherungen mit Zeitstempel." data-fr="Crée automatiquement des sauvegardes horodatées à chaque enregistrement." data-ru="При каждом сохранении автоматически создаётся резервная копия с датой и временем."></p>
+    <p class="i18n" data-ja="保持数を設定できます（1〜50個）" data-en="Set retention count (1–50)." data-zh="可设置保留数量（1〜50 个）。" data-zh-tw="可設定保留數量（1〜50 個）。" data-ko="보관 개수를 설정할 수 있습니다(1〜50개)." data-es="Puedes configurar el número de copias conservadas (1–50)." data-pt-br="Você pode definir o número de cópias mantidas (1–50)." data-de="Aufbewahrte Anzahl einstellbar (1–50)." data-fr="Nombre de copies conservées paramétrable (1–50)." data-ru="Количество хранимых копий можно настроить (1–50)."></p>
+    <p class="i18n" data-ja="保存先と同じ場所に「bk_ファイル名」というフォルダ内に保存されます。" data-en="Backups are stored in a 'bk_filename' folder in the same location as the save file." data-zh="将保存到与保存位置相同目录下名为「bk_文件名」的文件夹中。" data-zh-tw="將儲存到與儲存位置相同目錄下名為「bk_檔案名」的資料夾中。" data-ko="저장 위치와 같은 곳에 'bk_파일명' 폴더 내에 저장됩니다." data-es="Las copias se guardan en una carpeta «bk_nombrearchivo» en la misma ubicación que el archivo." data-pt-br="Os backups são salvos em uma pasta «bk_nomearquivo» no mesmo local do arquivo." data-de="Sicherungen werden im Ordner „bk_Dateiname“ am selben Speicherort wie die Datei abgelegt." data-fr="Les sauvegardes sont stockées dans un dossier « bk_nomfichier » au même emplacement que le fichier." data-ru="Резервные копии помещаются в папку «bk_имяфайла» рядом с самим файлом."></p>
 
-    <h4 class="i18n" data-ja="元に戻す / やり直す" data-en="Undo / Redo"></h4>
-    <p class="i18n" data-ja="最大50回まで操作を元に戻せます。Ctrl+Z / Ctrl+Y で操作できます。" data-en="Undo up to 50 operations. Use Ctrl+Z / Ctrl+Y."></p>
+    <h4 class="i18n" data-ja="設定のバックアップ" data-en="Settings Backup" data-zh="设置备份" data-zh-tw="設定備份" data-ko="설정 백업" data-es="Copia de configuración" data-pt-br="Backup de configurações" data-de="Einstellungs-Sicherung" data-fr="Sauvegarde des paramètres" data-ru="Резервное копирование настроек"></h4>
+    <p class="i18n" data-ja="カラー、フォント、ショートカットなどの設定をファイルに保存・復元ができます。" data-en="You can save and restore settings such as colors, fonts, and shortcuts to and from a file." data-zh="可以将颜色、字体、快捷键等设置保存到文件中并进行恢复。" data-zh-tw="可以將顏色、字型、快捷鍵等設定儲存至檔案並進行還原。" data-ko="색상·글꼴·단축키 등의 설정을 파일에 저장하고 복원할 수 있습니다." data-es="Puedes guardar y restaurar en un archivo ajustes como colores, fuentes y atajos." data-pt-br="É possível salvar e restaurar em um arquivo configurações como cores, fontes e atalhos." data-de="Einstellungen wie Farben, Schriftarten und Tastenkürzel lassen sich in einer Datei speichern und wiederherstellen." data-fr="Vous pouvez enregistrer et restaurer dans un fichier des paramètres tels que couleurs, polices et raccourcis." data-ru="Настройки — цвета, шрифты, сочетания клавиш и др. — можно сохранять в файл и восстанавливать из него."></p>
 
   </div>
 </div>
@@ -382,203 +430,174 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
 
 <!-- Shortcuts -->
 <div class="section" id="shortcuts">
-  <h2 class="section-title i18n" data-ja="ショートカット一覧" data-en="Keyboard Shortcuts"></h2>
+  <h2 class="section-title i18n" data-ja="ショートカット一覧" data-en="Keyboard Shortcuts" data-zh="快捷键一览" data-zh-tw="快捷鍵一覽" data-ko="단축키 목록" data-es="Lista de atajos de teclado" data-pt-br="Lista de atalhos de teclado" data-de="Tastenkürzel-Übersicht" data-fr="Liste des raccourcis clavier" data-ru="Список сочетаний клавиш"></h2>
 
-  <h3 class="sub-title i18n" data-ja="ファイル操作" data-en="File Operations"></h3>
+  <h3 class="sub-title i18n" data-ja="ファイル操作" data-en="File Operations" data-zh="文件操作" data-zh-tw="檔案操作" data-ko="파일 조작" data-es="Operaciones de archivo" data-pt-br="Operações de arquivo" data-de="Datei-Operationen" data-fr="Opérations sur les fichiers" data-ru="Операции с файлами"></h3>
   <table class="sc-table">
-    <tr><td><kbd>Ctrl</kbd>+<kbd>N</kbd></td><td class="i18n" data-ja="新規プロジェクト" data-en="New Project"></td></tr>
-    <tr><td><kbd>Ctrl</kbd>+<kbd>O</kbd></td><td class="i18n" data-ja="ファイルを開く" data-en="Open File"></td></tr>
-    <tr><td><kbd>Ctrl</kbd>+<kbd>S</kbd></td><td class="i18n" data-ja="上書き保存" data-en="Save"></td></tr>
-    <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd></td><td class="i18n" data-ja="別名で保存" data-en="Save As"></td></tr>
-    <tr><td><kbd>Ctrl</kbd>+<kbd>E</kbd></td><td class="i18n" data-ja="画像書き出し" data-en="Export Image"></td></tr>
+    <tr><td><kbd>Ctrl</kbd>+<kbd>N</kbd></td><td class="i18n" data-ja="新規プロジェクト" data-en="New Project" data-zh="新建项目" data-zh-tw="新增專案" data-ko="새 프로젝트" data-es="Nuevo proyecto" data-pt-br="Novo projeto" data-de="Neues Projekt" data-fr="Nouveau projet" data-ru="Новый проект"></td></tr>
+    <tr><td><kbd>Ctrl</kbd>+<kbd>O</kbd></td><td class="i18n" data-ja="ファイルを開く" data-en="Open File" data-zh="打开文件" data-zh-tw="開啟檔案" data-ko="파일 열기" data-es="Abrir archivo" data-pt-br="Abrir arquivo" data-de="Datei öffnen" data-fr="Ouvrir un fichier" data-ru="Открыть файл"></td></tr>
+    <tr><td><kbd>Ctrl</kbd>+<kbd>S</kbd></td><td class="i18n" data-ja="上書き保存" data-en="Save" data-zh="保存" data-zh-tw="儲存" data-ko="저장" data-es="Guardar" data-pt-br="Salvar" data-de="Speichern" data-fr="Enregistrer" data-ru="Сохранить"></td></tr>
+    <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd></td><td class="i18n" data-ja="別名で保存" data-en="Save As" data-zh="另存为" data-zh-tw="另存新檔" data-ko="다른 이름으로 저장" data-es="Guardar como" data-pt-br="Salvar como" data-de="Speichern unter" data-fr="Enregistrer sous" data-ru="Сохранить как"></td></tr>
+    <tr><td><kbd>Ctrl</kbd>+<kbd>E</kbd></td><td class="i18n" data-ja="画像書き出し" data-en="Export Image" data-zh="导出图像" data-zh-tw="匯出圖片" data-ko="이미지 내보내기" data-es="Exportar imagen" data-pt-br="Exportar imagem" data-de="Bild exportieren" data-fr="Exporter en image" data-ru="Экспорт в изображение"></td></tr>
   </table>
 
-  <h3 class="sub-title i18n" data-ja="編集" data-en="Edit"></h3>
+  <h3 class="sub-title i18n" data-ja="編集" data-en="Edit" data-zh="编辑" data-zh-tw="編輯" data-ko="편집" data-es="Editar" data-pt-br="Editar" data-de="Bearbeiten" data-fr="Édition" data-ru="Правка"></h3>
   <table class="sc-table">
-    <tr><td><kbd>Ctrl</kbd>+<kbd>Z</kbd></td><td class="i18n" data-ja="元に戻す" data-en="Undo"></td></tr>
-    <tr><td><kbd>Ctrl</kbd>+<kbd>Y</kbd></td><td class="i18n" data-ja="やり直す" data-en="Redo"></td></tr>
-    <tr><td><kbd>Ctrl</kbd>+<kbd>C</kbd></td><td class="i18n" data-ja="コピー" data-en="Copy"></td></tr>
-    <tr><td><kbd>Ctrl</kbd>+<kbd>V</kbd></td><td class="i18n" data-ja="貼り付け" data-en="Paste"></td></tr>
-    <tr><td><kbd>Ctrl</kbd>+<kbd>A</kbd></td><td class="i18n" data-ja="全選択" data-en="Select All"></td></tr>
-    <tr><td><kbd>Delete</kbd> / <kbd>BS</kbd></td><td class="i18n" data-ja="削除" data-en="Delete"></td></tr>
+    <tr><td><kbd>Ctrl</kbd>+<kbd>Z</kbd></td><td class="i18n" data-ja="元に戻す" data-en="Undo" data-zh="撤销" data-zh-tw="復原" data-ko="실행 취소" data-es="Deshacer" data-pt-br="Desfazer" data-de="Rückgängig" data-fr="Annuler" data-ru="Отменить"></td></tr>
+    <tr><td><kbd>Ctrl</kbd>+<kbd>Y</kbd></td><td class="i18n" data-ja="やり直す" data-en="Redo" data-zh="重做" data-zh-tw="重做" data-ko="다시 실행" data-es="Rehacer" data-pt-br="Refazer" data-de="Wiederherstellen" data-fr="Rétablir" data-ru="Повторить"></td></tr>
+    <tr><td><kbd>Ctrl</kbd>+<kbd>C</kbd></td><td class="i18n" data-ja="コピー" data-en="Copy" data-zh="复制" data-zh-tw="複製" data-ko="복사" data-es="Copiar" data-pt-br="Copiar" data-de="Kopieren" data-fr="Copier" data-ru="Копировать"></td></tr>
+    <tr><td><kbd>Ctrl</kbd>+<kbd>V</kbd></td><td class="i18n" data-ja="貼り付け" data-en="Paste" data-zh="粘贴" data-zh-tw="貼上" data-ko="붙여넣기" data-es="Pegar" data-pt-br="Colar" data-de="Einfügen" data-fr="Coller" data-ru="Вставить"></td></tr>
+    <tr><td><kbd>Ctrl</kbd>+<kbd>A</kbd></td><td class="i18n" data-ja="全選択" data-en="Select All" data-zh="全选" data-zh-tw="全選" data-ko="전체 선택" data-es="Seleccionar todo" data-pt-br="Selecionar tudo" data-de="Alles auswählen" data-fr="Tout sélectionner" data-ru="Выделить всё"></td></tr>
+    <tr><td><kbd>Delete</kbd> / <kbd>BS</kbd></td><td class="i18n" data-ja="削除" data-en="Delete" data-zh="删除" data-zh-tw="刪除" data-ko="삭제" data-es="Eliminar" data-pt-br="Excluir" data-de="Löschen" data-fr="Supprimer" data-ru="Удалить"></td></tr>
   </table>
 
-  <h3 class="sub-title i18n" data-ja="テキスト操作" data-en="Text Operations"></h3>
+  <h3 class="sub-title i18n" data-ja="テキスト操作" data-en="Text Operations" data-zh="文本操作" data-zh-tw="文字操作" data-ko="텍스트 조작" data-es="Operaciones de texto" data-pt-br="Operações de texto" data-de="Textoperationen" data-fr="Opérations sur le texte" data-ru="Операции с текстом"></h3>
   <table class="sc-table">
-    <tr><td><kbd>T</kbd></td><td class="i18n" data-ja="テキスト作成" data-en="Create Text"></td></tr>
-    <tr><td><kbd>L</kbd></td><td class="i18n" data-ja="接続線を開始" data-en="Start Connection"></td></tr>
-    <tr><td><kbd>M</kbd></td><td class="i18n" data-ja="メモウィンドウを追加" data-en="Add Memo Window"></td></tr>
-    <tr><td><kbd>I</kbd></td><td class="i18n" data-ja="アイコンパレット表示" data-en="Show Icon Palette"></td></tr>
+    <tr><td><kbd>T</kbd></td><td class="i18n" data-ja="テキスト作成" data-en="Create Text" data-zh="创建文本" data-zh-tw="建立文字" data-ko="텍스트 만들기" data-es="Crear texto" data-pt-br="Criar texto" data-de="Text erstellen" data-fr="Créer du texte" data-ru="Создать текст"></td></tr>
+    <tr><td><kbd>L</kbd></td><td class="i18n" data-ja="接続線を開始" data-en="Start Connection" data-zh="开始连接线" data-zh-tw="開始連接線" data-ko="연결선 시작" data-es="Iniciar conexión" data-pt-br="Iniciar conexão" data-de="Verbindung starten" data-fr="Démarrer la connexion" data-ru="Начать соединение"></td></tr>
+    <tr><td><kbd>M</kbd></td><td class="i18n" data-ja="メモウィンドウを追加" data-en="Add Memo Window" data-zh="添加备忘窗口" data-zh-tw="新增備忘視窗" data-ko="메모 창 추가" data-es="Añadir ventana de notas" data-pt-br="Adicionar janela de memorando" data-de="Memo-Fenster hinzufügen" data-fr="Ajouter une fenêtre de mémo" data-ru="Добавить окно заметок"></td></tr>
+    <tr><td><kbd>I</kbd></td><td class="i18n" data-ja="アイコンパレット表示" data-en="Show Icon Palette" data-zh="显示图标面板" data-zh-tw="顯示圖示面板" data-ko="아이콘 팔레트 표시" data-es="Mostrar paleta de iconos" data-pt-br="Mostrar paleta de ícones" data-de="Icon-Palette anzeigen" data-fr="Afficher la palette d'icônes" data-ru="Показать палитру значков"></td></tr>
   </table>
 
-  <h3 class="sub-title i18n" data-ja="整列（複数選択時）" data-en="Alignment (Multi-Select)"></h3>
+  <h3 class="sub-title i18n" data-ja="整列（複数選択時）" data-en="Alignment (Multi-Select)" data-zh="对齐（多选时）" data-zh-tw="對齊（多選時）" data-ko="정렬(다중 선택 시)" data-es="Alineación (selección múltiple)" data-pt-br="Alinhamento (seleção múltipla)" data-de="Ausrichtung (Mehrfachauswahl)" data-fr="Alignement (sélection multiple)" data-ru="Выравнивание (множественный выбор)"></h3>
   <table class="sc-table">
-    <tr><td><kbd>Ctrl</kbd>+<kbd>↑</kbd></td><td class="i18n" data-ja="上端揃え" data-en="Align Top"></td></tr>
-    <tr><td><kbd>Ctrl</kbd>+<kbd>↓</kbd></td><td class="i18n" data-ja="下端揃え" data-en="Align Bottom"></td></tr>
-    <tr><td><kbd>Ctrl</kbd>+<kbd>←</kbd></td><td class="i18n" data-ja="左端揃え" data-en="Align Left"></td></tr>
-    <tr><td><kbd>Ctrl</kbd>+<kbd>→</kbd></td><td class="i18n" data-ja="右端揃え" data-en="Align Right"></td></tr>
+    <tr><td><kbd>Ctrl</kbd>+<kbd>↑</kbd></td><td class="i18n" data-ja="上端揃え" data-en="Align Top" data-zh="顶端对齐" data-zh-tw="頂端對齊" data-ko="위쪽 맞춤" data-es="Alinear arriba" data-pt-br="Alinhar acima" data-de="Oben ausrichten" data-fr="Aligner en haut" data-ru="Выровнять по верху"></td></tr>
+    <tr><td><kbd>Ctrl</kbd>+<kbd>↓</kbd></td><td class="i18n" data-ja="下端揃え" data-en="Align Bottom" data-zh="底端对齐" data-zh-tw="底端對齊" data-ko="아래쪽 맞춤" data-es="Alinear abajo" data-pt-br="Alinhar abaixo" data-de="Unten ausrichten" data-fr="Aligner en bas" data-ru="Выровнять по низу"></td></tr>
+    <tr><td><kbd>Ctrl</kbd>+<kbd>←</kbd></td><td class="i18n" data-ja="左端揃え" data-en="Align Left" data-zh="左对齐" data-zh-tw="靠左對齊" data-ko="왼쪽 맞춤" data-es="Alinear a la izquierda" data-pt-br="Alinhar à esquerda" data-de="Links ausrichten" data-fr="Aligner à gauche" data-ru="Выровнять по левому краю"></td></tr>
+    <tr><td><kbd>Ctrl</kbd>+<kbd>→</kbd></td><td class="i18n" data-ja="右端揃え" data-en="Align Right" data-zh="右对齐" data-zh-tw="靠右對齊" data-ko="오른쪽 맞춤" data-es="Alinear a la derecha" data-pt-br="Alinhar à direita" data-de="Rechts ausrichten" data-fr="Aligner à droite" data-ru="Выровнять по правому краю"></td></tr>
   </table>
 
-  <h3 class="sub-title i18n" data-ja="表示" data-en="View"></h3>
+  <h3 class="sub-title i18n" data-ja="表示" data-en="View" data-zh="显示" data-zh-tw="顯示" data-ko="표시" data-es="Vista" data-pt-br="Exibição" data-de="Ansicht" data-fr="Affichage" data-ru="Вид"></h3>
   <table class="sc-table">
-    <tr><td><kbd>Tab</kbd></td><td class="i18n" data-ja="サイドバー開閉" data-en="Toggle Sidebar"></td></tr>
-    <tr><td><kbd>Q</kbd></td><td class="i18n" data-ja="ボード名の表示切替" data-en="Toggle Board Name"></td></tr>
-    <tr><td><kbd>Ctrl</kbd>+<kbd class="i18n" data-ja="ホイール" data-en="Wheel"></kbd></td><td class="i18n" data-ja="ズーム（0.3x〜3.0x）" data-en="Zoom (0.3x - 3.0x)"></td></tr>
+    <tr><td><kbd>Tab</kbd></td><td class="i18n" data-ja="サイドバー開閉" data-en="Toggle Sidebar" data-zh="切换侧边栏" data-zh-tw="切換側邊欄" data-ko="사이드바 열기/닫기" data-es="Mostrar/ocultar barra lateral" data-pt-br="Mostrar/ocultar barra lateral" data-de="Seitenleiste umschalten" data-fr="Basculer la barre latérale" data-ru="Скрыть/показать боковую панель"></td></tr>
+    <tr><td><kbd>Q</kbd></td><td class="i18n" data-ja="ボード名の表示切替" data-en="Toggle Board Name" data-zh="切换面板名显示" data-zh-tw="切換面板名顯示" data-ko="보드명 표시 전환" data-es="Mostrar/ocultar nombre del tablero" data-pt-br="Alternar nome do quadro" data-de="Boardnamen umschalten" data-fr="Basculer le nom du tableau" data-ru="Переключить имя доски"></td></tr>
+    <tr><td><kbd>Ctrl</kbd>+<kbd class="i18n" data-ja="ホイール" data-en="Wheel" data-zh="滚轮" data-zh-tw="滾輪" data-ko="휠" data-es="Rueda" data-pt-br="Roda" data-de="Mausrad" data-fr="Molette" data-ru="Колесо"></kbd></td><td class="i18n" data-ja="ズーム（0.1x〜3.0x）" data-en="Zoom (0.1x - 3.0x)" data-zh="缩放（0.1x〜3.0x）" data-zh-tw="縮放（0.1x〜3.0x）" data-ko="확대/축소(0.1x〜3.0x)" data-es="Zoom (0.1x - 3.0x)" data-pt-br="Zoom (0.1x - 3.0x)" data-de="Zoom (0,1x – 3,0x)" data-fr="Zoom (0,1x – 3,0x)" data-ru="Масштаб (0.1x–3.0x)"></td></tr>
   </table>
 
-  <p style="font-size:18px;color:var(--text1);margin-top:20px" class="i18n" data-ja="※ 一部のキーはお使いの環境により動作しない場合があります。" data-en="* Some keys may not work depending on your environment."></p>
+  <p style="font-size:18px;color:var(--text1);margin-top:20px" class="i18n" data-ja="※ 一部のキーはお使いの環境により動作しない場合があります。" data-en="* Some keys may not work depending on your environment." data-zh="※ 部分按键在某些环境下可能无法使用。" data-zh-tw="※ 部分按鍵在某些環境下可能無法使用。" data-ko="※ 일부 키는 사용 환경에 따라 작동하지 않을 수 있습니다." data-es="* Algunas teclas pueden no funcionar según el entorno." data-pt-br="* Algumas teclas podem não funcionar dependendo do ambiente." data-de="* Einige Tasten funktionieren je nach Umgebung möglicherweise nicht." data-fr="* Certaines touches peuvent ne pas fonctionner selon l'environnement." data-ru="* Некоторые клавиши могут не работать в зависимости от среды."></p>
 </div>
 
 <!-- FAQ -->
 <div class="section" id="faq">
-  <h2 class="section-title i18n" data-ja="よくある質問" data-en="FAQ"></h2>
+  <h2 class="section-title i18n" data-ja="よくある質問" data-en="FAQ" data-zh="常见问题" data-zh-tw="常見問題" data-ko="자주 묻는 질문" data-es="Preguntas frecuentes" data-pt-br="Perguntas frequentes" data-de="FAQ" data-fr="FAQ" data-ru="Частые вопросы"></h2>
 
   <div class="faq-list">
 
     <div class="faq-item">
       <button class="faq-q" onclick="faqToggle(this)">
-        <span class="i18n" data-ja="試用期間はどのくらいですか？" data-en="How long is the trial period?"></span>
+        <span class="i18n" data-ja="体験版と製品版の違いは何ですか？" data-en="What is the difference between the demo and the full version?" data-zh="体验版和正式版有什么区别？" data-zh-tw="體驗版和正式版有什麼區別？" data-ko="체험판과 정식판의 차이는 무엇인가요?" data-es="¿Cuál es la diferencia entre la versión de prueba y la completa?" data-pt-br="Qual é a diferença entre a versão de demonstração e a completa?" data-de="Was ist der Unterschied zwischen Test- und Vollversion?" data-fr="Quelle est la différence entre la version d'essai et la version complète ?" data-ru="В чём разница между пробной и полной версией?"></span>
         <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button>
       <div class="faq-a"><div class="faq-a-inner">
-        <p class="i18n" data-ja="初回起動から7日間、すべての機能を無料でお試しいただけます。" data-en="You can try all features free for 7 days from the first launch."></p>
+        <p class="i18n" data-ja="体験版では保存機能（手動保存・自動保存・タイムスタンプ保存・設定のバックアップ）をご利用いただけません。それ以外の機能は製品版と同じです。" data-en="The demo version does not include any save features (manual save, auto-save, timestamp backup, settings backup). All other features are identical to the full version." data-zh="体验版无法使用保存功能（手动保存、自动保存、时间戳保存、设置备份）。其他功能与正式版相同。" data-zh-tw="體驗版無法使用儲存功能（手動儲存、自動儲存、時間戳儲存、設定備份）。其他功能與正式版相同。" data-ko="체험판에서는 저장 기능（수동 저장·자동 저장·타임스탬프 저장·설정 백업）을 사용할 수 없습니다. 그 외 기능은 정식판과 동일합니다." data-es="La versión de prueba no incluye funciones de guardado (manual, automático, marca de tiempo y copia de configuración). El resto de funciones son idénticas a la versión completa." data-pt-br="A versão de demonstração não inclui funções de salvamento (manual, automático, com marca de tempo e backup de configurações). Os demais recursos são idênticos aos da versão completa." data-de="In der Testversion sind die Speicherfunktionen (manuelles, automatisches und Zeitstempel-Speichern sowie Einstellungs-Sicherung) nicht verfügbar. Alle anderen Funktionen entsprechen der Vollversion." data-fr="La version d'essai n'inclut pas les fonctions de sauvegarde (manuelle, automatique, par horodatage et sauvegarde des paramètres). Toutes les autres fonctions sont identiques à la version complète." data-ru="В пробной версии отсутствуют функции сохранения (ручное, автоматическое, по времени и резервное копирование настроек). Остальные функции идентичны полной версии."></p>
+        <p class="i18n" data-ja="また、体験版はアーリーアクセス版をベースとしているため、製品版とは仕様が一部異なる場合があります。" data-en="The demo is based on the Early Access build, so some specifications may differ from the full version." data-zh="此外，体验版基于早期访问版本，部分规格可能与正式版不同。" data-zh-tw="此外，體驗版基於搶先體驗版本，部分規格可能與正式版不同。" data-ko="또한 체험판은 얼리 액세스 버전을 기반으로 하므로 정식판과 일부 사양이 다를 수 있습니다." data-es="Además, la versión de prueba se basa en la build de Acceso Anticipado, por lo que algunas especificaciones pueden diferir de la versión completa." data-pt-br="Além disso, a demonstração é baseada na build de Acesso Antecipado, portanto algumas especificações podem diferir da versão completa." data-de="Außerdem basiert die Testversion auf dem Early-Access-Build, daher können einige Spezifikationen von der Vollversion abweichen." data-fr="De plus, la version d'essai est basée sur la version Accès anticipé, donc certaines spécifications peuvent différer de la version complète." data-ru="Кроме того, пробная версия основана на сборке раннего доступа, поэтому часть характеристик может отличаться от полной версии."></p>
       </div></div>
     </div>
 
     <div class="faq-item">
       <button class="faq-q" onclick="faqToggle(this)">
-        <span class="i18n" data-ja="シリアルキーはどこで入力しますか？" data-en="Where do I enter the serial key?"></span>
+        <span class="i18n" data-ja="オフラインで使えますか？" data-en="Can I use it offline?" data-zh="可以离线使用吗？" data-zh-tw="可以離線使用嗎？" data-ko="오프라인에서 사용할 수 있나요?" data-es="¿Puedo usarlo sin conexión?" data-pt-br="Posso usá-lo offline?" data-de="Kann ich es offline nutzen?" data-fr="Peut-on l'utiliser hors ligne ?" data-ru="Можно ли использовать офлайн?"></span>
         <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button>
       <div class="faq-a"><div class="faq-a-inner">
-        <p class="i18n" data-ja="設定 → ライセンスタブ、または試用期限画面から入力できます。" data-en="From Settings → License tab, or from the trial expiration screen."></p>
+        <p class="i18n" data-ja="はい。インターネット接続なしで動作します。" data-en="Yes. It works without an internet connection." data-zh="可以。无需互联网连接即可运行。" data-zh-tw="可以。無需網路連線即可執行。" data-ko="네. 인터넷 연결 없이 동작합니다." data-es="Sí. Funciona sin conexión a internet." data-pt-br="Sim. Funciona sem conexão com a internet." data-de="Ja. Es funktioniert ohne Internetverbindung." data-fr="Oui. Il fonctionne sans connexion internet." data-ru="Да. Работает без подключения к интернету."></p>
       </div></div>
     </div>
 
     <div class="faq-item">
       <button class="faq-q" onclick="faqToggle(this)">
-        <span class="i18n" data-ja="オフラインで使えますか？" data-en="Can I use it offline?"></span>
+        <span class="i18n" data-ja="対応OSは？" data-en="What OS is supported?" data-zh="支持的操作系统？" data-zh-tw="支援的作業系統？" data-ko="지원 OS는 무엇인가요?" data-es="¿Qué sistemas operativos son compatibles?" data-pt-br="Quais sistemas operacionais são suportados?" data-de="Welche Betriebssysteme werden unterstützt?" data-fr="Quels systèmes d'exploitation sont pris en charge ?" data-ru="Какие ОС поддерживаются?"></span>
         <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button>
       <div class="faq-a"><div class="faq-a-inner">
-        <p class="i18n" data-ja="はい。インターネット接続なしで動作します。" data-en="Yes. It works without an internet connection."></p>
+        <p class="i18n" data-ja="Windows 10 / 11（64bit）に対応しています。Mac および Linux には対応しておりません。" data-en="Windows 10 / 11 (64-bit) is supported. Mac and Linux are not supported." data-zh="支持 Windows 10 / 11（64 位）。不支持 Mac 和 Linux。" data-zh-tw="支援 Windows 10 / 11（64 位元）。不支援 Mac 與 Linux。" data-ko="Windows 10 / 11(64비트)을 지원합니다. Mac 및 Linux는 지원하지 않습니다." data-es="Compatible con Windows 10 / 11 (64 bits). No es compatible con Mac ni Linux." data-pt-br="Compatível com Windows 10 / 11 (64 bits). Mac e Linux não são suportados." data-de="Windows 10 / 11 (64 Bit) wird unterstützt. Mac und Linux werden nicht unterstützt." data-fr="Windows 10 / 11 (64 bits) est pris en charge. Mac et Linux ne le sont pas." data-ru="Поддерживаются Windows 10 / 11 (64-бит). Mac и Linux не поддерживаются."></p>
       </div></div>
     </div>
 
     <div class="faq-item">
       <button class="faq-q" onclick="faqToggle(this)">
-        <span class="i18n" data-ja="対応OSは？" data-en="What OS is supported?"></span>
+        <span class="i18n" data-ja="買い切りですか？" data-en="Is it a one-time purchase?" data-zh="是买断制吗？" data-zh-tw="是買斷制嗎？" data-ko="한 번 구매하면 끝인가요?" data-es="¿Es un pago único?" data-pt-br="É compra única?" data-de="Ist das ein Einmalkauf?" data-fr="S'agit-il d'un achat unique ?" data-ru="Это единовременная покупка?"></span>
         <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button>
       <div class="faq-a"><div class="faq-a-inner">
-        <p class="i18n" data-ja="Windows 10 / 11（64bit）に対応しています。" data-en="Windows 10 / 11 (64-bit) is supported."></p>
+        <p class="i18n" data-ja="はい。サブスクリプションではなく買い切り型です。" data-en="Yes. It is a one-time purchase, not a subscription." data-zh="是的。是买断制，不是订阅制。" data-zh-tw="是的。是買斷制，不是訂閱制。" data-ko="네. 구독이 아닌 한 번 결제 방식입니다." data-es="Sí. Es un pago único, no una suscripción." data-pt-br="Sim. É compra única, não assinatura." data-de="Ja. Es handelt sich um einen Einmalkauf, kein Abonnement." data-fr="Oui. Il s'agit d'un achat unique, pas d'un abonnement." data-ru="Да. Это разовая покупка, не подписка."></p>
       </div></div>
     </div>
 
     <div class="faq-item">
       <button class="faq-q" onclick="faqToggle(this)">
-        <span class="i18n" data-ja="買い切りですか？" data-en="Is it a one-time purchase?"></span>
+        <span class="i18n" data-ja="複数のPCで使えますか？" data-en="Can I use it on multiple PCs?" data-zh="可以在多台 PC 上使用吗？" data-zh-tw="可以在多台 PC 上使用嗎？" data-ko="여러 대의 PC에서 사용할 수 있나요?" data-es="¿Puedo usarlo en varios PC?" data-pt-br="Posso usar em vários PCs?" data-de="Kann ich es auf mehreren PCs verwenden?" data-fr="Puis-je l'utiliser sur plusieurs PC ?" data-ru="Можно ли использовать на нескольких ПК?"></span>
         <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button>
       <div class="faq-a"><div class="faq-a-inner">
-        <p class="i18n" data-ja="はい。サブスクリプションではなく買い切り型です。" data-en="Yes. It is a one-time purchase, not a subscription."></p>
+        <p class="i18n" data-ja="購入者ご本人がご利用される場合は、台数の制限なくお使いいただけます。ご自宅・職場・ノートPCなど、所有する複数のPCでそのままインストール・起動が可能です。ただし、ご家族・ご友人・第三者との共有はご遠慮ください。" data-en="The purchaser may install and use the software on as many PCs as they own (home, work, laptop, etc.) without any device limit. However, sharing the software with family, friends, or third parties is not permitted." data-zh="购买者本人使用时，没有台数限制。可在家中、工作场所、笔记本电脑等自己拥有的多台 PC 上直接安装和启动。但请勿与家人、朋友、第三方共享。" data-zh-tw="購買者本人使用時，沒有台數限制。可在家中、工作場所、筆記型電腦等自己擁有的多台 PC 上直接安裝與啟動。但請勿與家人、朋友、第三方共享。" data-ko="구매자 본인이 사용하는 경우 대수 제한 없이 사용할 수 있습니다. 자택·직장·노트북 등 본인이 소유한 여러 PC에 그대로 설치·실행 가능합니다. 단, 가족·친구·제삼자와의 공유는 삼가 주십시오." data-es="El comprador puede instalar y usar el software en cuantos PC posea (casa, trabajo, portátil, etc.) sin límite de equipos. No se permite compartirlo con familiares, amigos o terceros." data-pt-br="O comprador pode instalar e usar o software em quantos PCs possuir (casa, trabalho, notebook, etc.), sem limite de aparelhos. No entanto, não é permitido compartilhar com familiares, amigos ou terceiros." data-de="Der Käufer darf die Software auf so vielen PCs nutzen, wie er besitzt (zu Hause, am Arbeitsplatz, Laptop usw.), ohne Geräteobergrenze. Eine Weitergabe an Familie, Freunde oder Dritte ist jedoch nicht gestattet." data-fr="L'acheteur peut installer et utiliser le logiciel sur autant de PC qu'il possède (domicile, travail, portable, etc.) sans limite. Le partage avec la famille, les amis ou des tiers n'est cependant pas autorisé." data-ru="Покупатель может установить и использовать ПО на любом количестве собственных ПК (дом, работа, ноутбук и т. п.) без ограничений. Совместное использование с родственниками, друзьями или третьими лицами не допускается."></p>
       </div></div>
     </div>
 
     <div class="faq-item">
       <button class="faq-q" onclick="faqToggle(this)">
-        <span class="i18n" data-ja="複数のPCで使えますか？" data-en="Can I use it on multiple PCs?"></span>
+        <span class="i18n" data-ja="データはどこに保存されますか？" data-en="Where is my data saved?" data-zh="数据保存在哪里？" data-zh-tw="資料儲存在哪裡？" data-ko="데이터는 어디에 저장되나요?" data-es="¿Dónde se guardan mis datos?" data-pt-br="Onde meus dados são salvos?" data-de="Wo werden meine Daten gespeichert?" data-fr="Où mes données sont-elles enregistrées ?" data-ru="Где сохраняются мои данные?"></span>
         <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button>
       <div class="faq-a"><div class="faq-a-inner">
-        <p class="i18n" data-ja="1ライセンスにつき1台のPCでご利用いただけます。複数のPCでご利用の場合は、台数分のライセンスが必要です。" data-en="One license is valid for one PC. If you wish to use it on multiple PCs, a separate license is required for each."></p>
+        <p class="i18n" data-ja=".txv形式のファイルとしてローカルに保存されます。クラウドへの送信はありません。" data-en="Saved locally as .txv files. No data is sent to the cloud." data-zh="以 .txv 格式文件保存在本地。不会发送到云端。" data-zh-tw="以 .txv 格式檔案儲存在本機。不會傳送至雲端。" data-ko=".txv 형식의 파일로 로컬에 저장됩니다. 클라우드로 전송되지 않습니다." data-es="Se guardan localmente como archivos .txv. No se envían datos a la nube." data-pt-br="São salvos localmente como arquivos .txv. Nenhum dado é enviado à nuvem." data-de="Werden lokal als .txv-Dateien gespeichert. Es werden keine Daten in die Cloud gesendet." data-fr="Enregistrés localement au format .txv. Aucune donnée n'est envoyée vers le cloud." data-ru="Сохраняются локально в виде файлов .txv. Никакие данные не отправляются в облако."></p>
       </div></div>
     </div>
 
     <div class="faq-item">
       <button class="faq-q" onclick="faqToggle(this)">
-        <span class="i18n" data-ja="データはどこに保存されますか？" data-en="Where is my data saved?"></span>
+        <span class="i18n" data-ja="どれくらい画像をボードに貼り付けられますか？" data-en="How many images can I paste on a board?" data-zh="可以在面板上粘贴多少张图像？" data-zh-tw="可以在面板上貼上多少張圖片？" data-ko="보드에 이미지를 얼마나 붙여 넣을 수 있나요?" data-es="¿Cuántas imágenes puedo pegar en un tablero?" data-pt-br="Quantas imagens posso colar em um quadro?" data-de="Wie viele Bilder kann ich auf einem Board einfügen?" data-fr="Combien d'images puis-je coller sur un tableau ?" data-ru="Сколько изображений можно вставить на доску?"></span>
         <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button>
       <div class="faq-a"><div class="faq-a-inner">
-        <p class="i18n" data-ja=".txv形式のファイルとしてローカルに保存されます。クラウドへの送信はありません。" data-en="Saved locally as .txv files. No data is sent to the cloud."></p>
+        <p class="i18n" data-ja="1プロジェクトあたり100枚程度を推奨しています。" data-en="We recommend up to around 100 images per project." data-zh="建议每个项目最多 100 张左右。" data-zh-tw="建議每個專案最多 100 張左右。" data-ko="1 프로젝트당 100장 정도를 권장합니다." data-es="Recomendamos hasta unas 100 imágenes por proyecto." data-pt-br="Recomendamos até cerca de 100 imagens por projeto." data-de="Wir empfehlen bis zu etwa 100 Bilder pro Projekt." data-fr="Nous recommandons jusqu'à environ 100 images par projet." data-ru="Рекомендуем не более примерно 100 изображений на проект."></p>
+        <p class="i18n" data-ja="大きな画像をそのまま貼り付けると動作が重くなります。必ず事前に縮小してからご使用ください。" data-en="Pasting large images without resizing will cause heavy load. Always resize images before use." data-zh="直接粘贴大图像会使运行变慢。请务必先缩小后再使用。" data-zh-tw="直接貼上大圖片會使運作變慢。請務必先縮小後再使用。" data-ko="큰 이미지를 그대로 붙여 넣으면 동작이 무거워집니다. 반드시 사전에 축소한 뒤 사용하세요." data-es="Pegar imágenes grandes sin redimensionar ralentiza la aplicación. Redimensiónalas siempre antes de usarlas." data-pt-br="Colar imagens grandes sem redimensionar deixa o aplicativo lento. Redimensione-as sempre antes de usar." data-de="Das Einfügen großer Bilder ohne Verkleinerung verlangsamt die App. Bilder vor der Verwendung stets verkleinern." data-fr="Coller de grandes images sans les redimensionner ralentit l'application. Redimensionnez-les toujours avant utilisation." data-ru="Вставка крупных изображений без уменьшения сильно замедляет работу. Перед использованием обязательно уменьшайте их."></p>
+        <p class="i18n" data-ja="画像を扱う際は事前にバックアップを取ることをおすすめします。" data-en="We recommend backing up your file before working with images." data-zh="处理图像前建议先备份。" data-zh-tw="處理圖片前建議先備份。" data-ko="이미지를 다룰 때는 미리 백업을 받아두는 것을 권장합니다." data-es="Recomendamos hacer una copia de seguridad antes de trabajar con imágenes." data-pt-br="Recomendamos fazer backup do arquivo antes de trabalhar com imagens." data-de="Wir empfehlen, vor der Bildbearbeitung eine Sicherung anzulegen." data-fr="Nous recommandons de sauvegarder le fichier avant de travailler avec des images." data-ru="Перед работой с изображениями рекомендуется сделать резервную копию файла."></p>
       </div></div>
     </div>
 
     <div class="faq-item">
       <button class="faq-q" onclick="faqToggle(this)">
-        <span class="i18n" data-ja="どれくらい画像をボードに貼り付けられますか？" data-en="How many images can I paste on a board?"></span>
+        <span class="i18n" data-ja="画像はどこに保存されますか？" data-en="Where are images stored?" data-zh="图像保存在哪里？" data-zh-tw="圖片儲存在哪裡？" data-ko="이미지는 어디에 저장되나요?" data-es="¿Dónde se almacenan las imágenes?" data-pt-br="Onde as imagens são armazenadas?" data-de="Wo werden Bilder gespeichert?" data-fr="Où les images sont-elles stockées ?" data-ru="Где хранятся изображения?"></span>
         <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button>
       <div class="faq-a"><div class="faq-a-inner">
-        <p class="i18n" data-ja="1プロジェクトあたり100枚程度を推奨しています。" data-en="We recommend up to around 100 images per project."></p>
-        <p class="i18n" data-ja="大きな画像をそのまま貼り付けると動作が重くなります。必ず事前に縮小してからご使用ください。" data-en="Pasting large images without resizing will cause heavy load. Always resize images before use."></p>
-        <p class="i18n" data-ja="画像を扱う際は事前にバックアップを取ることをおすすめします。" data-en="We recommend backing up your file before working with images."></p>
+        <p class="i18n" data-ja="ボードに貼り付けた画像は.txvファイル内に埋め込まれます。元の画像ファイルを削除しても影響ありません。" data-en="Images pasted on the board are embedded in the .txv file. Deleting the original image file has no effect." data-zh="粘贴到面板上的图像会嵌入 .txv 文件内。即使删除原图像文件也不会受到影响。" data-zh-tw="貼到面板上的圖片會嵌入 .txv 檔案內。即使刪除原圖片檔案也不會受到影響。" data-ko="보드에 붙여 넣은 이미지는 .txv 파일 내에 포함됩니다. 원본 이미지 파일을 삭제해도 영향이 없습니다." data-es="Las imágenes pegadas en el tablero se incrustan en el archivo .txv. Eliminar el archivo de imagen original no afecta al proyecto." data-pt-br="As imagens coladas no quadro são incorporadas ao arquivo .txv. Excluir o arquivo de imagem original não afeta o projeto." data-de="Auf dem Board eingefügte Bilder werden in die .txv-Datei eingebettet. Das Löschen der Originaldatei hat keine Auswirkung." data-fr="Les images collées sur le tableau sont intégrées au fichier .txv. La suppression du fichier image d'origine n'a aucune incidence." data-ru="Изображения, вставленные на доску, встраиваются в файл .txv. Удаление исходного файла изображения ни на что не влияет."></p>
       </div></div>
     </div>
 
     <div class="faq-item">
       <button class="faq-q" onclick="faqToggle(this)">
-        <span class="i18n" data-ja="画像はどこに保存されますか？" data-en="Where are images stored?"></span>
+        <span class="i18n" data-ja="画像の書き出しがうまくいきません" data-en="Image export is not working" data-zh="图像导出不顺利" data-zh-tw="圖片匯出不順利" data-ko="이미지 내보내기가 잘 되지 않습니다" data-es="La exportación de imágenes no funciona" data-pt-br="A exportação de imagens não funciona" data-de="Bildexport funktioniert nicht" data-fr="L'export d'image ne fonctionne pas" data-ru="Экспорт в изображение не работает"></span>
         <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button>
       <div class="faq-a"><div class="faq-a-inner">
-        <p class="i18n" data-ja="ボードに貼り付けた画像は.txvファイル内に埋め込まれます。元の画像ファイルを削除しても影響ありません。" data-en="Images pasted on the board are embedded in the .txv file. Deleting the original image file has no effect."></p>
+        <p class="i18n" data-ja="画像の枚数やサイズが大きすぎると書き出しに失敗する場合があります。画像の枚数やサイズを見直してください。" data-en="Export may fail if there are too many images or the image sizes are too large. Please review the number and size of images." data-zh="图像数量或尺寸过大时，导出可能会失败。请检查图像的数量和尺寸。" data-zh-tw="圖片數量或尺寸過大時，匯出可能會失敗。請檢查圖片的數量與尺寸。" data-ko="이미지의 수나 크기가 너무 크면 내보내기에 실패할 수 있습니다. 이미지의 수와 크기를 다시 확인하세요." data-es="La exportación puede fallar si hay demasiadas imágenes o son demasiado grandes. Revisa la cantidad y el tamaño." data-pt-br="A exportação pode falhar se houver imagens demais ou se forem muito grandes. Verifique a quantidade e o tamanho." data-de="Der Export kann fehlschlagen, wenn zu viele oder zu große Bilder vorhanden sind. Anzahl und Größe der Bilder bitte prüfen." data-fr="L'export peut échouer s'il y a trop d'images ou si elles sont trop volumineuses. Vérifiez le nombre et la taille des images." data-ru="Экспорт может завершиться ошибкой при слишком большом количестве или размере изображений. Проверьте их количество и размер."></p>
+        <p class="i18n" data-ja="一度ボードを複製して不要なデータを整理するか、画像データを縮小してお試しください。" data-en="Try duplicating the board and cleaning up unnecessary data, or reducing image sizes." data-zh="请尝试复制面板后整理不必要的数据，或缩小图像数据。" data-zh-tw="請嘗試複製面板後整理不必要的資料，或縮小圖片資料。" data-ko="보드를 복제하여 불필요한 데이터를 정리하거나 이미지 데이터를 축소해 보세요." data-es="Intenta duplicar el tablero y limpiar los datos innecesarios, o reducir el tamaño de las imágenes." data-pt-br="Tente duplicar o quadro e limpar dados desnecessários, ou reduzir o tamanho das imagens." data-de="Versuchen Sie, das Board zu duplizieren und unnötige Daten zu bereinigen oder die Bilder zu verkleinern." data-fr="Essayez de dupliquer le tableau et de supprimer les données inutiles, ou de réduire la taille des images." data-ru="Попробуйте продублировать доску и удалить ненужные данные либо уменьшить размер изображений."></p>
       </div></div>
     </div>
 
     <div class="faq-item">
       <button class="faq-q" onclick="faqToggle(this)">
-        <span class="i18n" data-ja="設定データはどこに保存されますか？" data-en="Where is the settings data stored?"></span>
+        <span class="i18n" data-ja="テキストがリサイズできないのは不具合ですか？" data-en="Is it a bug that text cannot be resized?" data-zh="文本无法调整大小是 bug 吗？" data-zh-tw="文字無法調整大小是 bug 嗎？" data-ko="텍스트 크기를 조정할 수 없는 것은 버그인가요?" data-es="¿Es un error que no se pueda redimensionar el texto?" data-pt-br="É um bug não poder redimensionar o texto?" data-de="Ist es ein Fehler, dass Text nicht skaliert werden kann?" data-fr="Est-ce un bug que le texte ne puisse pas être redimensionné ?" data-ru="Это ошибка, что нельзя изменить размер текста?"></span>
         <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button>
       <div class="faq-a"><div class="faq-a-inner">
-        <p class="i18n" data-ja="AppData\Roaming\Textvas フォルダに保存されます。アンインストールしても設定データは保持されます。このフォルダを保管しておくことで設定のバックアップができます。" data-en="Stored in the AppData\Roaming\Textvas folder. Settings data is preserved even after uninstalling. You can back up your settings by saving this folder."></p>
+        <p class="i18n" data-ja="不具合ではなく仕様です。画像サイズを調整しながらテキストサイズを合わせる想定のため、テキストのリサイズには対応していません。テキストサイズはツールバーの5つのサイズボタンで調整してください。" data-en="This is by design, not a bug. Text resizing is not supported, as text size is intended to be adjusted relative to image size using the 5 size buttons in the toolbar." data-zh="这不是 bug，而是规格。设计上是通过调整图像大小来匹配文本大小，因此不支持文本的缩放。请通过工具栏的 5 个尺寸按钮调整文本大小。" data-zh-tw="這不是 bug，而是規格。設計上是透過調整圖片大小來搭配文字大小，因此不支援文字縮放。請透過工具列的 5 個尺寸按鈕調整文字大小。" data-ko="버그가 아니라 사양입니다. 이미지 크기를 조정하면서 텍스트 크기를 맞추는 것을 전제로 하기 때문에 텍스트의 크기 조정은 지원하지 않습니다. 텍스트 크기는 툴바의 5개 사이즈 버튼으로 조정해 주세요." data-es="No es un error, es por diseño. El texto está pensado para ajustarse al tamaño de la imagen, por lo que no se permite redimensionarlo libremente. Ajusta el tamaño con los 5 botones de tamaño de la barra de herramientas." data-pt-br="Não é um bug, é por design. O tamanho do texto deve ser ajustado em relação ao tamanho da imagem, por isso o redimensionamento livre não é suportado. Use os 5 botões de tamanho na barra de ferramentas." data-de="Das ist kein Fehler, sondern Absicht. Die Textgröße soll relativ zur Bildgröße über die 5 Größenschaltflächen in der Symbolleiste angepasst werden, daher gibt es keine freie Skalierung." data-fr="Ce n'est pas un bug, c'est voulu. Le texte est censé être ajusté en fonction de la taille de l'image via les 5 boutons de taille de la barre d'outils, le redimensionnement libre n'est donc pas pris en charge." data-ru="Это не ошибка, а особенность. Размер текста подстраивается под размер изображения с помощью 5 кнопок на панели инструментов, поэтому произвольное изменение размера не поддерживается."></p>
       </div></div>
     </div>
 
     <div class="faq-item">
       <button class="faq-q" onclick="faqToggle(this)">
-        <span class="i18n" data-ja="画像の書き出しがうまくいきません" data-en="Image export is not working"></span>
+        <span class="i18n" data-ja="bk_ファイル名というフォルダが作成されてしまいます。" data-en="A folder called bk_filename is being created." data-zh="出现了名为 bk_文件名 的文件夹。" data-zh-tw="出現了名為 bk_檔案名 的資料夾。" data-ko="bk_파일명이라는 폴더가 만들어집니다." data-es="Se crea una carpeta llamada bk_nombrearchivo." data-pt-br="Uma pasta chamada bk_nomearquivo está sendo criada." data-de="Es wird ein Ordner namens bk_Dateiname erstellt." data-fr="Un dossier nommé bk_nomfichier est créé." data-ru="Создаётся папка bk_имяфайла."></span>
         <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button>
       <div class="faq-a"><div class="faq-a-inner">
-        <p class="i18n" data-ja="画像の枚数やサイズが大きすぎると書き出しに失敗する場合があります。画像の枚数やサイズを見直してください。" data-en="Export may fail if there are too many images or the image sizes are too large. Please review the number and size of images."></p>
-        <p class="i18n" data-ja="一度ボードを複製して不要なデータを整理するか、画像データを縮小してお試しください。" data-en="Try duplicating the board and cleaning up unnecessary data, or reducing image sizes."></p>
-      </div></div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q" onclick="faqToggle(this)">
-        <span class="i18n" data-ja="テキストがリサイズできないのは不具合ですか？" data-en="Is it a bug that text cannot be resized?"></span>
-        <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        <p class="i18n" data-ja="不具合ではなく仕様です。画像サイズを調整しながらテキストサイズを合わせる想定のため、テキストのリサイズには対応していません。テキストサイズはツールバーの5つのサイズボタンで調整してください。" data-en="This is by design, not a bug. Text resizing is not supported, as text size is intended to be adjusted relative to image size using the 5 size buttons in the toolbar."></p>
-      </div></div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q" onclick="faqToggle(this)">
-        <span class="i18n" data-ja="フォントが適用されないのはなぜですか？" data-en="Why is the font not applied?"></span>
-        <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        <p class="i18n" data-ja="フォントが未適用の場合、インターネット接続が必要です。必要なフォントは自動でダウンロードされます。" data-en="An internet connection is required to apply fonts. The necessary fonts will be downloaded automatically."></p>
-      </div></div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q" onclick="faqToggle(this)">
-        <span class="i18n" data-ja="bk_ファイル名というフォルダが作成されてしまいます。" data-en="A folder called bk_filename is being created."></span>
-        <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        <p class="i18n" data-ja="これは、タイムスタンプ保存機能で自動作成されるバックアップ用フォルダです。" data-en="This is a backup folder automatically created by the timestamp save feature."></p>
-        <p class="i18n" data-ja="初期設定では10件まで保存され、10件を超えると古いものから削除されます。" data-en="Up to 10 backups are stored by default; older ones are deleted when the limit is exceeded."></p>
-        <p class="i18n" data-ja="保存時に複製データを残すため、ファイル破損に備える用途として利用を推奨しています。" data-en="It retains a copy of your data at each save, and is recommended as protection against file corruption."></p>
-        <p class="i18n" data-ja="フォルダが気になる場合は、bk_フォルダを隠しファイルに設定したり、保存件数を減らす調整をして下さい。" data-en="If the folder bothers you, you can set the bk_ folder to hidden, or reduce the number of saved backups."></p>
-        <p class="i18n" data-ja="特に自動保存を設定している場合は、この機能の利用を推奨しています。" data-en="This feature is especially recommended when auto-save is enabled."></p>
+        <p class="i18n" data-ja="これは、タイムスタンプ保存機能で自動作成されるバックアップ用フォルダです。" data-en="This is a backup folder automatically created by the timestamp save feature." data-zh="这是时间戳保存功能自动创建的备份文件夹。" data-zh-tw="這是時間戳儲存功能自動建立的備份資料夾。" data-ko="이는 타임스탬프 저장 기능으로 자동 생성되는 백업용 폴더입니다." data-es="Es una carpeta de copia de seguridad creada automáticamente por la función de guardado con marca de tiempo." data-pt-br="É uma pasta de backup criada automaticamente pelo recurso de salvamento com marca de tempo." data-de="Das ist ein Sicherungsordner, der automatisch durch die Zeitstempel-Speicherfunktion erstellt wird." data-fr="Il s'agit d'un dossier de sauvegarde créé automatiquement par la fonction d'enregistrement horodaté." data-ru="Это папка резервных копий, создаваемая автоматически функцией сохранения с меткой времени."></p>
+        <p class="i18n" data-ja="初期設定では10件まで保存され、10件を超えると古いものから削除されます。" data-en="Up to 10 backups are stored by default; older ones are deleted when the limit is exceeded." data-zh="默认最多保存 10 份，超过 10 份后从旧的开始删除。" data-zh-tw="預設最多保存 10 份，超過 10 份後從舊的開始刪除。" data-ko="기본 설정에서는 10개까지 저장되며, 10개를 초과하면 오래된 것부터 삭제됩니다." data-es="Por defecto se guardan hasta 10 copias; al superar las 10 se eliminan las más antiguas." data-pt-br="Por padrão, são mantidas até 10 cópias; ao exceder esse número, as mais antigas são apagadas." data-de="Standardmäßig werden bis zu 10 Sicherungen gespeichert; bei Überschreitung werden die ältesten gelöscht." data-fr="Par défaut, jusqu'à 10 sauvegardes sont conservées ; au-delà, les plus anciennes sont supprimées." data-ru="По умолчанию хранится до 10 копий; при превышении лимита удаляются самые старые."></p>
+        <p class="i18n" data-ja="保存時に複製データを残すため、ファイル破損に備える用途として利用を推奨しています。" data-en="It retains a copy of your data at each save, and is recommended as protection against file corruption." data-zh="保存时会保留副本数据，建议用作应对文件损坏的保险。" data-zh-tw="儲存時會保留副本資料，建議用作應對檔案損毀的保險。" data-ko="저장 시 복제 데이터를 남기므로 파일 손상에 대비하는 용도로 사용을 권장합니다." data-es="Conserva una copia de tus datos en cada guardado y se recomienda como protección frente a daños en los archivos." data-pt-br="Mantém uma cópia dos seus dados a cada salvamento e é recomendada como proteção contra corrupção de arquivos." data-de="Bei jedem Speichern wird eine Kopie aufbewahrt; empfohlen als Schutz gegen Dateibeschädigung." data-fr="Une copie de vos données est conservée à chaque enregistrement ; recommandée comme protection contre la corruption de fichiers." data-ru="При каждом сохранении остаётся копия данных — рекомендуется как защита от повреждения файла."></p>
+        <p class="i18n" data-ja="フォルダが気になる場合は、bk_フォルダを隠しファイルに設定したり、保存件数を減らす調整をして下さい。" data-en="If the folder bothers you, you can set the bk_ folder to hidden, or reduce the number of saved backups." data-zh="如果在意该文件夹，可将 bk_ 文件夹设置为隐藏，或减少保存数量。" data-zh-tw="如果在意該資料夾，可將 bk_ 資料夾設為隱藏，或減少儲存數量。" data-ko="폴더가 신경 쓰이는 경우 bk_ 폴더를 숨김으로 설정하거나 저장 개수를 줄여 주세요." data-es="Si la carpeta te molesta, puedes ocultarla o reducir el número de copias guardadas." data-pt-br="Se a pasta incomodar, você pode marcá-la como oculta ou reduzir o número de cópias salvas." data-de="Falls der Ordner stört, können Sie den bk_-Ordner als versteckt markieren oder die Anzahl der Sicherungen reduzieren." data-fr="Si le dossier vous gêne, vous pouvez masquer le dossier bk_ ou réduire le nombre de sauvegardes." data-ru="Если папка мешает, скройте её или уменьшите число хранимых копий."></p>
+        <p class="i18n" data-ja="特に自動保存を設定している場合は、この機能の利用を推奨しています。" data-en="This feature is especially recommended when auto-save is enabled." data-zh="特别是设置了自动保存时，建议使用此功能。" data-zh-tw="特別是設定了自動儲存時，建議使用此功能。" data-ko="특히 자동 저장을 설정한 경우에는 이 기능의 사용을 권장합니다." data-es="Esta función es especialmente recomendable cuando el autoguardado está activado." data-pt-br="Este recurso é especialmente recomendado quando o salvamento automático está ativado." data-de="Diese Funktion wird besonders empfohlen, wenn Auto-Speichern aktiviert ist." data-fr="Cette fonction est particulièrement recommandée lorsque l'enregistrement automatique est activé." data-ru="Особенно рекомендуем эту функцию при включённом автосохранении."></p>
       </div></div>
     </div>
 
@@ -587,21 +606,35 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
 
 <!-- Contact -->
 <div class="section" id="contact">
-  <h2 class="section-title i18n" data-ja="お問い合わせ" data-en="Contact"></h2>
+  <h2 class="section-title i18n" data-ja="お問い合わせ" data-en="Contact" data-zh="联系我们" data-zh-tw="聯絡我們" data-ko="문의" data-es="Contacto" data-pt-br="Contato" data-de="Kontakt" data-fr="Contact" data-ru="Контакты"></h2>
   <div class="simple-content">
-    <p class="i18n" data-ja="技術的なお問い合わせやバグ報告などは、下記メールアドレスまでご連絡ください。" data-en="For technical inquiries or bug reports, please contact us at the email address below."></p>
+    <p class="i18n" data-ja="技術的なお問い合わせやバグ報告などは、下記メールアドレスまでご連絡ください。" data-en="For technical inquiries or bug reports, please contact us at the email address below." data-zh="如有技术咨询或 bug 报告等，请通过下方邮箱联系我们。" data-zh-tw="若有技術諮詢或 bug 回報等，請透過下方電子郵件聯絡我們。" data-ko="기술 관련 문의나 버그 보고 등은 아래 이메일 주소로 연락 주십시오." data-es="Para consultas técnicas o informes de errores, contáctanos en la dirección de correo a continuación." data-pt-br="Para dúvidas técnicas ou relatos de bugs, entre em contato pelo e-mail abaixo." data-de="Für technische Anfragen oder Fehlermeldungen kontaktieren Sie uns bitte unter der unten stehenden E-Mail-Adresse." data-fr="Pour toute question technique ou signalement de bug, contactez-nous à l'adresse e-mail ci-dessous." data-ru="По техническим вопросам и для сообщений об ошибках пишите на указанный ниже адрес электронной почты."></p>
     <p style="margin-top:12px"><a href="mailto:typocraft2026@gmail.com" style="color:var(--text1);font-weight:700">typocraft2026@gmail.com</a></p>
   </div>
 </div>
 
 <!-- Copyright -->
 <div class="section" id="copyright">
-  <h2 class="section-title i18n" data-ja="著作権と免責" data-en="Copyright & Disclaimer"></h2>
+  <h2 class="section-title i18n" data-ja="著作権と免責" data-en="Copyright & Disclaimer" data-zh="版权与免责声明" data-zh-tw="版權與免責聲明" data-ko="저작권 및 면책" data-es="Derechos de autor y exención" data-pt-br="Direitos autorais e isenção" data-de="Urheberrecht & Haftungsausschluss" data-fr="Droits d'auteur et avertissement" data-ru="Авторские права и отказ от ответственности"></h2>
   <div class="simple-content">
-    <p class="i18n" data-ja="本ソフトウェアに関する著作権その他一切の権利は作者（typocraft）に帰属します。" data-en="All copyrights and other rights related to this software belong to the author (typocraft)."></p>
-    <p class="i18n" data-ja="作者に無断で、本ソフトウェアの複製や再配布、リバースエンジニアリング行為などを行うことは法律で固く禁止されております。" data-en="Unauthorized reproduction, redistribution, or reverse engineering of this software is strictly prohibited by law."></p>
-    <p class="i18n" data-ja="ユーザーは利用規約に従うものとし、これに違反した場合は、いかなる理由においても作者の指示に従うものとします。ライセンスキーの第三者への譲渡・共有・公開は固く禁止されています。" data-en="Users shall comply with the terms of use. In the event of a violation, users shall follow the instructions of the author regardless of the reason. Transfer, sharing, or disclosure of license keys to third parties is strictly prohibited."></p>
+    <p class="i18n" data-ja="本ソフトウェアに関する著作権その他一切の権利は作者（typocraft）に帰属します。" data-en="All copyrights and other rights related to this software belong to the author (typocraft)." data-zh="本软件的著作权及其他一切权利均归作者（typocraft）所有。" data-zh-tw="本軟體的著作權及其他一切權利均歸作者（typocraft）所有。" data-ko="본 소프트웨어에 관한 저작권 및 기타 일체의 권리는 작자（typocraft）에게 귀속됩니다." data-es="Todos los derechos de autor y demás derechos sobre este software pertenecen al autor (typocraft)." data-pt-br="Todos os direitos autorais e demais direitos sobre este software pertencem ao autor (typocraft)." data-de="Sämtliche Urheber- und sonstigen Rechte an dieser Software liegen beim Autor (typocraft)." data-fr="Tous les droits d'auteur et autres droits sur ce logiciel appartiennent à l'auteur (typocraft)." data-ru="Все авторские и иные права на это программное обеспечение принадлежат автору (typocraft)."></p>
+    <p class="i18n" data-ja="購入者ご本人による個人的・業務上のご利用は許諾されます。本ソフトウェアの再配布・再販売・第三者への譲渡、本ソフトウェアを組み込んだ製品やサービスの提供、および法令により認められる範囲を超える解析・改変・リバースエンジニアリングは禁止されています。" data-en="The purchaser is permitted to use the software for personal and professional purposes. Redistribution, resale, transfer to third parties, integration into products or services, and any analysis, modification, or reverse engineering beyond what is permitted by applicable law are prohibited." data-zh="允许购买者本人在个人或业务用途下使用本软件。禁止再分发、再销售、转让给第三方，禁止将本软件集成到产品或服务中，禁止超出法律允许范围的分析、修改和逆向工程。" data-zh-tw="允許購買者本人在個人或業務用途下使用本軟體。禁止再散布、轉售、轉讓給第三方，禁止將本軟體整合到產品或服務中，禁止超出法律允許範圍的分析、修改與逆向工程。" data-ko="구매자 본인의 개인적·업무상 이용은 허락됩니다. 본 소프트웨어의 재배포·재판매·제삼자 양도, 본 소프트웨어를 포함한 제품·서비스 제공, 그리고 법령으로 인정되는 범위를 넘는 분석·개조·리버스 엔지니어링은 금지됩니다." data-es="Se permite al comprador usar el software con fines personales o profesionales. Quedan prohibidas la redistribución, reventa, cesión a terceros, integración en productos o servicios, así como cualquier análisis, modificación o ingeniería inversa más allá de lo permitido por la ley aplicable." data-pt-br="O comprador pode utilizar o software para fins pessoais ou profissionais. São proibidas a redistribuição, revenda, transferência a terceiros, integração em produtos ou serviços, bem como qualquer análise, modificação ou engenharia reversa além do permitido pela legislação aplicável." data-de="Der Käufer darf die Software für private oder geschäftliche Zwecke nutzen. Weiterverteilung, Weiterverkauf, Übertragung an Dritte, Integration in Produkte oder Dienste sowie jede Analyse, Modifikation oder Reverse Engineering über den gesetzlich zulässigen Rahmen hinaus sind untersagt." data-fr="L'acheteur est autorisé à utiliser le logiciel à des fins personnelles ou professionnelles. La redistribution, la revente, le transfert à des tiers, l'intégration dans des produits ou services, ainsi que toute analyse, modification ou ingénierie inverse au-delà de ce que la loi autorise sont interdits." data-ru="Покупателю разрешено использовать ПО в личных и рабочих целях. Запрещены распространение, перепродажа, передача третьим лицам, встраивание в продукты или сервисы, а также анализ, модификация и обратная разработка сверх того, что допускается применимым законодательством."></p>
+    <p class="i18n" data-ja="販売プラットフォームが公式に提供する共有機能（Steam Family Library Sharing 等）に基づく利用については、当該プラットフォームの規約が優先されます。" data-en="Use through sharing features officially provided by the sales platform (e.g., Steam Family Library Sharing) is governed by the platform's terms of service, which take precedence." data-zh="通过销售平台官方提供的共享功能（如 Steam Family Library Sharing 等）使用时，以该平台的条款为准。" data-zh-tw="透過銷售平台官方提供的共享功能（如 Steam Family Library Sharing 等）使用時，以該平台的條款為準。" data-ko="판매 플랫폼이 공식으로 제공하는 공유 기능（Steam Family Library Sharing 등）에 따른 이용은 해당 플랫폼의 약관이 우선합니다." data-es="El uso a través de funciones de compartición oficiales de la plataforma de venta (p. ej., Steam Family Library Sharing) se rige por los términos de dicha plataforma, que prevalecen." data-pt-br="O uso por meio de recursos de compartilhamento oferecidos oficialmente pela plataforma de venda (por ex., Steam Family Library Sharing) é regido pelos termos da plataforma, que prevalecem." data-de="Die Nutzung über offizielle Freigabefunktionen der Verkaufsplattform (z. B. Steam Family Library Sharing) unterliegt vorrangig den Bedingungen der jeweiligen Plattform." data-fr="L'utilisation via les fonctions de partage officielles de la plateforme de vente (p. ex. Steam Family Library Sharing) est régie par les conditions de la plateforme, qui prévalent." data-ru="Использование через официальные функции совместного доступа платформы продажи (например, Steam Family Library Sharing) регулируется условиями этой платформы, которые имеют приоритет."></p>
+    <p class="i18n" data-ja="本ソフトウェアは現状有姿で提供され、作者は動作・特定目的への適合性等についていかなる保証も行いません。詳細な条件については利用規約をご確認ください。" data-en="The software is provided “as is,” without any warranty of operability or fitness for a particular purpose. Please refer to the End User License Agreement for full terms." data-zh="本软件以现状提供，作者不对其运行或对特定目的的适用性等作出任何担保。详细条件请查看使用条款。" data-zh-tw="本軟體以現狀提供，作者不對其運作或對特定目的之適用性等作出任何擔保。詳細條件請查看使用條款。" data-ko="본 소프트웨어는 현 상태 그대로 제공되며, 작자는 동작·특정 목적 적합성 등에 대해 어떠한 보증도 하지 않습니다. 자세한 조건은 이용약관을 확인하세요." data-es="El software se proporciona «tal cual», sin garantías de funcionamiento ni de idoneidad para un fin determinado. Consulta el Acuerdo de Licencia de Usuario Final para conocer todas las condiciones." data-pt-br="O software é fornecido «no estado em que se encontra», sem qualquer garantia de funcionamento ou adequação a um fim específico. Consulte o Contrato de Licença de Usuário Final para os termos completos." data-de="Die Software wird „wie besehen“ bereitgestellt, ohne Gewähr für Funktion oder Eignung für einen bestimmten Zweck. Vollständige Bedingungen entnehmen Sie bitte dem Endbenutzer-Lizenzvertrag." data-fr="Le logiciel est fourni « tel quel », sans aucune garantie de fonctionnement ni d'adéquation à un usage particulier. Consultez le contrat de licence utilisateur final pour les conditions complètes." data-ru="Программа предоставляется «как есть», без каких-либо гарантий работоспособности или пригодности для конкретной цели. Полные условия — в лицензионном соглашении конечного пользователя."></p>
     <p style="margin-top:16px;font-size:18px;color:var(--text1)">&copy; 2026 typocraft. All rights reserved.</p>
+  </div>
+</div>
+
+<!-- Release Notes -->
+<div class="section" id="releases">
+  <h2 class="section-title i18n" data-ja="リリースノート" data-en="Release Notes" data-zh="更新日志" data-zh-tw="更新日誌" data-ko="릴리스 노트" data-es="Notas de la versión" data-pt-br="Notas de versão" data-de="Versionshinweise" data-fr="Notes de version" data-ru="Список изменений"></h2>
+  <div class="simple-content">
+
+    <h4 class="i18n" data-ja="v0.90 - 2026/04/26" data-en="v0.90 - 2026/04/26" data-zh="v0.90 - 2026/04/26" data-zh-tw="v0.90 - 2026/04/26" data-ko="v0.90 - 2026/04/26" data-es="v0.90 - 2026/04/26" data-pt-br="v0.90 - 2026/04/26" data-de="v0.90 - 2026/04/26" data-fr="v0.90 - 2026/04/26" data-ru="v0.90 - 2026/04/26"></h4>
+    <p class="i18n" data-ja="アーリーアクセス版を公開しました。" data-en="Released the Early Access build." data-zh="已发布抢先体验版。" data-zh-tw="已發布搶先體驗版。" data-ko="얼리 액세스 버전을 공개했습니다." data-es="Se ha publicado la build de Acceso Anticipado." data-pt-br="Versão de Acesso Antecipado lançada." data-de="Early-Access-Build veröffentlicht." data-fr="Build Accès anticipé publiée." data-ru="Опубликована сборка раннего доступа."></p>
+    <p class="i18n" data-ja="29言語の UI ローカライズに対応。" data-en="Added UI localization for 29 languages." data-zh="支持 29 种语言的 UI 本地化。" data-zh-tw="支援 29 種語言的 UI 本地化。" data-ko="29개 언어의 UI 로컬라이제이션을 지원합니다." data-es="Añadida la localización de la interfaz en 29 idiomas." data-pt-br="Adicionada a localização da interface para 29 idiomas." data-de="UI-Lokalisierung für 29 Sprachen hinzugefügt." data-fr="Localisation de l'interface ajoutée pour 29 langues." data-ru="Добавлена локализация интерфейса на 29 языков."></p>
+    <p class="i18n" data-ja="フォント選択をローカルフォント参照方式に変更し、オフライン環境でも全候補が選択可能に。" data-en="Switched the font picker to reference local fonts, so all options are selectable offline." data-zh="字体选择改为参考本地字体方式，离线环境下也可选择所有候选项。" data-zh-tw="字型選擇改為參考本機字型方式，離線環境下也可選擇所有候選項。" data-ko="글꼴 선택을 로컬 글꼴 참조 방식으로 변경하여 오프라인 환경에서도 모든 후보를 선택할 수 있게 되었습니다." data-es="El selector de fuentes ahora referencia las fuentes locales, por lo que todas las opciones se pueden elegir sin conexión." data-pt-br="O seletor de fontes passou a usar as fontes locais, permitindo escolher todas as opções offline." data-de="Die Schriftartauswahl greift jetzt auf lokale Schriften zu, sodass alle Optionen auch offline wählbar sind." data-fr="Le sélecteur de polices référence désormais les polices locales, toutes les options sont donc disponibles hors ligne." data-ru="Выбор шрифта теперь использует локальные шрифты, поэтому все варианты доступны и офлайн."></p>
+
   </div>
 </div>
 
@@ -621,8 +654,17 @@ function faqToggle(btn) {
 }
 
 function setLang(lang) {
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector('.lang-btn:' + (lang === 'ja' ? 'first-child' : 'last-child')).classList.add('active');
+  // ピッカーUIの選択状態を更新
+  document.querySelectorAll('.lang-item').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+  // トリガーの表示ラベルを現言語のリスト項目テキストに合わせる
+  const cur=document.querySelector('.lang-item[data-lang="'+lang+'"]');
+  const lbl=document.getElementById('lang-current-label');
+  if(cur && lbl) lbl.textContent=cur.textContent.trim();
+  // ピッカーを閉じる
+  const tog=document.getElementById('lang-toggle');
+  const trg=document.getElementById('lang-trigger');
+  if(tog) tog.classList.remove('open');
+  if(trg) trg.setAttribute('aria-expanded','false');
   document.querySelectorAll('.i18n').forEach(el => {
     const text = el.getAttribute('data-' + lang);
     if (!text) return;
@@ -635,8 +677,9 @@ function setLang(lang) {
       el.textContent = text;
     }
   });
-  document.querySelectorAll('[data-img-' + lang + ']').forEach(function(img) {
-    img.src = img.getAttribute('data-img-' + lang);
+  var imgKey = (lang === 'ja') ? 'ja' : 'en';
+  document.querySelectorAll('[data-img-' + imgKey + ']').forEach(function(img) {
+    img.src = img.getAttribute('data-img-' + imgKey);
   });
 }
 
@@ -646,26 +689,73 @@ var navLinks = document.querySelectorAll('.nav-link');
 document.querySelector('.main').addEventListener('scroll', updateNav);
 window.addEventListener('scroll', updateNav);
 function updateNav() {
-  var scrollY = document.querySelector('.main').scrollTop || window.scrollY;
+  var scrollY = window.scrollY || document.documentElement.scrollTop || document.querySelector('.main').scrollTop;
   var docH = document.documentElement.scrollHeight;
   var winH = window.innerHeight;
-  if (scrollY + winH >= docH - 30) {
-    navLinks.forEach(function(a) { a.classList.remove('active'); });
-    navLinks[navLinks.length - 1].classList.add('active');
-    return;
+  var atBottom = (scrollY + winH >= docH - 2);
+  var activeSec = null;
+  if (atBottom) {
+    activeSec = sections[sections.length - 1];
+  } else {
+    sections.forEach(function(sec) {
+      if (sec.offsetTop - 150 <= scrollY) activeSec = sec;
+    });
+    if (!activeSec) activeSec = sections[0];
   }
-  sections.forEach(function(sec) {
-    var top = sec.offsetTop - 100;
-    var bottom = top + sec.offsetHeight;
-    if (scrollY >= top && scrollY < bottom) {
-      navLinks.forEach(function(a) { a.classList.remove('active'); });
-      var link = document.querySelector('.nav-link[href="#' + sec.id + '"]');
-      if (link) link.classList.add('active');
-    }
-  });
+  navLinks.forEach(function(a) { a.classList.remove('active'); });
+  var link = document.querySelector('.nav-link[href="#' + activeSec.id + '"]');
+  if (link) link.classList.add('active');
 }
 
-setLang(navigator.language.startsWith('ja') ? 'ja' : 'en');
+// ===== Language picker UI handlers =====
+(function(){
+  const tog=document.getElementById('lang-toggle');
+  const trg=document.getElementById('lang-trigger');
+  const panel=document.getElementById('lang-panel');
+  if(!tog||!trg||!panel)return;
+  trg.addEventListener('click',function(e){
+    e.stopPropagation();
+    const isOpen=tog.classList.toggle('open');
+    trg.setAttribute('aria-expanded', isOpen?'true':'false');
+  });
+  panel.querySelectorAll('.lang-item').forEach(function(item){
+    item.addEventListener('click',function(e){
+      e.stopPropagation();
+      const lang=item.getAttribute('data-lang');
+      if(lang) setLang(lang);
+    });
+  });
+  document.addEventListener('click',function(e){
+    if(!tog.contains(e.target)){
+      tog.classList.remove('open');
+      trg.setAttribute('aria-expanded','false');
+    }
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape' && tog.classList.contains('open')){
+      tog.classList.remove('open');
+      trg.setAttribute('aria-expanded','false');
+      trg.focus();
+    }
+  });
+})();
+
+// 初期言語: ブラウザ言語に応じて自動判定(主要言語のみ)
+(function(){
+  const browserLang=(navigator.language||'ja').toLowerCase();
+  const supported=['ja','en','zh','zh-tw','ko','es','pt-br','de','fr','ru'];
+  let initial='en';
+  if(browserLang.startsWith('ja')) initial='ja';
+  else if(browserLang.startsWith('zh-tw')||browserLang.startsWith('zh-hk')) initial='zh-tw';
+  else if(browserLang.startsWith('zh')) initial='zh';
+  else if(browserLang.startsWith('ko')) initial='ko';
+  else if(browserLang.startsWith('es')) initial='es';
+  else if(browserLang.startsWith('pt')) initial='pt-br';
+  else if(browserLang.startsWith('de')) initial='de';
+  else if(browserLang.startsWith('fr')) initial='fr';
+  else if(browserLang.startsWith('ru')) initial='ru';
+  setLang(initial);
+})();
 </script>
 </body>
 </html>
