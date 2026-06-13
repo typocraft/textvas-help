@@ -522,6 +522,7 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
         <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button>
       <div class="faq-a"><div class="faq-a-inner">
+        <img src="images/folder-list.gif" alt="" class="feat-gif">
         <p class="i18n"
           data-ja="フォルダー一覧に並ぶタブをクリックすると、直接移動できるようにしました。マウスの戻る/進むボタンに対応しています。戻るを押すと親フォルダーの一覧へ戻れます。表示中はCtrl+ホイールで拡大縮小も可能です。左上フォルダをクリックするとフォルダを閉じられます。一覧のタブには更新時刻を◯分前 / ◯日前形式で表示するようにし、1時間以内に編集したノートは時刻がアクセントカラーになります。"
           data-en="Clicking a tab in the folder list now navigates directly to it. Mouse back/forward buttons are supported — pressing back returns you to the parent folder list. Ctrl+wheel zooms in and out while viewing. Clicking the top-left folder closes it. Tab update times are shown in ◯ minutes ago / ◯ days ago format, and notes edited within the last hour display the time in accent color."
@@ -542,6 +543,7 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
         <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button>
       <div class="faq-a"><div class="faq-a-inner">
+        <img src="images/global-search.gif" alt="" class="feat-gif">
         <p class="i18n"
           data-ja="左上メニューにすべてのボードを検索を追加しました。すべてのボードを横断して、ボード名・カードの本文を一気に検索できます。検索結果ではヒットした文字がハイライトされ、直接そのボードにアクセスできます。Ctrl+Shift+F でも開けます。"
           data-en="Added «Search all boards» to the top-left menu. Search across all boards by board name and card text at once. Matched text is highlighted in results, and you can navigate directly to that board. Also accessible via Ctrl+Shift+F."
@@ -562,6 +564,7 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
         <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button>
       <div class="faq-a"><div class="faq-a-inner">
+        <img src="images/startup-file.gif" alt="" class="feat-gif">
         <p class="i18n"
           data-ja="システム設定に起動時のファイルを追加しました。指定したファイルをアプリ起動時に自動で開きます。「最近のファイルを設定」を押すと直近で使ったファイルが登録されます。解除すると通常どおり起動します。多重起動時に同じファイルが二重に開くことはありません。"
           data-en="Added a startup file option to System Settings. The specified file opens automatically when the app launches. Pressing «Set recent file» registers the most recently used file. When disabled, the app starts normally. The file only opens in the first window launched, so it won't open twice if the app is already running."
@@ -573,6 +576,27 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
           data-de="In den Systemeinstellungen wurde die Option «Startdatei» hinzugefügt. Die angegebene Datei öffnet sich beim App-Start automatisch. Mit «Zuletzt verwendete Datei festlegen» wird die zuletzt genutzte Datei registriert. Bei Deaktivierung startet die App normal ohne Datei. Die Datei öffnet nur im ersten gestarteten Fenster, sie wird nicht doppelt geöffnet."
           data-fr="Une option de fichier de démarrage a été ajoutée dans les Paramètres système. Le fichier spécifié s'ouvre automatiquement au lancement de l'app. En appuyant sur «Définir le fichier récent», le fichier utilisé le plus récemment est enregistré. Une fois désactivé, l'app démarre normalement sans ouvrir de fichier. Le fichier ne s'ouvrira pas deux fois même si l'app est déjà en cours d'exécution."
           data-ru="В системных настройках добавлена опция файла при запуске. Указанный файл открывается автоматически при запуске приложения. Нажатие «Установить последний файл» регистрирует последний использованный файл. При отключении приложение запускается обычно без открытия файла. Файл не откроется дважды даже при нескольких запущенных окнах."></p>
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="faqToggle(this)">
+        <span class="i18n" data-ja="状況に応じて切り替わるズーム挙動" data-en="Context-Aware Zoom Behavior" data-zh="根据情境切换的缩放行为" data-zh-tw="根據情境切換的縮放行為" data-ko="상황에 따라 전환되는 줌 동작" data-es="Comportamiento de zoom adaptativo" data-pt-br="Comportamento de zoom adaptável ao contexto" data-de="Kontextabhängiges Zoom-Verhalten" data-fr="Comportement de zoom contextuel" data-ru="Контекстное поведение масштабирования"></span>
+        <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        <img src="images/zoom-behavior.gif" alt="" class="feat-gif">
+        <p class="i18n"
+          data-ja="Ctrl+ホイールのズーム挙動が、操作中の画面に応じて自動で切り替わるようにしました。ボード表示中はボードのズーム、フォルダー一覧表示中は一覧のズームというように、現在の状況に合った操作が行われます。"
+          data-en="Ctrl+wheel zoom behavior now switches automatically based on the current screen. While viewing a board it zooms the board; while viewing the folder list it zooms the list — the action always matches your current context."
+          data-zh="Ctrl+滚轮的缩放行为现在会根据当前界面自动切换。浏览面板时缩放面板，浏览文件夹列表时缩放列表，始终与当前操作状态匹配。"
+          data-zh-tw="Ctrl+滾輪的縮放行為現在會根據當前介面自動切換。瀏覽面板時縮放面板，瀏覽資料夾列表時縮放列表，始終與當前操作狀態匹配。"
+          data-ko="Ctrl+휠의 줌 동작이 현재 화면에 따라 자동으로 전환됩니다. 보드를 보는 중에는 보드가 줌되고, 폴더 목록을 보는 중에는 목록이 줌되는 등 현재 상황에 맞는 동작이 수행됩니다."
+          data-es="El zoom con Ctrl+rueda ahora cambia automáticamente según la pantalla actual. Al ver un tablero, hace zoom en el tablero; al ver la lista de carpetas, hace zoom en la lista — la acción siempre se adapta al contexto actual."
+          data-pt-br="O zoom com Ctrl+roda agora muda automaticamente com base na tela atual. Ao visualizar um quadro, faz zoom no quadro; ao visualizar a lista de pastas, faz zoom na lista — a ação sempre corresponde ao contexto atual."
+          data-de="Das Zoom-Verhalten mit Strg+Mausrad wechselt jetzt automatisch je nach aktueller Ansicht. Beim Anzeigen eines Boards wird das Board gezoomt; beim Anzeigen der Ordnerliste wird die Liste gezoomt — die Aktion passt sich stets dem aktuellen Kontext an."
+          data-fr="Le zoom Ctrl+molette change maintenant automatiquement selon l'écran actuel. En affichant un tableau, il zoome sur le tableau ; en affichant la liste de dossiers, il zoome sur la liste — l'action s'adapte toujours au contexte en cours."
+          data-ru="Масштабирование Ctrl+колесо теперь автоматически переключается в зависимости от текущего экрана. При просмотре доски масштабируется доска; при просмотре списка папок масштабируется список — действие всегда соответствует текущему контексту."></p>
       </div></div>
     </div>
 
