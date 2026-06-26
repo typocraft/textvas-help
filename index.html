@@ -841,30 +841,30 @@ kbd{display:inline;background:none;border:none;border-radius:0;padding:0;font-si
     <div class="faq-item">
       <button class="faq-q" onclick="faqToggle(this)">
         <span class="i18n"
-          data-ja="「ファイル名.txv.～.tmp」というファイルが保存先に残っていました。何ですか？"
-          data-en="A file named &quot;filename.txv.~.tmp&quot; was left in my save folder. What is it?"
-          data-zh="保存位置留下了「文件名.txv.～.tmp」这样的文件，这是什么？"
-          data-zh-tw="儲存位置留下了「檔案名稱.txv.～.tmp」這樣的檔案，這是什麼？"
-          data-ko="저장 위치에 「파일명.txv.～.tmp」라는 파일이 남아 있었습니다. 무엇인가요？"
-          data-es="Quedó un archivo llamado «nombre.txv.～.tmp» en la carpeta de guardado. ¿Qué es?"
-          data-pt-br="Um arquivo chamado &quot;nome.txv.～.tmp&quot; ficou na pasta de salvamento. O que é isso?"
-          data-de="In meinem Speicherordner blieb eine Datei namens „Dateiname.txv.~.tmp" zurück. Was ist das?"
-          data-fr="Un fichier nommé « nom.txv.～.tmp » est resté dans le dossier de sauvegarde. Qu'est-ce que c'est ?"
-          data-ru="В папке сохранения остался файл «имя_файла.txv.~.tmp». Что это такое?"></span>
+          data-ja="「〜.tmp」ファイルが保存先に残っていました。何ですか？"
+          data-en="A &quot;〜.tmp&quot; file was left in my save folder. What is it?"
+          data-zh="保存位置残留了「〜.tmp」文件。这是什么？"
+          data-zh-tw="儲存位置殘留了「〜.tmp」檔案。這是什麼？"
+          data-ko="저장 위치에 「〜.tmp」 파일이 남아 있었습니다. 무엇인가요？"
+          data-es="Quedó un archivo «〜.tmp» en la carpeta de guardado. ¿Qué es?"
+          data-pt-br="Um arquivo &quot;〜.tmp&quot; ficou na pasta de salvamento. O que é isso?"
+          data-de="In meinem Speicherordner blieb eine „〜.tmp"-Datei zurück. Was ist das?"
+          data-fr="Un fichier « 〜.tmp » est resté dans le dossier de sauvegarde. Qu'est-ce que c'est ?"
+          data-ru="В папке сохранения остался файл «〜.tmp». Что это такое?"></span>
         <span class="faq-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button>
       <div class="faq-a"><div class="faq-a-inner">
         <p class="i18n"
           data-ja="これは保存時に作られる一時ファイルなので消して大丈夫です。本アプリは元ファイルに直接上書きせず、いったん一時ファイル（.tmp）に書き込んでから、最後に元ファイルへ一瞬で置き換える方式で保存しています。元データを壊さないための仕組みです。"
-          data-en="You can safely delete it — your data is intact. This is a temporary file created during saving. Instead of overwriting the original file directly, the app first writes to a temporary file (.tmp), then replaces the original in one instant. This mechanism protects your data from corruption."
-          data-zh="可以删除，数据没有问题。这是保存时创建的临时文件。本应用不会直接覆盖原文件，而是先写入临时文件（.tmp），再瞬间替换原文件。这是防止原始数据损坏的机制。"
-          data-zh-tw="可以刪除，資料沒有問題。這是儲存時建立的暫存檔。本應用程式不會直接覆蓋原檔，而是先寫入暫存檔（.tmp），再瞬間替換原檔。這是防止原始資料損毀的機制。"
-          data-ko="삭제해도 괜찮습니다. 데이터는 안전합니다. 이것은 저장 시 생성되는 임시 파일입니다. 앱은 원본 파일을 직접 덮어쓰지 않고, 먼저 임시 파일(.tmp)에 기록한 후 마지막에 원본 파일로 순식간에 교체하는 방식으로 저장합니다. 원본 데이터를 손상시키지 않기 위한 구조입니다."
-          data-es="Puede borrarlo sin problema — sus datos están intactos. Este es un archivo temporal creado al guardar. En lugar de sobrescribir el archivo original directamente, la aplicación primero escribe en un archivo temporal (.tmp) y luego lo reemplaza por el original en un instante. Es el mecanismo que protege los datos originales de posibles daños."
-          data-pt-br="Pode deletar sem preocupação — seus dados estão intactos. Este é um arquivo temporário criado durante o salvamento. Em vez de sobrescrever o arquivo original diretamente, o aplicativo primeiro grava em um arquivo temporário (.tmp) e depois substitui o original instantaneamente. É o mecanismo que protege seus dados de corrupção."
-          data-de="Sie können die Datei bedenkenlos löschen – Ihre Daten sind sicher. Es handelt sich um eine temporäre Datei, die beim Speichern angelegt wird. Anstatt die Originaldatei direkt zu überschreiben, schreibt die App zunächst in eine temporäre Datei (.tmp) und ersetzt die Originaldatei dann in einem einzigen Schritt. So wird verhindert, dass die Originaldaten beschädigt werden."
-          data-fr="Vous pouvez la supprimer sans crainte — vos données sont intactes. Il s'agit d'un fichier temporaire créé lors de l'enregistrement. Au lieu d'écraser directement le fichier original, l'application écrit d'abord dans un fichier temporaire (.tmp), puis remplace le fichier original en un instant. C'est le mécanisme qui protège vos données d'une éventuelle corruption."
-          data-ru="Его можно смело удалить — ваши данные в целости. Это временный файл, создаваемый при сохранении. Вместо того чтобы напрямую перезаписывать исходный файл, приложение сначала записывает во временный файл (.tmp), а затем мгновенно заменяет им оригинал. Это механизм защиты данных от повреждения."></p>
+          data-en="This is a temporary file created during saving, so it is safe to delete. Instead of overwriting the original file directly, the app first writes to a temporary file (.tmp), then replaces the original in one instant. This is a safeguard to prevent your data from being corrupted."
+          data-zh="这是保存时生成的临时文件，删除没有问题。本应用不会直接覆盖原文件，而是先写入临时文件（.tmp），再瞬间替换原文件。这是防止原始数据损坏的保护机制。"
+          data-zh-tw="這是儲存時生成的暫存檔，刪除沒有問題。本應用程式不會直接覆蓋原檔，而是先寫入暫存檔（.tmp），再瞬間替換原檔。這是防止原始資料損毀的保護機制。"
+          data-ko="이것은 저장 시 생성되는 임시 파일이므로 삭제해도 괜찮습니다. 앱은 원본 파일을 직접 덮어쓰지 않고, 먼저 임시 파일(.tmp)에 쓴 후 마지막에 원본 파일로 순식간에 교체하는 방식으로 저장합니다. 원본 데이터를 손상시키지 않기 위한 구조입니다."
+          data-es="Este es un archivo temporal creado durante el guardado, por lo que es seguro eliminarlo. En lugar de sobrescribir el archivo original directamente, la aplicación primero escribe en un archivo temporal (.tmp) y luego lo reemplaza en un instante. Es un mecanismo para proteger los datos originales de posibles daños."
+          data-pt-br="Este é um arquivo temporário criado durante o salvamento, por isso é seguro excluí-lo. Em vez de sobrescrever o arquivo original diretamente, o aplicativo primeiro grava em um arquivo temporário (.tmp) e depois substitui o original instantaneamente. É um mecanismo para evitar que os dados originais sejam corrompidos."
+          data-de="Dies ist eine beim Speichern erstellte temporäre Datei – Sie können sie bedenkenlos löschen. Anstatt die Originaldatei direkt zu überschreiben, schreibt die App zunächst in eine temporäre Datei (.tmp) und ersetzt die Originaldatei dann in einem einzigen Schritt. Dies ist ein Schutzmechanismus, um Beschädigungen der Originaldaten zu verhindern."
+          data-fr="Il s'agit d'un fichier temporaire créé lors de l'enregistrement — vous pouvez le supprimer sans crainte. Au lieu d'écraser directement le fichier original, l'application écrit d'abord dans un fichier temporaire (.tmp), puis remplace l'original en un instant. C'est un mécanisme de protection pour éviter toute corruption des données d'origine."
+          data-ru="Это временный файл, создаваемый при сохранении — его можно смело удалить. Вместо того чтобы напрямую перезаписывать исходный файл, приложение сначала записывает во временный файл (.tmp), а затем мгновенно заменяет им оригинал. Это механизм защиты исходных данных от повреждения."></p>
         <p class="i18n"
           data-ja="通常この一時ファイルは自動で消えますが、置き換える直前にアプリの終了・PCのスリープ/再起動・ストレージの一時的な切断などが起きると、まれに残ることがあります。残るのは捨てる予定の作業用ファイルだけで、元ファイルは無傷です。手動で削除して構いません。"
           data-en="Normally this temporary file is deleted automatically, but if the app closes, the PC sleeps or restarts, or storage is briefly disconnected just before the replacement step, it may rarely remain. What remains is only the work file that was going to be discarded — the original file is untouched. You can delete it manually."
